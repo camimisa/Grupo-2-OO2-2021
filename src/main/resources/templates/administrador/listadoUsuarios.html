@@ -49,11 +49,7 @@
                         <th scope="col">Nombre Usuario</th>
                         <th scope="col">Clave</th>
                         <th scope="col">Perfil</th>
-                        <th scope="col" colspan="2">
-                        	<button class="btn btn-success" type="submit">
-								<a th:href="@{/admin/nuevoUsuario}">Nuevo Usuario</a>
-							</button>
-                        </th>
+                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/nuevoUsuario}">Nuevo Usuario</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,12 +64,8 @@
 						<td><span th:text="${usuario.clave}" /></td>
 						<td>Perfil</td>
 						
-						<td><button class="btn btn-outline-primary btn-sm" type="button">
-								<a th:href="@{/admin/{id}(id=${usuario.idUsuario})}">Actualizar</a>
-							</button></td>
-                        <td><button class="btn btn-outline-danger btn-sm" type="button">
-								<a th:href="@{/admin/eliminarUsuario/{id}(id=${usuario.idUsuario})}">Eliminar</a>
-							</button></td>
+						<td><a class="btn btn-outline-primary btn-sm" th:href="@{/admin/{id}(id=${usuario.idUsuario})}">Actualizar</a></td>
+                        <td><a class="btn btn-outline-danger btn-sm" th:href="@{/admin/eliminarUsuario/{id}(id=${usuario.idUsuario})}">Eliminar</a></td>
 					</tr>
                 </tbody>
             </table>

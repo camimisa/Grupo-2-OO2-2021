@@ -66,7 +66,7 @@ public class UsuarioController {
 		return mAV;
 	}
 	
-	@PostMapping("/admin/actualizar")
+	@PostMapping("/admin/actualizarUsuario")
 	public RedirectView actualizarUsuario(@ModelAttribute("usuario") UsuarioModel usuario) {
 		if(corroborarUsuario(usuario))
 			usuarioService.insertOrUpdate(usuario);
@@ -88,10 +88,12 @@ public class UsuarioController {
 		Usuario usuario = usuarioConverter.modeloAEntidad(usuarioModel);
 		
 		for(Usuario u: listaUsuarios) {
-			if((u.getDocumento() == usuario.getDocumento()) || 
-					(u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario())))
+			if(((u.getDocumento() == usuario.getDocumento()) || 
+					(u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario()))) &&
+					!u.equals(usuario))
 				valido = false;
 		}
+
 		return valido;
 	}
 	

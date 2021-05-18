@@ -49,7 +49,7 @@ public class UsuarioModel {
 		return idUsuario;
 	}
 
-	protected void setIdUsuario(int idUsuario) {
+	public void setIdUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 

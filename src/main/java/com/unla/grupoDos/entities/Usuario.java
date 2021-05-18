@@ -156,6 +156,20 @@ public class Usuario {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Usuario u = (Usuario)obj;
+		return (u.getDocumento() == this.documento);
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [idUsuario=" + idUsuario + ", tipoDoc=" + tipoDoc + ", documento=" + documento + ", nombre="
+				+ nombre + ", apellido=" + apellido + ", email=" + email + ", nombreUsuario=" + nombreUsuario
+				+ ", clave=" + clave + ", enabled=" + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ "]";
+	}
 	
 	
 	

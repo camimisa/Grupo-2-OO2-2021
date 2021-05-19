@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../home/styles.css">
-    <title>New User</title>
+    <title>Actualizar</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -35,50 +35,20 @@
       <!-- Page Content -->
       <div class="container">
           <div  class="abs-center">
-            <form class="form-signin form" action="#" th:action="@{crear}" th:object="${usuario}" method="post">
+            <form class="form-signin form" th:action="${actualizar}" th:object="${perfil}" method="post">
             </br>
-                <h1 class="h3 mb-3 font-weight-normal">Usuario:</h1>
+                <h1 class="h3 mb-3 font-weight-normal">Perfil:</h1>
                 <p>
                     Nombre: <input type="text" th:field="*{nombre}" class="form-control" required>
                 </p>
                 <p>
-                    Apellido: <input type="text" th:field="*{apellido}" class="form-control" required>
+                    Descripción: <input type="text" th:field="*{descripcion}" class="form-control" required>
                 </p>
-                <p>
-                    Tipo documento:
-                    <select class="form-select" aria-label="Seleccione su tipo de dni" th:field="*{tipoDoc}" required >
-	                	<option value="DNI">DNI</option>
-	                	<option value="CI">Cedula de Identidad</option>
-	                	<option value="LC">Libreta Civica</option>
-	                	<option value="LE">Libreta de Enrolamiento</option>
-	                	<option value="OTRO">Otro</option>
-                	</select>
-                </p>
-                <p>
-                    Documento: <input type="number" th:field="*{documento}" class="form-control" required>
-                </p>
-                <p>
-                    Email: <input type="email" th:field="*{email}" class="form-control" required>
-                </p>
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Ingrese correctamente el email.</p>
-                <p>
-                    Nombre Usuario: <input type="text" th:field="*{nombreUsuario}" class="form-control" required>
-                </p>
-                <p>
-                    Clave: <input type="password" th:field="*{clave}" class="form-control" required>
-                </p>
-               <!-- it doesn't work :(<p>
-                    Perfil:
-                    <select class="form-select" aria-label="Seleccione el tipo de perfil" th:field="*{perfil}" required >
-	                	<option value="1">Administrador</option>
-	                	<option value="2">Auditor</option>
-                	</select>
-                </p> -->
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Actualizar</button>
             </form>
           </div>
-        <br>
-		<a class="btn btn-secondary btn-sm btn-block" th:href="@{/admin/}">Volver</a>
+		<br>
+		<a class="btn btn-secondary btn-sm btn-block" th:href="@{/perfil/}">Volver</a>
       </div>
       <!-- /.container -->
 

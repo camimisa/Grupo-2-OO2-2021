@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -53,6 +55,10 @@ public class Usuario {
 	@Column(name="updatedat")
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
+	
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="idPerfil", nullable=false)
+	private Perfil perfil;*/
 	
 	public Usuario() {}
 
@@ -156,6 +162,14 @@ public class Usuario {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	/*public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}*/
 
 	@Override
 	public boolean equals(Object obj) {

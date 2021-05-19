@@ -3,6 +3,8 @@ package com.unla.grupoDos.models;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.unla.grupoDos.entities.Perfil;
+
 public class UsuarioModel {
 
 	private int idUsuario;
@@ -15,6 +17,7 @@ public class UsuarioModel {
 	private String email;
 	private String nombreUsuario;
 	private String clave;
+	//private Perfil perfil;
 	
 	public UsuarioModel() {}
 	
@@ -108,6 +111,14 @@ public class UsuarioModel {
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
+
+	/*public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}*/
 
 	@Override
 	public String toString() {

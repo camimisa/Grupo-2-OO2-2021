@@ -9,5 +9,10 @@ public class ViewRouteHelper {
 	public final static String ACTUALIZAR_USUARIO_ADMINISTRADOR = "administrador/actualizarUsuario";
 	public final static String NUEVO_USUARIO_ADMINISTRADOR_OK = "administrador/nuevoUsuarioOk";
 	
+	public final static String NUEVO_PERFIL = "perfil/nuevo";
+	public final static String ACTUALIZAR_PERFIL = "perfil/actualizar";
+	public final static String PERFIL_INDEX = "/perfil/listado";
+	
+
 	public final static String ADMINISTRADOR_ROOT = "/admin/";
 }

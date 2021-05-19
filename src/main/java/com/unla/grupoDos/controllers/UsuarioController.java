@@ -88,10 +88,14 @@ public class UsuarioController {
 		Usuario usuario = usuarioConverter.modeloAEntidad(usuarioModel);
 		
 		for(Usuario u: listaUsuarios) {
-			if(((u.getDocumento() == usuario.getDocumento()) || 
-					(u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario()))) &&
-					!u.equals(usuario))
+			if(
+				((u.getDocumento() == usuario.getDocumento()) 
+				|| (u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario()))) 
+					&& !u.equals(usuario)
+				) 
+			{
 				valido = false;
+			}
 		}
 
 		return valido;

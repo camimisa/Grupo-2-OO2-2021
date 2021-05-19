@@ -60,6 +60,7 @@ public class Usuario {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_perfil", nullable=false)
 	private Perfil perfil;
+
 	
 	public Usuario() {}
 
@@ -165,6 +166,8 @@ public class Usuario {
 		this.updatedAt = updatedAt;
 	}
 	
+
+
 	public Perfil getPerfil() {
 		return perfil;
 	}

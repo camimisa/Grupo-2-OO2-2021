@@ -7,13 +7,11 @@ import com.unla.grupoDos.models.UsuarioModel;
 
 @Component("usuarioConverter")
 public class UsuarioConverter {
-
-	private PerfilConverter perfilConverter;
 	
 	public Usuario modeloAEntidad(UsuarioModel usuarioModel) {
 		return new Usuario(usuarioModel.getIdUsuario(),usuarioModel.getTipoDoc(),usuarioModel.getDocumento(),
 				usuarioModel.getNombre(),usuarioModel.getApellido(),usuarioModel.getEmail(),usuarioModel.getNombreUsuario(),
-				usuarioModel.getClave(),perfilConverter.modeloAEntidad(usuarioModel.getPerfil()));
+				usuarioModel.getClave(),usuarioModel.getPerfil());
 	}
 	
 	public UsuarioModel entidadAModelo(Usuario usuario) {

@@ -100,6 +100,8 @@ public class UsuarioModel {
 		this.clave = clave;
 	}
 
+	
+
 	public Perfil getPerfil() {
 		return perfil;
 	}
@@ -107,7 +109,6 @@ public class UsuarioModel {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-
 
 	@Override
 	public String toString() {

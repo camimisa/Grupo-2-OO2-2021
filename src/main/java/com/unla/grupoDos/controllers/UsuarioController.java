@@ -75,7 +75,7 @@ public class UsuarioController {
 			usuarioService.insertOrUpdate(usuarioModel);
 		else
 			System.out.println("Mismo dni o user. Implementar aviso"); //TODO
-		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT);
+		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	@GetMapping("/admin/{id}")
@@ -96,13 +96,13 @@ public class UsuarioController {
 			usuarioService.insertOrUpdate(usuario);
 		else
 			System.out.println("Mismo dni o user. Implementar aviso"); //TODO
-		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT);
+		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	@GetMapping("/admin/eliminarUsuario/{id}")
 	public RedirectView eliminarUsuario(@PathVariable("id") int idUsuario) {
 		usuarioService.remove(idUsuario);
-		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT);
+		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	private boolean corroborarUsuario(UsuarioModel usuarioModel) {

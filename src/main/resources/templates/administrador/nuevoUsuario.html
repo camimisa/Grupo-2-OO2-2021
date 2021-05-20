@@ -45,10 +45,17 @@
                     Apellido: <input type="text" th:field="*{apellido}" class="form-control" required>
                 </p>
                 <p>
-                    Tipo Doc: <input type="text" th:field="*{tipoDoc}" class="form-control" required>
+                    Tipo documento:
+                    <select class="form-select" aria-label="Seleccione su tipo de dni" th:field="*{tipoDoc}" required >
+	                	<option value="DNI">DNI</option>
+	                	<option value="CI">Cedula de Identidad</option>
+	                	<option value="LC">Libreta Civica</option>
+	                	<option value="LE">Libreta de Enrolamiento</option>
+	                	<option value="OTRO">Otro</option>
+                	</select>
                 </p>
                 <p>
-                    Documento: <input type="number" th:field="*{documento}" class="form-control" required>
+                    Documento: <input type="number" th:field="*{documento}" class="form-control" min="1111111" max="99999999" value="9999999" required>
                 </p>
                 <p>
                     Email: <input type="email" th:field="*{email}" class="form-control" required>
@@ -60,13 +67,20 @@
                 <p>
                     Clave: <input type="password" th:field="*{clave}" class="form-control" required>
                 </p>
-                <p>
-                    Perfil: <input type="text" id="role" class="form-control" required>
+               	<p>
+                    Perfil:
+                	<select th:field="*{idPerfil}">
+			            <option th:each="perfilLista : ${listaPerfiles}"
+			              th:value="${perfilLista.idPerfil}" 
+			              th:text="${perfilLista.nombre}"/>
+		          </select>
                 </p>
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
             </form>
           </div>
-		<a th:href="@{/admin/}">Volver</a>
+        <br>
+		<a class="btn btn-secondary btn-sm btn-block" th:href="@{/admin/}">Volver</a>
       </div>
       <!-- /.container -->
 

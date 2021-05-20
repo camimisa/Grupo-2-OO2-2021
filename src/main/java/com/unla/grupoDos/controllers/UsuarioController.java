@@ -2,7 +2,9 @@ package com.unla.grupoDos.controllers;
 
 import java.util.ArrayList;
 
+import com.unla.grupoDos.converters.PerfilConverter;
 import com.unla.grupoDos.converters.UsuarioConverter;
+import com.unla.grupoDos.entities.Perfil;
 import com.unla.grupoDos.entities.Usuario;
 import com.unla.grupoDos.helpers.*;
 import java.util.List;
@@ -21,10 +23,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 
 import com.unla.grupoDos.models.*;
+import com.unla.grupoDos.services.IPerfilService;
 import com.unla.grupoDos.services.IUsuarioService;
 @Controller
 @RequestMapping("/")
@@ -34,13 +38,25 @@ public class UsuarioController {
 	@Qualifier("usuarioService")
 	private IUsuarioService usuarioService;
 	
-	// ------------------------------ PERMISOS ADMIN ---------------------------
+	@Autowired
+	@Qualifier("perfilService")
+	private IPerfilService perfilService;
+	@Autowired
+	@Qualifier("perfilConverter")
+	private PerfilConverter perfilConverter;
 	
+	// ------------------------------ PERMISOS ADMIN ---------------------------
 	@GetMapping("/admin")
-	public ModelAndView indexAdmin() {
+	public String indexAdmin() {
+		return "administrador/inicioAdmin";
+	}	
+	
+	@GetMapping("/admin/usuarios")
+	public ModelAndView vistaUsuariosAdmin() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_ADMINISTRADOR);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());
+		
 		return mAV;
 	}
 	
@@ -48,38 +64,49 @@ public class UsuarioController {
 	@GetMapping("/admin/nuevoUsuario")
 	public String usuario(Model model) {
 		model.addAttribute("usuario", new UsuarioModel());
+		model.addAttribute("listaPerfiles", perfilService.getAll());
 		return ViewRouteHelper.NUEVO_USUARIO_ADMINISTRADOR;
 	}
 	
 	@PostMapping("/admin/crear")
-	public RedirectView create(@ModelAttribute("usuario") UsuarioModel usuarioModel) {
+	public RedirectView create(@ModelAttribute("usuario") UsuarioModel usuarioModel, RedirectAttributes atts) {
+		PerfilModel m = perfilService.findById(usuarioModel.getIdPerfil());
+		Perfil p = perfilConverter.modeloAEntidad(m);
+		usuarioModel.setPerfil(p);
+		
 		if(corroborarUsuario(usuarioModel))
 			usuarioService.insertOrUpdate(usuarioModel);
 		else
-			System.out.println("Mismo dni o user. Implementar aviso"); //TODO
-		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT);
+			atts.addFlashAttribute("errorUsuario", true);
+		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	@GetMapping("/admin/{id}")
 	public ModelAndView get(@PathVariable("id") int id) {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.ACTUALIZAR_USUARIO_ADMINISTRADOR);
 		mAV.addObject("usuario", usuarioService.findById(id));
+		mAV.addObject("listaPerfiles", perfilService.getAll());
 		return mAV;
 	}
 	
-	@PostMapping("/admin/actualizar")
-	public RedirectView actualizarUsuario(@ModelAttribute("usuario") UsuarioModel usuario) {
+	@PostMapping("/admin/actualizarUsuario")
+	public RedirectView actualizarUsuario(@ModelAttribute("usuario") UsuarioModel usuario,RedirectAttributes atts) {
+		PerfilModel m = perfilService.findById(usuario.getIdPerfil());
+		Perfil p = perfilConverter.modeloAEntidad(m);
+		usuario.setPerfil(p);
+		
 		if(corroborarUsuario(usuario))
 			usuarioService.insertOrUpdate(usuario);
 		else
-			System.out.println("Mismo dni o user. Implementar aviso"); //TODO
-		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT);
+			atts.addFlashAttribute("errorUsuario", true);
+		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	@GetMapping("/admin/eliminarUsuario/{id}")
-	public RedirectView eliminarUsuario(@PathVariable("id") int idUsuario) {
+	public RedirectView eliminarUsuario(@PathVariable("id") int idUsuario, RedirectAttributes atts) {
 		usuarioService.remove(idUsuario);
-		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT);
+		atts.addFlashAttribute("eliminado", true);
+		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	private boolean corroborarUsuario(UsuarioModel usuarioModel) {
@@ -89,18 +116,26 @@ public class UsuarioController {
 		Usuario usuario = usuarioConverter.modeloAEntidad(usuarioModel);
 		
 		for(Usuario u: listaUsuarios) {
-			if((u.getDocumento() == usuario.getDocumento()) || 
-					(u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario())))
+			if(
+				((u.getDocumento() == usuario.getDocumento()) 
+				|| (u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario()))) 
+					&& !(u.getIdUsuario() == usuario.getIdUsuario())
+				) 
+			{
 				valido = false;
+			}
 		}
+
 		return valido;
 	}
 	
-	
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
-	
 	@GetMapping("/auditor")
-	public ModelAndView indexAuditor() {
+	public String indexAuditor() {
+		return "auditor/inicioAuditor";
+	}
+	@GetMapping("/auditor/usuarios")
+	public ModelAndView vistaUsuariosAuditor() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_AUDITOR);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());

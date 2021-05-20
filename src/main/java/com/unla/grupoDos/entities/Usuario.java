@@ -8,8 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -54,10 +57,15 @@ public class Usuario {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="id_perfil", nullable=false)
+	private Perfil perfil;
+
+	
 	public Usuario() {}
 
 	public Usuario(int idUsuario, String tipoDoc, long documento, String nombre, String apellido, String email,
-			String nombreUsuario, String clave) {
+			String nombreUsuario, String clave, Perfil perfil) {
 		super();
 		this.idUsuario = idUsuario;
 		this.tipoDoc = tipoDoc;
@@ -67,6 +75,7 @@ public class Usuario {
 		this.email = email;
 		this.nombreUsuario = nombreUsuario;
 		this.clave = clave;
+		this.perfil = perfil;
 	}
 
 	public int getIdUsuario() {
@@ -155,6 +164,30 @@ public class Usuario {
 
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Usuario u = (Usuario)obj;
+		return (u.getDocumento() == this.documento);
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [idUsuario=" + idUsuario + ", tipoDoc=" + tipoDoc + ", documento=" + documento + ", nombre="
+				+ nombre + ", apellido=" + apellido + ", email=" + email + ", nombreUsuario=" + nombreUsuario
+				+ ", clave=" + clave + ", enabled=" + enabled + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ "]";
 	}
 	
 	

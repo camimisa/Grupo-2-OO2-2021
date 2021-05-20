@@ -44,6 +44,7 @@ public class UsuarioController {
 		return mAV;
 	}
 	
+	
 	@GetMapping("/admin/nuevoUsuario")
 	public String usuario(Model model) {
 		model.addAttribute("usuario", new UsuarioModel());
@@ -101,6 +102,14 @@ public class UsuarioController {
 	@GetMapping("/auditor")
 	public ModelAndView indexAuditor() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_AUDITOR);
+		mAV.addObject("listaUsuarios", usuarioService.getAll());
+		mAV.addObject("usuario", new UsuarioModel());
+		return mAV;
+	}
+	
+	@GetMapping("/auditor/descargar/perfiles")
+	public ModelAndView indexAdminDescargar() {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_AUDITOR_DESCARGAR_USUARIOS);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());
 		return mAV;

@@ -48,7 +48,7 @@ public class UsuarioController {
 	// ------------------------------ PERMISOS ADMIN ---------------------------
 	@GetMapping("/admin")
 	public String indexAdmin() {
-		return "administrador/inicioAdmin";
+		return ViewRouteHelper.INICIO_ADMIN;
 	}	
 	
 	@GetMapping("/admin/usuarios")
@@ -131,7 +131,7 @@ public class UsuarioController {
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
 	@GetMapping("/auditor")
 	public String indexAuditor() {
-		return "auditor/inicioAuditor";
+		return ViewRouteHelper.INICIO_AUDITOR;
 	}
 	@GetMapping("/auditor/usuarios")
 	public ModelAndView vistaUsuariosAuditor() {
@@ -140,4 +140,46 @@ public class UsuarioController {
 		mAV.addObject("usuario", new UsuarioModel());
 		return mAV;
 	}
+	
+	@GetMapping("/auditor/perfiles")
+	public ModelAndView vistaPerfilesAuditor() {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_PERFILES_AUDITOR);
+		mAV.addObject("listaPerfiles", perfilService.getAll());
+		mAV.addObject("perfil", new PerfilModel());
+		return mAV;
+	}
+	
+	@GetMapping("/auditor/descargar/perfiles")
+	public ModelAndView indexAdminDescargar() {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_AUDITOR_DESCARGAR_USUARIOS);
+		mAV.addObject("listaUsuarios", usuarioService.getAll());
+		mAV.addObject("usuario", new UsuarioModel());
+		return mAV;
+	}
+	
+	// ---------------------LOG IN------------------------------
+		@GetMapping("/login")
+		public String login(Model model,
+							@RequestParam(name="error",required=false) String error,
+							@RequestParam(name="logout", required=false) String logout) {
+			model.addAttribute("error", error);
+			model.addAttribute("logout", logout);
+			return ViewRouteHelper.USUARIO_LOGIN;
+		}
+		
+		@GetMapping("/logout")
+		public String logout(Model model) {
+			return ViewRouteHelper.USUARIO_LOGOUT;
+		}
+		
+		@PostMapping("/prueba")
+		public RedirectView process() {
+			System.out.println("ACA ANDA");
+			return new RedirectView(ViewRouteHelper.USUARIO_LOGIN);
+		}
+		
+		@GetMapping("/loginsuccess")
+		public String loginCheck() {
+			return "redirect:/index";
+		}
 }

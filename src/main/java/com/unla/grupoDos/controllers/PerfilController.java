@@ -32,12 +32,23 @@ public class PerfilController {
 	@Autowired
 	@Qualifier("perfilService")
 	private IPerfilService perfilService;
+	@Autowired
+	@Qualifier("usuarioService")
+	UsuarioService usuarioService;
 	
 
 	@GetMapping(value = {"/listado","","/"})
 	public ModelAndView listar() {
 		System.out.println("INDEX");
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERFIL_INDEX);
+		mAV.addObject("listaPerfiles", perfilService.getAll());
+		mAV.addObject("perfil", new PerfilModel());
+		return mAV;
+	}
+	
+	@GetMapping(value = {"/descargar/perfiles"})
+	public ModelAndView descargarLista() {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERFIL_INDEX_DESCARGAR);
 		mAV.addObject("listaPerfiles", perfilService.getAll());
 		mAV.addObject("perfil", new PerfilModel());
 		return mAV;
@@ -102,16 +113,12 @@ public class PerfilController {
 	@GetMapping("/eliminar/{id}")
 	public RedirectView eliminar(@PathVariable("id") int id) {
 		RedirectView rView = new RedirectView(ViewRouteHelper.PERFIL_INDEX, true);
-		//UsuarioService usuarioService = new UsuarioService(); 
-		//if (usuarioService.getByIdPerfil(id).size() > 0) {
-		//	rView.setUrl(rView.getUrl() + '?error=El perfil que intentó eliminar está asociado a almenos un usuario.');
-		//}else { el remove... }
-		
-		try {
-			perfilService.remove(id);			
-		} catch(Exception e) {
-			
+		if (usuarioService.findByIdPerfil(id).size() > 0) {
+			rView.setUrl(rView.getUrl() + " ?error=El perfil que intentó eliminar está asociado a almenos un usuario.");
+		}else { 
+			perfilService.remove(id);
 		}
+		
 		return rView;
 	}
 	

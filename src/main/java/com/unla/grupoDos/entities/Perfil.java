@@ -22,7 +22,7 @@ public class Perfil {
 	
 	@Column(name="nombre", unique=true, nullable=false, length=50)
 	private String nombre;
-	@Column(name="descripcion", unique=true, nullable=true, length=255)
+	@Column(name="descripcion", unique=false, nullable=true, length=255)
 	private String descripcion;
 
 	@Column(name="createdat")
@@ -47,13 +47,8 @@ public class Perfil {
 		return idPerfil;
 	}
 
-	public void setIdPerfil(int idPerfil) {
+	protected void setIdPerfil(int idPerfil) {
 		this.idPerfil = idPerfil;
-	}
-
-	@Override
-	public String toString() {
-		return "PerfilModel [idPerfil=" + idPerfil + "]";
 	}
 
 	public String getNombre() {

@@ -29,11 +29,6 @@ public class PerfilModel {
 		this.idPerfil = idPerfil;
 	}
 
-	@Override
-	public String toString() {
-		return "PerfilModel [idPerfil=" + idPerfil + "]";
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -48,6 +43,11 @@ public class PerfilModel {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	@Override
+	public String toString() {
+		return "PerfilModel [idPerfil=" + idPerfil + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
 	}
 	
 	

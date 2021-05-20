@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.unla.grupoDos.converters.PerfilConverter;
+import com.unla.grupoDos.converters.UsuarioConverter;
 import com.unla.grupoDos.entities.Perfil;
+import com.unla.grupoDos.entities.Usuario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 import com.unla.grupoDos.models.PerfilModel;
+import com.unla.grupoDos.repositories.IUsuarioRepository;
 import com.unla.grupoDos.services.IPerfilService;
+import com.unla.grupoDos.services.implementation.UsuarioService;
 
 @Controller
 @RequestMapping("/perfil")
@@ -28,8 +34,9 @@ public class PerfilController {
 	private IPerfilService perfilService;
 	
 
-	@GetMapping(value = {"/",""})
+	@GetMapping(value = {"/listado","","/"})
 	public ModelAndView listar() {
+		System.out.println("INDEX");
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERFIL_INDEX);
 		mAV.addObject("listaPerfiles", perfilService.getAll());
 		mAV.addObject("perfil", new PerfilModel());
@@ -39,60 +46,89 @@ public class PerfilController {
 	@GetMapping("/actualizar/{id}")
 	public ModelAndView actualizar(
 			@PathVariable("id") int id, 
-			@RequestParam(required = false, name = "invalidReason") String invalidReason
+			@RequestParam(required = false, name = "error") String error
 	) {
-		System.out.println("get actualizar");
-		System.out.println(id);
-		System.out.println(invalidReason);
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.ACTUALIZAR_PERFIL);
 		mAV.addObject("perfil", perfilService.findById(id));
-		mAV.addObject("invalidReason", invalidReason);
+		mAV.addObject("error", error);
 		return mAV;
+	}
+	
+	@GetMapping("/nuevo")
+	public String nuevo(
+			Model model,
+			@RequestParam(required = false, name = "error") String error
+	) {
+		System.out.println("go to nuevo perfil");
+		model.addAttribute("perfil", new PerfilModel());
+		model.addAttribute("error", error);
+		return ViewRouteHelper.NUEVO_PERFIL;
 	}
 	
 	@PostMapping("/actualizar/{id}")
 	public RedirectView actualizar(
 			@PathVariable("id") int id,
-			@ModelAttribute("perfil") PerfilModel perfil) {
-		System.out.println("post actualizar");
-		System.out.println(perfil);
-		RedirectView rView = new RedirectView(ViewRouteHelper.ACTUALIZAR_PERFIL);
-		if (!nombreExiste(perfil)) {
-			perfilService.insertOrUpdate(perfil);
-		} else {
-			String invalidReason = "El nombre seleccionado \"" + perfil.getNombre() + "\" ya existe.";
-			rView.setUrl(rView.getUrl() + "?invalidReason=" + invalidReason);
-		}
-		System.out.println("url: " + rView.getUrl());
-		return rView;
+			@ModelAttribute("perfil") PerfilModel perfil
+	) {
+		return upsert(perfil, ViewRouteHelper.PERFIL_INDEX, ViewRouteHelper.ACTUALIZAR_PERFIL);
 	}
 	
-	@GetMapping("/nuevo")
-	public ModelAndView nuevo() {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.NUEVO_PERFIL);
-		return mAV;
+	@PostMapping("/nuevo")
+	public RedirectView nuevo(@ModelAttribute("perfil") PerfilModel perfil) {
+		return upsert(perfil, ViewRouteHelper.PERFIL_INDEX, ViewRouteHelper.NUEVO_PERFIL);
+	}
+	
+	private RedirectView upsert(PerfilModel perfil, String rutaExitosa, String rutaErronea) {
+		RedirectView rView = new RedirectView();
+		rView.setContextRelative(true);
+		if (corroborarPerfil(perfil)) {
+			try {
+				perfilService.insertOrUpdate(perfil);				
+			} catch(Exception e) {
+				System.out.println(e);
+				System.out.println(e.getLocalizedMessage());
+				System.out.println(e.getMessage());
+			}
+			rView.setUrl(rutaExitosa);
+		} else {
+			String queryParams = "?error=Ya existe un perfil con el nombre \"" + perfil.getNombre() + "\"";
+			Boolean includeId = perfil.getIdPerfil() != 0;
+			rView.setUrl(rutaErronea + (includeId ? "/" + perfil.getIdPerfil() : "") + queryParams);
+		}
+		System.out.println(rView.getUrl());
+		return rView;
 	}
 	
 	@GetMapping("/eliminar/{id}")
 	public RedirectView eliminar(@PathVariable("id") int id) {
+		RedirectView rView = new RedirectView(ViewRouteHelper.PERFIL_INDEX, true);
+		//UsuarioService usuarioService = new UsuarioService(); 
+		//if (usuarioService.getByIdPerfil(id).size() > 0) {
+		//	rView.setUrl(rView.getUrl() + '?error=El perfil que intentó eliminar está asociado a almenos un usuario.');
+		//}else { el remove... }
+		
 		try {
 			perfilService.remove(id);			
 		} catch(Exception e) {
 			
 		}
-		return new RedirectView(ViewRouteHelper.PERFIL_INDEX);
+		return rView;
 	}
 	
-	private boolean nombreExiste(PerfilModel perfil) {
-		boolean valido = true;
+	private boolean corroborarPerfil(PerfilModel perfil) {
+		boolean perfilValido = true;
 		Iterator<Perfil> perfilesIt = perfilService.getAll().iterator();
-		while (perfilesIt.hasNext() && !valido) {
+		PerfilConverter perfilConverter = new PerfilConverter();
+		Perfil perfilEnt = perfilConverter.modeloAEntidad(perfil);
+		while (perfilesIt.hasNext() && perfilValido) {
 			Perfil perfilIt = perfilesIt.next();
-			if (perfilIt.equals(perfil)) {
-				valido = false;
+			if (perfilIt.equals(perfilEnt) 
+				&& perfilIt.getIdPerfil() != perfilEnt.getIdPerfil()
+			) {
+				perfilValido = false;
 			}
 		}
-		return valido;
+		return perfilValido;
 	}
 	
 }

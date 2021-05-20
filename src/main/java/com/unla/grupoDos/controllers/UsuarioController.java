@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 
@@ -55,6 +56,7 @@ public class UsuarioController {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_ADMINISTRADOR);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());
+		
 		return mAV;
 	}
 	
@@ -66,7 +68,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/admin/crear")
-	public RedirectView create(@ModelAttribute("usuario") UsuarioModel usuarioModel) {
+	public RedirectView create(@ModelAttribute("usuario") UsuarioModel usuarioModel, RedirectAttributes atts) {
 		PerfilModel m = perfilService.findById(usuarioModel.getIdPerfil());
 		Perfil p = perfilConverter.modeloAEntidad(m);
 		usuarioModel.setPerfil(p);
@@ -74,7 +76,7 @@ public class UsuarioController {
 		if(corroborarUsuario(usuarioModel))
 			usuarioService.insertOrUpdate(usuarioModel);
 		else
-			System.out.println("Mismo dni o user. Implementar aviso"); //TODO
+			atts.addFlashAttribute("errorUsuario", true);
 		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
@@ -87,7 +89,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/admin/actualizarUsuario")
-	public RedirectView actualizarUsuario(@ModelAttribute("usuario") UsuarioModel usuario) {
+	public RedirectView actualizarUsuario(@ModelAttribute("usuario") UsuarioModel usuario,RedirectAttributes atts) {
 		PerfilModel m = perfilService.findById(usuario.getIdPerfil());
 		Perfil p = perfilConverter.modeloAEntidad(m);
 		usuario.setPerfil(p);
@@ -95,13 +97,14 @@ public class UsuarioController {
 		if(corroborarUsuario(usuario))
 			usuarioService.insertOrUpdate(usuario);
 		else
-			System.out.println("Mismo dni o user. Implementar aviso"); //TODO
+			atts.addFlashAttribute("errorUsuario", true);
 		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
 	@GetMapping("/admin/eliminarUsuario/{id}")
-	public RedirectView eliminarUsuario(@PathVariable("id") int idUsuario) {
+	public RedirectView eliminarUsuario(@PathVariable("id") int idUsuario, RedirectAttributes atts) {
 		usuarioService.remove(idUsuario);
+		atts.addFlashAttribute("eliminado", true);
 		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
@@ -115,7 +118,7 @@ public class UsuarioController {
 			if(
 				((u.getDocumento() == usuario.getDocumento()) 
 				|| (u.getNombreUsuario().equalsIgnoreCase(usuario.getNombreUsuario()))) 
-					&& !u.equals(usuario)
+					&& !(u.getIdUsuario() == usuario.getIdUsuario())
 				) 
 			{
 				valido = false;

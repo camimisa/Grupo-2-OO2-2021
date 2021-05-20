@@ -35,6 +35,18 @@
       <!-- Page Content -->
       <div class="container">
         <h1>Usuarios</h1>
+       	<div th:if="${eliminado == true}" class="alert alert-success alert-dismissible fade show">
+		    Usuario eliminado correctamente.
+		   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		  	</button>
+		</div>
+		<div th:if="${errorUsuario == true}" class="alert alert-danger alert-dismissible fade show">
+	    	El usuario no pudo agregarse/actualizarse debido a que su dni o usuario existen.
+	    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		  	</button>
+		</div>
         <div class="table-responsive">
 	        </br>
             <table class="table">

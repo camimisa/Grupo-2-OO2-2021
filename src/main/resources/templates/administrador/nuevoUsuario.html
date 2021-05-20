@@ -67,13 +67,15 @@
                 <p>
                     Clave: <input type="password" th:field="*{clave}" class="form-control" required>
                 </p>
-               <!-- it doesn't work :(<p>
+               	<p>
                     Perfil:
-                    <select class="form-select" aria-label="Seleccione el tipo de perfil" th:field="*{perfil}" required >
-	                	<option value="1">Administrador</option>
-	                	<option value="2">Auditor</option>
-                	</select>
-                </p> -->
+                	<select th:field="*{idPerfil}">
+			            <option th:each="perfilLista : ${listaPerfiles}"
+			              th:value="${perfilLista.idPerfil}" 
+			              th:text="${perfilLista.nombre}"/>
+		          </select>
+                </p>
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
             </form>
           </div>

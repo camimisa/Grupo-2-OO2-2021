@@ -15,4 +15,5 @@ public class ViewRouteHelper {
 	
 
 	public final static String ADMINISTRADOR_ROOT = "/admin/";
+	public final static String ADMINISTRADOR_ROOT_USUARIOS = "/admin/usuarios";
 }

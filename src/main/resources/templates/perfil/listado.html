@@ -37,12 +37,13 @@
         <h1>Perfiles</h1>
         <div class="table-responsive">
 	        </br>
+            <div th:if="${error != null}" th:text="${error}" class="alert alert-danger"></div>
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
-                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/nuevo}">Nuevo Perfil</a></th>
+                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/perfil/nuevo}">Nuevo Perfil</a></th>
                     </tr>
                 </thead>
                 <tbody>

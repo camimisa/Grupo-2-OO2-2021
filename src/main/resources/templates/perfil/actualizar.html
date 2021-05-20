@@ -36,6 +36,7 @@
       <div class="container">
           <div  class="abs-center">
             <form class="form-signin form" th:action="${actualizar}" th:object="${perfil}" method="post">
+    		<input type="hidden" th:field="*{idPerfil}" />
             </br>
                 <h1 class="h3 mb-3 font-weight-normal">Perfil:</h1>
                 <p>
@@ -44,6 +45,7 @@
                 <p>
                     Descripción: <input type="text" th:field="*{descripcion}" class="form-control" required>
                 </p>
+                <div th:if="${error != null}" th:text="${error}" class="alert alert-danger"></div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Actualizar</button>
             </form>
           </div>

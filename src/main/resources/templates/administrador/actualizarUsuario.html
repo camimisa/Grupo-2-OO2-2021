@@ -56,7 +56,7 @@
                 </p>
 
                 <p>
-                    Documento: <input type="number" th:field="*{documento}" class="form-control" required>
+                    Documento: <input type="number" th:field="*{documento}" class="form-control" min="1111111" max="99999999" value="9999999" required>
                 </p>
                 <p>
                     Email: <input type="email" th:field="*{email}" class="form-control" required>

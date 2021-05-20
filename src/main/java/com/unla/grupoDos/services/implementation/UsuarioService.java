@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.unla.grupoDos.entities.Usuario;
@@ -43,6 +44,8 @@ public class UsuarioService implements IUsuarioService{
 		return usuarioConverter.entidadAModelo(Usuario);
 	}
 
+
+	
 	@Override
 	public boolean remove(int id) {
 		try {
@@ -52,5 +55,11 @@ public class UsuarioService implements IUsuarioService{
 		catch(Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Usuario> findByIdPerfil(int idPerfil) {
+		List<Usuario> lista = usuarioRepository.findByIdPerfil(idPerfil);
+		return lista;
 	}
 }

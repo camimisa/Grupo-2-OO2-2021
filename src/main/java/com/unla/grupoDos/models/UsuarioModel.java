@@ -3,6 +3,8 @@ package com.unla.grupoDos.models;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.unla.grupoDos.entities.Perfil;
+
 public class UsuarioModel {
 
 	private int idUsuario;
@@ -15,25 +17,13 @@ public class UsuarioModel {
 	private String email;
 	private String nombreUsuario;
 	private String clave;
+	private Perfil perfil;
+	private int idPerfil;
 	
 	public UsuarioModel() {}
-	
-	public UsuarioModel(long documento, String nombre, String apellido, String tipoDoc, String email, String nombreUsuario,
-			String clave) {
-		super();
-		this.documento = documento;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.tipoDoc = tipoDoc;
-		this.email = email;
-		this.nombreUsuario = nombreUsuario;
-		this.clave = clave;
-	}
 
-
-	
-	public UsuarioModel(int idUsuario, String tipoDoc, long documento, String nombre, String apellido,String email,
-			String nombreUsuario, String clave) {
+	public UsuarioModel(int idUsuario, String tipoDoc, long documento, String nombre, String apellido, String email,
+			String nombreUsuario, String clave, Perfil perfil) {
 		super();
 		this.idUsuario = idUsuario;
 		this.tipoDoc = tipoDoc;
@@ -43,6 +33,7 @@ public class UsuarioModel {
 		this.email = email;
 		this.nombreUsuario = nombreUsuario;
 		this.clave = clave;
+		this.perfil = perfil;
 	}
 
 	public int getIdUsuario() {
@@ -109,11 +100,29 @@ public class UsuarioModel {
 		this.clave = clave;
 	}
 
+	
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
 	@Override
 	public String toString() {
 		return "UsuarioModel [idUsuario=" + idUsuario + ", tipoDoc=" + tipoDoc + ", documento=" + documento
 				+ ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", nombreUsuario="
 				+ nombreUsuario + ", clave=" + clave + "]";
+	}
+
+	public int getIdPerfil() {
+		return idPerfil;
+	}
+
+	public void setIdPerfil(int idPerfil) {
+		this.idPerfil = idPerfil;
 	}
 	
 	

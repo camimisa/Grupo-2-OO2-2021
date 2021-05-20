@@ -69,7 +69,12 @@
                     Clave: <input type="password" th:field="*{clave}" class="form-control" required>
                 </p>
                 <p>
-                    Perfil: <input type="text" id="role" class="form-control" required>
+                    Perfil:
+                	<select th:field="*{idPerfil}">
+			            <option th:each="perfilLista : ${listaPerfiles}"
+			              th:value="${perfilLista.idPerfil}" 
+			              th:text="${perfilLista.nombre}"/>
+		          </select>
                 </p>
                 <p>
                 	<input type="hidden" th:field="*{idUsuario}" />

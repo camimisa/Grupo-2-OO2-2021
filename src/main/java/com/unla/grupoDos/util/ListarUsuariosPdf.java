@@ -1,7 +1,6 @@
 package com.unla.grupoDos.util;
 
 import java.awt.Color;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,6 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.unla.grupoDos.entities.Usuario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
-import com.unla.grupoDos.models.UsuarioModel;
 
 @Component(ViewRouteHelper.VISTA_USUARIOS_AUDITOR_DESCARGAR_USUARIOS)
 public class ListarUsuariosPdf extends AbstractPdfView {

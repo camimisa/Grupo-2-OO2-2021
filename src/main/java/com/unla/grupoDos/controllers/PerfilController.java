@@ -43,6 +43,14 @@ public class PerfilController {
 		return mAV;
 	}
 	
+	@GetMapping(value = {"/descargar/perfiles"})
+	public ModelAndView descargarLista() {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERFIL_INDEX_DESCARGAR);
+		mAV.addObject("listaPerfiles", perfilService.getAll());
+		mAV.addObject("perfil", new PerfilModel());
+		return mAV;
+	}
+	
 	@GetMapping("/actualizar/{id}")
 	public ModelAndView actualizar(
 			@PathVariable("id") int id, 

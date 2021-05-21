@@ -17,16 +17,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                  <li class="nav-item">
+                        <a class="nav-link" href="\">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Log In
-                        </a>
-                    </li>
+					<li class="nav-item ">
+						<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
+					</li>
                 </ul>
           </div>
         </div>
@@ -59,7 +55,6 @@
                         <th scope="col">documento</th>
                         <th scope="col">email</th>
                         <th scope="col">Nombre Usuario</th>
-                        <th scope="col">Clave</th>
                         <th scope="col">Perfil</th>
                         <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/nuevoUsuario}">Nuevo Usuario</a></th>
                     </tr>
@@ -73,7 +68,6 @@
 						<td><span th:text="${usuario.documento}" /></td>
 						<td><span th:text="${usuario.email}" /></td>
 						<td><span th:text="${usuario.nombreUsuario}" /></td>
-						<td><span th:text="${usuario.clave}" /></td>
 						<td><span th:text="${usuario.getPerfil().getNombre()}" /></td>
 						
 						<td><a class="btn btn-outline-primary btn-sm" th:href="@{/admin/{id}(id=${usuario.idUsuario})}">Actualizar</a></td>

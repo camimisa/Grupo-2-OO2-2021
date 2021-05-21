@@ -24,4 +24,6 @@ public class ViewRouteHelper {
 	
 	public final static String USUARIO_LOGIN = "usuario/login";
 	public final static String USUARIO_LOGOUT = "usuario/logout";
+	
+	public final static String INDEX = "inicio/index";
 }

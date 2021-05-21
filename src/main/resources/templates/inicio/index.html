@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../home/styles.css">
     <title>LOG IN</title>
 </head>
 <body>
@@ -20,6 +19,9 @@
                   <li class="nav-item">
                         <a class="nav-link" href="\">Home</a>
                     </li>
+					<li class="nav-item ">
+						<a class="nav-link" th:href="@{/login}">Iniciar Sesion</a>
+					</li>
                 </ul>
           </div>
         </div>
@@ -27,21 +29,11 @@
       
       <!-- Page Content -->
       <div class="container">
-          <div  class="abs-center">
-            <form class="form-signin form" th:action="@{/loginprocess}" method="post">
-            </br>
-                <h1 class="h3 mb-3 font-weight-normal">Iniciar sesion:</h1>
-                <input type="text" name="username" id="username" class="form-control" placeholder="User Name" required="" autofocus="">
-            </br>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
-                </br>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">OK</button>
-            </form>
-            </br>
-           	<div th:if="${error != null}" class="alert alert-danger">
-		    	Usuario o clave incorrecto.
-		    </div>
-          </div>
+  		<h1>Bienvenido</h1>
+  		<h3>Primero debe iniciar sesion (arriba a su derecha)...</h3>
+  		<h3>Luego, seleccione una opcion...</h3>
+  		<a class="btn btn-success btn-lg" th:href="@{/admin/}">Administrador</a>
+        <a class="btn btn-success btn-lg" th:href="@{/auditor/}">Auditor</a>
 
       </div>
       <!-- /.container -->

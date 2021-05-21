@@ -16,6 +16,8 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Serializable>
 
 	public abstract Usuario findByDocumento(long doc);
 	public abstract Usuario findByIdUsuario(int idUsuario);
+	@Query(value = "SELECT * FROM usuario u INNER JOIN perfil p ON u.id_perfil = p.id_perfil "
+			+ "where u.nombre_usuario= (:nombreUsuario)",nativeQuery=true)
 	public abstract Usuario findByNombreUsuario(String nombreUsuario);
 	
 	@Query(value = "SELECT * FROM usuario u INNER JOIN perfil p ON u.id_perfil = p.id_perfil "

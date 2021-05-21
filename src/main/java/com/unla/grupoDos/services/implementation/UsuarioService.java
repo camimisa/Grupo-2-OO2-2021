@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.unla.grupoDos.entities.Perfil;
@@ -26,13 +28,17 @@ import com.unla.grupoDos.converters.UsuarioConverter;
 
 @Service("usuarioService")
 public class UsuarioService implements IUsuarioService, UserDetailsService{
+	
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	@Autowired
 	@Qualifier("usuarioRepository")
 	private IUsuarioRepository usuarioRepository;
 	
 	@Autowired
 	@Qualifier("usuarioConverter")
-	private UsuarioConverter usuarioConverter;	
+	private UsuarioConverter usuarioConverter;
 	
 	@Override
 	public List<Usuario> getAll() {
@@ -49,8 +55,9 @@ public class UsuarioService implements IUsuarioService, UserDetailsService{
 		return usuarioConverter.entidadAModelo(usuarioRepository.findByNombreUsuario(nombreUsuario));
 	}
 	@Override
-	public UsuarioModel insertOrUpdate(UsuarioModel UsuarioModel) {
-		Usuario Usuario = usuarioRepository.save(usuarioConverter.modeloAEntidad(UsuarioModel));
+	public UsuarioModel insertOrUpdate(UsuarioModel usuarioModel) {
+		usuarioModel.setClave(encoder.encode(usuarioModel.getClave()));
+		Usuario Usuario = usuarioRepository.save(usuarioConverter.modeloAEntidad(usuarioModel));
 		return usuarioConverter.entidadAModelo(Usuario);
 	}
 
@@ -72,10 +79,9 @@ public class UsuarioService implements IUsuarioService, UserDetailsService{
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usuario = usuarioRepository.findByNombreUsuario(username);
+	public UserDetails loadUserByUsername(String nombreUsuario) throws UsernameNotFoundException {
+		Usuario usuario = usuarioRepository.findByNombreUsuario(nombreUsuario);	
 		User u = buildUser(usuario, buildGrantedAuthorities(usuario.getPerfil()));
-		System.out.println("EN LOAD USER " +u.getUsername());
 		return u;
 	}
 	

@@ -10,18 +10,27 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Title</a>
+            <a class="navbar-brand" href="/">GrupoDos</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                  <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">Home</a>
-                    </li>
-					<li class="nav-item ">
-						<a class="nav-link" th:href="@{/login}">Iniciar Sesion</a>
-					</li>
+                    <span th:if="${perfil == 'ROLE_ANONYMOUS'}">
+						<li class="nav-item ">
+							<a class="nav-link" th:href="@{/login}">Iniciar Sesion</a>
+						</li>                    
+                    </span>
+                    <span th:if="${perfil == 'AUDITOR'}">
+						<li class="nav-item ">
+							<a class="nav-link" th:href="@{/auditor/}">Auditor</a>
+						</li>                    
+                    </span>
+                    <span th:if="${perfil == 'ADMINISTRADOR'}">
+						<li class="nav-item ">
+							<a class="nav-link" th:href="@{/admin/}">Admin</a>
+						</li>                    
+                    </span>
                 </ul>
           </div>
         </div>
@@ -30,11 +39,13 @@
       <!-- Page Content -->
       <div class="container">
   		<h1>Bienvenido</h1>
-  		<h3>Primero debe iniciar sesion (arriba a su derecha)...</h3>
-  		<h3>Luego, seleccione una opcion...</h3>
-  		<a class="btn btn-success btn-lg" th:href="@{/admin/}">Administrador</a>
-        <a class="btn btn-success btn-lg" th:href="@{/auditor/}">Auditor</a>
-
+        <span th:if="${perfil == 'ROLE_ANONYMOUS'}">
+           <h3>Para empezar debe iniciar sesion (arriba a la derecha)...</h3>      
+        </span>
+       	<span th:if="${perfil != 'ROLE_ANONYMOUS'}">
+           <h3>Debe tocar el boton de arriba a la derecha para ver las acciones que tiene disponibles...</h3>     
+           <a class="btn btn-outline-dark btn-lg" th:href="@{/logout}">Cerrar sesion</a> 
+        </span>
       </div>
       <!-- /.container -->
 

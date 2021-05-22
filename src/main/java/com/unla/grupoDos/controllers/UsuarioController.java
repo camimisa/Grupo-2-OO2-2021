@@ -4,8 +4,14 @@ package com.unla.grupoDos.controllers;
 import com.unla.grupoDos.converters.PerfilConverter;
 import com.unla.grupoDos.helpers.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,13 +47,28 @@ public class UsuarioController {
 			return ViewRouteHelper.USUARIO_LOGIN;
 		}
 		
+		/*
 		@GetMapping("/logout")
 		public String logout(Model model) {
 			return ViewRouteHelper.USUARIO_LOGOUT;
+		}*/
+		
+		@GetMapping("/logout")
+		public String logout(HttpServletRequest request, HttpServletResponse response) {
+		    org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    if (auth != null){    
+		        new SecurityContextLogoutHandler().logout(request, response, auth);
+		    }
+		    return ViewRouteHelper.USUARIO_LOGOUT;
 		}
 		
 		@GetMapping("/loginsuccess")
 		public String loginCheck() {
-			return ViewRouteHelper.INDEX;
+			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String perfil = (auth.getAuthorities().toString()).toUpperCase();
+			String ruta = "/";
+			if(perfil.contains("AUDITOR")) ruta = ViewRouteHelper.INICIO_AUDITOR;
+			if(perfil.contains("ADMINISTRADOR")) ruta = ViewRouteHelper.INICIO_ADMIN;
+			return ruta;
 		}
 }

@@ -82,7 +82,7 @@ public class ListarUsuariosPdf extends AbstractPdfView {
 			tablaUsuarios.addCell(cell);
 			cell.setPhrase(new Phrase(dni,fontParaFilas));
 			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombreUsuario(),fontParaFilas));
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getPerfil().getNombre(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
 			cell.setBackgroundColor(segundoColorParaCeldas);
 		};

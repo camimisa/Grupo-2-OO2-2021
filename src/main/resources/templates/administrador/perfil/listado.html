@@ -37,13 +37,13 @@
         <h1>Perfiles</h1>
         <div class="table-responsive">
 	        </br>
-            <div th:if="${error != null}" th:text="${error}" class="alert alert-danger"></div>
+            <div th:if="${#request.getParameter('error') != null}" th:text="${#request.getParameter('error')}" class="alert alert-danger"></div>
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
-                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/perfil/nuevo}">Nuevo Perfil</a></th>
+                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/perfil/nuevo}">Nuevo Perfil</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,8 +51,8 @@
 						<td><span th:text="${perfil.nombre}" /></td>
 						<td><span th:text="${perfil.descripcion}" /></td>
 						
-						<td><a class="btn btn-outline-primary btn-sm" th:href="@{/perfil/actualizar/{id}(id=${perfil.idPerfil})}">Actualizar</a></td>
-                        <td><a class="btn btn-outline-danger btn-sm" th:href="@{/perfil/eliminar/{id}(id=${perfil.idPerfil})}">Eliminar</a></td>
+						<td><a class="btn btn-outline-primary btn-sm" th:href="@{/admin/perfil/actualizar/{id}(id=${perfil.idPerfil})}">Actualizar</a></td>
+                        <td><a class="btn btn-outline-danger btn-sm" th:href="@{/admin/perfil/eliminar/{id}(id=${perfil.idPerfil})}">Eliminar</a></td>
 					</tr>
                 </tbody>
             </table>

@@ -11,10 +11,12 @@ public class ViewRouteHelper {
 	public final static String ACTUALIZAR_USUARIO_ADMINISTRADOR = "administrador/actualizarUsuario";
 	public final static String NUEVO_USUARIO_ADMINISTRADOR_OK = "administrador/nuevoUsuarioOk";
 	
-	public final static String NUEVO_PERFIL = "/perfil/nuevo";
-	public final static String ACTUALIZAR_PERFIL = "/perfil/actualizar";
-	public final static String PERFIL_INDEX = "/perfil/listado";
-	public final static String PERFIL_INDEX_DESCARGAR = "/perfil/descargarListado";
+	public final static String VISTA_PERFIL_NUEVO= "/administrador/perfil/nuevo";
+	public final static String VISTA_PERFIL_ACTUALIZAR= "/administrador/perfil/actualizar";
+	public final static String VISTA_PERFIL_INDEX = "/administrador/perfil/listado";
+	public final static String PERFIL_INDEX = "/admin/perfil";
+	public final static String PERFIL_INDEX_DESCARGAR = "/administrador/perfil/descargarListado";
+	
 	
 	public final static String INICIO_ADMIN = "/administrador/inicioAdmin";
 	public final static String INICIO_AUDITOR = "/auditor/inicioAuditor";

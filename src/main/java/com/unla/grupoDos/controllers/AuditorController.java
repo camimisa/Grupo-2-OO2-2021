@@ -3,9 +3,12 @@ package com.unla.grupoDos.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 import com.unla.grupoDos.models.PerfilModel;
@@ -27,7 +30,10 @@ public class AuditorController {
 
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
 	@GetMapping("/")
-	public String indexAuditor() {
+	public String indexAuditor(Model model, @RequestParam(name="nombreUsuario",required=false) String nombreUsuario) {
+		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		nombreUsuario = auth.getName();
+		model.addAttribute("nombreUsuario", nombreUsuario);
 		return ViewRouteHelper.INICIO_AUDITOR;
 	}
 	@GetMapping("/usuarios")

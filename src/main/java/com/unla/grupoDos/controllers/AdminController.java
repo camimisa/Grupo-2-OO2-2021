@@ -45,7 +45,10 @@ public class AdminController {
 	
 	
 	@GetMapping("/")
-	public String indexAdmin() {
+	public String indexAdmin(Model model, @RequestParam(name="nombreUsuario",required=false) String nombreUsuario) {
+		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		 nombreUsuario = auth.getName();
+		model.addAttribute("nombreUsuario", nombreUsuario);
 		return ViewRouteHelper.INICIO_ADMIN;
 	}	
 	

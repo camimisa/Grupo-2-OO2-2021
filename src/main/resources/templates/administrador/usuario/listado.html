@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Usuarios</title>
+    <link rel="stylesheet" href="../../static/css/styles.css">
+    <title>Admin - Usuarios</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -30,7 +31,19 @@
       <!-- Page Content -->
       <div class="container">
         <h1>Usuarios</h1>
-        <a class="btn btn-success btn-sm ml-3" target="_blank" th:href="@{/auditor/descargar/usuarios?format=pdf}">Descargar pdf</a>
+        <h2>Admin: @ <span th:text="${usuarioActual.nombreUsuario}"/></h2>
+       	<div th:if="${eliminado == true}" class="alert alert-success alert-dismissible fade show">
+		    Usuario eliminado correctamente.
+		   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		  	</button>
+		</div>
+		<div th:if="${errorUsuario == true}" class="alert alert-danger alert-dismissible fade show">
+	    	El usuario no pudo agregarse/actualizarse debido a que su dni o usuario existen.
+	    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		  	</button>
+		</div>
         <div class="table-responsive">
 	        </br>
             <table class="table">
@@ -44,6 +57,7 @@
                         <th scope="col">email</th>
                         <th scope="col">Nombre Usuario</th>
                         <th scope="col">Perfil</th>
+                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/usuario/nuevo}">Nuevo Usuario</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,12 +70,29 @@
 						<td><span th:text="${usuario.email}" /></td>
 						<td><span th:text="${usuario.nombreUsuario}" /></td>
 						<td><span th:text="${usuario.getPerfil().getNombre()}" /></td>
+						
+						<span th:if="${usuarioActual.idUsuario != usuario.IdUsuario}">
+							<td><a class="btn btn-outline-primary btn-sm" th:href="@{/admin/usuario/{id}(id=${usuario.idUsuario})}">
+									Actualizar
+								</a></td>
+	                        <td><a class="btn btn-outline-danger btn-sm" th:href="@{/admin/usuario/eliminar/{id}(id=${usuario.idUsuario})}">
+	                        	Eliminar
+	                        </a></td>
+	                     </span>
+                        <span th:if="${usuarioActual.idUsuario == usuario.IdUsuario}">
+							<td><button class="btn btn-outline-primary btn-sm" disabled>
+									Actualizar
+								</a></td>
+	                        <td><button class="btn btn-outline-danger btn-sm" disabled >
+	                        	Eliminar
+	                        </a></td>
+	                     </span>
 					</tr>
                 </tbody>
             </table>
         </div>  
     </br>
-                <a class="btn btn-secondary btn-sm btn-block" th:href="@{/auditor/}">Volver</a>  
+            <a class="btn btn-secondary btn-sm btn-block" th:href="@{/admin/}">Volver</a>    
         </div>
         
       <!-- /.container -->

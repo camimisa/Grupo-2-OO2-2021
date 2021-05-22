@@ -21,7 +21,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.unla.grupoDos.entities.Usuario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 
-@Component(ViewRouteHelper.VISTA_USUARIOS_AUDITOR_DESCARGAR_USUARIOS)
+@Component(ViewRouteHelper.VISTA_AUDITOR_DESCARGAR_USUARIOS)
 public class ListarUsuariosPdf extends AbstractPdfView {
 
 	@Override

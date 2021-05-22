@@ -56,7 +56,7 @@ public class AdminController {
 	public ModelAndView vistaUsuariosAdmin() {
 		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String nombreUsuario = auth.getName();
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_ADMINISTRADOR);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_INDEX);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());
 		mAV.addObject("usuarioActual",usuarioService.findByNombreUsuario(nombreUsuario));
@@ -64,15 +64,16 @@ public class AdminController {
 		return mAV;
 	}
 	
-	@GetMapping("/nuevoUsuario")
+	@GetMapping("/usuario/nuevo")
 	public String usuario(Model model) {
 		model.addAttribute("usuario", new UsuarioModel());
 		model.addAttribute("listaPerfiles", perfilService.getAll());
-		return ViewRouteHelper.NUEVO_USUARIO_ADMINISTRADOR;
+		return ViewRouteHelper.VISTA_USUARIO_NUEVO;
 	}
 	
-	@PostMapping("/crear")
+	@PostMapping("/usuario/crear")
 	public RedirectView create(@ModelAttribute("usuario") UsuarioModel usuarioModel, RedirectAttributes atts) {
+
 		PerfilModel m = perfilService.findById(usuarioModel.getIdPerfil());
 		Perfil p = perfilConverter.modeloAEntidad(m);
 		usuarioModel.setPerfil(p);
@@ -81,34 +82,45 @@ public class AdminController {
 			usuarioService.insertOrUpdate(usuarioModel);
 		else
 			atts.addFlashAttribute("errorUsuario", true);
+	
 		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/usuario/{id}")
 	public ModelAndView get(@PathVariable("id") int id) {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.ACTUALIZAR_USUARIO_ADMINISTRADOR);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIO_ACTUALIZAR);
 		mAV.addObject("usuario", usuarioService.findById(id));
 		mAV.addObject("listaPerfiles", perfilService.getAll());
 		return mAV;
 	}
 	
-	@PostMapping("/actualizarUsuario")
+	@PostMapping("/usuario/actualizar")
 	public RedirectView actualizarUsuario(@ModelAttribute("usuario") UsuarioModel usuario,RedirectAttributes atts) {
-		PerfilModel m = perfilService.findById(usuario.getIdPerfil());
-		Perfil p = perfilConverter.modeloAEntidad(m);
-		usuario.setPerfil(p);
+		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UsuarioModel usuarioActual = usuarioService.findByNombreUsuario(auth.getName());
 		
-		if(corroborarUsuario(usuario))
-			usuarioService.insertOrUpdate(usuario);
-		else
-			atts.addFlashAttribute("errorUsuario", true);
+		if(!usuarioActual.equals(usuario)) {
+			PerfilModel m = perfilService.findById(usuario.getIdPerfil());
+			Perfil p = perfilConverter.modeloAEntidad(m);
+			usuario.setPerfil(p);
+			
+			if(corroborarUsuario(usuario))
+				usuarioService.insertOrUpdate(usuario);
+			else
+				atts.addFlashAttribute("errorUsuario", true);			
+		}
+		
 		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
-	@GetMapping("/eliminarUsuario/{id}")
+	@GetMapping("/usuario/eliminar/{id}")
 	public RedirectView eliminarUsuario(@PathVariable("id") int idUsuario, RedirectAttributes atts) {
-		usuarioService.remove(idUsuario);
-		atts.addFlashAttribute("eliminado", true);
+		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UsuarioModel usuarioActual = usuarioService.findByNombreUsuario(auth.getName());
+		if(!(usuarioActual.getIdUsuario() == idUsuario)) {
+			usuarioService.remove(idUsuario);
+			atts.addFlashAttribute("eliminado", true);
+		}
 		return new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_USUARIOS);
 	}
 	
@@ -130,10 +142,7 @@ public class AdminController {
 		return valido;
 	}
 	
-	@GetMapping(value = {"/perfil/listado",
-			"/perfil",
-			"/perfil/"
-	})
+	@GetMapping("/perfiles")
 	public ModelAndView perfilIndex() {
 		System.out.println("INDEX");
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_PERFIL_INDEX);
@@ -168,13 +177,12 @@ public class AdminController {
 			@PathVariable("id") int id,
 			@ModelAttribute("perfil") PerfilModel perfil
 	) {
-		System.out.println("asdsad");
-		return perfilUpsert(perfil, ViewRouteHelper.PERFIL_INDEX, ViewRouteHelper.VISTA_PERFIL_ACTUALIZAR);
+		return perfilUpsert(perfil, ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, ViewRouteHelper.VISTA_PERFIL_ACTUALIZAR);
 	}
 	
 	@PostMapping("/perfil/crear")
 	public RedirectView perfilNuevo(@ModelAttribute("perfil") PerfilModel perfil) {
-		return perfilUpsert(perfil, ViewRouteHelper.PERFIL_INDEX, ViewRouteHelper.VISTA_PERFIL_NUEVO);
+		return perfilUpsert(perfil, ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, ViewRouteHelper.VISTA_PERFIL_NUEVO);
 	}
 	
 	private RedirectView perfilUpsert(PerfilModel perfil, String rutaExitosa, String rutaErronea) {
@@ -198,7 +206,7 @@ public class AdminController {
 	
 	@GetMapping("/perfil/eliminar/{id}")
 	public RedirectView perfilEliminar(@PathVariable("id") int id) {
-		RedirectView rView = new RedirectView(ViewRouteHelper.PERFIL_INDEX, true);
+		RedirectView rView = new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, true);
 		if (usuarioService.findByIdPerfil(id).size() > 0) {
 			rView.addStaticAttribute("error", "El perfil que intentó eliminar está asociado a almenos un usuario.");
 		}else { 

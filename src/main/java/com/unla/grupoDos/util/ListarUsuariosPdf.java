@@ -43,6 +43,7 @@ public class ListarUsuariosPdf extends AbstractPdfView {
 		Font font = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE);
 		font.setColor(Color.BLACK);
 		
+		
 		Paragraph titulo = new Paragraph("Listado de usuarios", font);
 		titulo.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(titulo);

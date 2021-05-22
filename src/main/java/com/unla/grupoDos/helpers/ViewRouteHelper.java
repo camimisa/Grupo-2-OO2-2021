@@ -15,13 +15,14 @@ public class ViewRouteHelper {
 	public final static String VISTA_PERFIL_ACTUALIZAR= "/administrador/perfil/actualizar";
 	public final static String VISTA_PERFIL_INDEX = "/administrador/perfil/listado";
 	public final static String PERFIL_INDEX = "/admin/perfil";
-	public final static String PERFIL_INDEX_DESCARGAR = "/administrador/perfil/descargarListado";
+	public final static String VISTA_USUARIOS_AUDITOR_DESCARGAR_PERFILES = "/auditor/descargarListadoPerfiles";
 	
 	
 	public final static String INICIO_ADMIN = "/administrador/inicioAdmin";
 	public final static String INICIO_AUDITOR = "/auditor/inicioAuditor";
 	
 	public final static String ADMINISTRADOR_ROOT = "/admin/";
+	public final static String AUDITOR_ROOT = "/auditor/";
 	public final static String ADMINISTRADOR_ROOT_USUARIOS = "/admin/usuarios";
 	
 	public final static String USUARIO_LOGIN = "usuario/login";

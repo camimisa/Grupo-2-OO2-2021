@@ -10,15 +10,12 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Title</a>
+            <a class="navbar-brand" href="#">GrupoDOS</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                  <li class="nav-item">
-                        <a class="nav-link" href="\">Home</a>
-                    </li>
 					<li class="nav-item ">
 						<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
 					</li>
@@ -29,14 +26,16 @@
       
       <!-- Page Content -->
       <div class="container">
-        <h1 class="mt-4">AUDITOR:</h1>
+      <br>
+      	<h1>Bienvenido <i th:text="${nombreUsuario}"/> !</h1>
+        <h2 class="mt-4">Perfil auditor</h2>
         <h3>Seleccione una opcion para continuar:</h3>
         <a class="btn btn-info btn-lg" th:href="@{/auditor/usuarios}">Usuarios</a>
         <a class="btn btn-info btn-lg" th:href="@{/auditor/perfiles}">Perfiles</a>
         </br>
         </br>
         </br>
-        <a class="btn btn-secondary btn-sm btn-block" th:href="@{/}">Volver</a>
+
       </div>
       <!-- /.container -->
 

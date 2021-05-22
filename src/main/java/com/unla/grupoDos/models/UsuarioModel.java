@@ -124,6 +124,28 @@ public class UsuarioModel {
 	public void setIdPerfil(int idPerfil) {
 		this.idPerfil = idPerfil;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idUsuario;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UsuarioModel other = (UsuarioModel) obj;
+		if (idUsuario != other.idUsuario)
+			return false;
+		return true;
+	}
 	
 	
 }

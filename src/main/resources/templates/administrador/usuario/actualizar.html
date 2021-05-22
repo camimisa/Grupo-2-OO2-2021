@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Nuevo Usuario</title>
+    <link rel="stylesheet" href="../home/styles.css">
+    <title>Actualizar</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -30,7 +31,7 @@
       <!-- Page Content -->
       <div class="container">
           <div  class="abs-center">
-            <form class="form-signin form" action="#" th:action="@{crear}" th:object="${usuario}" method="post">
+            <form class="form-signin form" action="#" th:action="@{actualizar}" th:object="${usuario}" method="post">
             </br>
                 <h1 class="h3 mb-3 font-weight-normal">Usuario:</h1>
                 <p>
@@ -49,6 +50,7 @@
 	                	<option value="OTRO">Otro</option>
                 	</select>
                 </p>
+
                 <p>
                     Documento: <input type="number" th:field="*{documento}" class="form-control" min="1111111" max="99999999" value="9999999" required>
                 </p>
@@ -60,9 +62,9 @@
                     Nombre Usuario: <input type="text" th:field="*{nombreUsuario}" class="form-control" required>
                 </p>
                 <p>
-                    Clave: <input type="password" th:field="*{clave}" class="form-control" minlength="4" required>
+                    Clave: <input type="password" th:field="*{clave}" class="form-control" required>
                 </p>
-               	<p>
+                <p>
                     Perfil:
                 	<select th:field="*{idPerfil}">
 			            <option th:each="perfilLista : ${listaPerfiles}"
@@ -70,12 +72,15 @@
 			              th:text="${perfilLista.nombre}"/>
 		          </select>
                 </p>
-
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
+                <p>
+                	<input type="hidden" th:field="*{idUsuario}" />
+                </p>
+                
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Actualizar</button>
             </form>
           </div>
-        <br>
-		<a class="btn btn-secondary btn-sm btn-block" th:href="@{/admin/}">Volver</a>
+		<br>
+		<a class="btn btn-secondary btn-sm btn-block" th:href="@{/admin/usuarios}">Volver</a>
       </div>
       <!-- /.container -->
 

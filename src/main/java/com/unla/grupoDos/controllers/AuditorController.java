@@ -52,17 +52,17 @@ public class AuditorController {
 		return mAV;
 	}
 	
-	@GetMapping("/descargar/usuarios")
+	@GetMapping("/usuarios/descargar")
 	public ModelAndView indexAdminDescargar() {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_AUDITOR_DESCARGAR_USUARIOS);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_AUDITOR_DESCARGAR_USUARIOS);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());
 		return mAV;
 	}
 	
-	@GetMapping(value = {"/descargar/perfiles"})
+	@GetMapping("/perfiles/descargar")
 	public ModelAndView descargarLista() {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_AUDITOR_DESCARGAR_PERFILES);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_AUDITOR_DESCARGAR_PERFILES);
 		mAV.addObject("listaPerfiles", perfilService.getAll());
 		mAV.addObject("perfil", new PerfilModel());
 		return mAV;

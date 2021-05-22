@@ -21,8 +21,8 @@ public class ViewRouteHelper {
 	public final static String INICIO_ADMIN = "/administrador/inicioAdmin";
 	public final static String INICIO_AUDITOR = "/auditor/inicioAuditor";
 	
-	public final static String ADMINISTRADOR_ROOT = "/admin";
-	public final static String AUDITOR_ROOT = "/auditor";
+	public final static String ADMINISTRADOR_ROOT = "/admin/";
+	public final static String AUDITOR_ROOT = "/auditor/";
 	public final static String ADMINISTRADOR_ROOT_USUARIOS = "/admin/usuarios";
 	
 	public final static String USUARIO_LOGIN = "usuario/login";

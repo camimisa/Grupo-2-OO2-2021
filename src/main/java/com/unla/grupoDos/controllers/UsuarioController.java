@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupoDos.services.IPerfilService;
 import com.unla.grupoDos.services.IUsuarioService;
@@ -63,12 +64,12 @@ public class UsuarioController {
 		}
 		
 		@GetMapping("/loginsuccess")
-		public String loginCheck() {
+		public RedirectView loginCheck() {
 			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			String perfil = (auth.getAuthorities().toString()).toUpperCase();
 			String ruta = "/";
-			if(perfil.contains("AUDITOR")) ruta = ViewRouteHelper.INICIO_AUDITOR;
-			if(perfil.contains("ADMINISTRADOR")) ruta = ViewRouteHelper.INICIO_ADMIN;
-			return ruta;
+			if(perfil.contains("AUDITOR")) ruta = ViewRouteHelper.AUDITOR_ROOT;
+			if(perfil.contains("ADMINISTRADOR")) ruta = ViewRouteHelper.ADMINISTRADOR_ROOT;
+			return new RedirectView(ruta);
 		}
 }

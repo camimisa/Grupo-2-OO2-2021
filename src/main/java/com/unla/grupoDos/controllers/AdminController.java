@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,15 +45,21 @@ public class AdminController {
 	
 	
 	@GetMapping("/")
-	public String indexAdmin() {
+	public String indexAdmin(Model model, @RequestParam(name="nombreUsuario",required=false) String nombreUsuario) {
+		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		 nombreUsuario = auth.getName();
+		model.addAttribute("nombreUsuario", nombreUsuario);
 		return ViewRouteHelper.INICIO_ADMIN;
 	}	
 	
 	@GetMapping("/usuarios")
 	public ModelAndView vistaUsuariosAdmin() {
+		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String nombreUsuario = auth.getName();
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIOS_ADMINISTRADOR);
 		mAV.addObject("listaUsuarios", usuarioService.getAll());
 		mAV.addObject("usuario", new UsuarioModel());
+		mAV.addObject("usuarioActual",usuarioService.findByNombreUsuario(nombreUsuario));
 		
 		return mAV;
 	}
@@ -165,7 +172,7 @@ public class AdminController {
 		return perfilUpsert(perfil, ViewRouteHelper.PERFIL_INDEX, ViewRouteHelper.VISTA_PERFIL_ACTUALIZAR);
 	}
 	
-	@PostMapping("/perfil/nuevo")
+	@PostMapping("/perfil/crear")
 	public RedirectView perfilNuevo(@ModelAttribute("perfil") PerfilModel perfil) {
 		return perfilUpsert(perfil, ViewRouteHelper.PERFIL_INDEX, ViewRouteHelper.VISTA_PERFIL_NUEVO);
 	}

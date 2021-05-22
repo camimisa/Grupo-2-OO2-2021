@@ -34,15 +34,20 @@ public class ListarUsuariosPdf extends AbstractPdfView {
 		tablaUsuarios.setSpacingBefore(20);
 		
 		PdfPCell cell = new PdfPCell();
-		cell.setBackgroundColor(Color.BLUE);
+		Color colorParaCeldasHeader = new Color(252, 144, 121);
+		Color primerColorParaCeldas = new Color(253,239,236);
+		Color segundoColorParaCeldas = new Color(250,225,220);
+		cell.setBackgroundColor(colorParaCeldasHeader);
 		cell.setPadding(5);
 		
-		Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-		font.setColor(Color.WHITE);
+		Font font = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE);
+		font.setColor(Color.BLACK);
 		
 		
+		Paragraph titulo = new Paragraph("Listado de usuarios", font);
+		titulo.setAlignment(Paragraph.ALIGN_CENTER);
+		document.add(titulo);
 		
-		document.add(new Paragraph("Lista de usuarios"));
 		
 		cell.setPhrase(new Phrase("Apellido",font));
 		tablaUsuarios.addCell(cell);
@@ -63,23 +68,25 @@ public class ListarUsuariosPdf extends AbstractPdfView {
 		fontParaFilas.setColor(Color.BLACK);
 		cell.setBackgroundColor(Color.LIGHT_GRAY);
 		
-		listadoUsuarios.forEach(usuario -> {
-			String dni = String.valueOf(usuario.getDocumento());
-			cell.setPhrase(new Phrase(usuario.getApellido(),fontParaFilas));
+		for(int i = 0; i < listadoUsuarios.size();i++) {
+			if(i % 2 == 0)cell.setBackgroundColor(primerColorParaCeldas);
+			String dni = String.valueOf(listadoUsuarios.get(i).getDocumento());
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getApellido(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(usuario.getNombre(),fontParaFilas));
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombre(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(usuario.getNombreUsuario(),fontParaFilas));
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombreUsuario(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(usuario.getEmail(),fontParaFilas));
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getEmail(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(usuario.getTipoDoc(),fontParaFilas));
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getTipoDoc(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
 			cell.setPhrase(new Phrase(dni,fontParaFilas));
 			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase("perfil",fontParaFilas));
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getPerfil().getNombre(),fontParaFilas));
 			tablaUsuarios.addCell(cell);
-		});
+			cell.setBackgroundColor(segundoColorParaCeldas);
+		};
 		
 		document.addTitle("usuarios");
 		document.add(tablaUsuarios);

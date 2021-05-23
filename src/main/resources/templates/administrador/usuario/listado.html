@@ -9,89 +9,71 @@
     <title>Admin - Usuarios</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">GrupoDos</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                  <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-					<li class="nav-item ">
-						<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
-					</li>
-                </ul>
-          </div>
-        </div>
-      </nav>
-      
-      <!-- Page Content -->
-      <div class="container">
-        <h1>Usuarios</h1>
-        <h2>Admin: @ <span th:text="${usuarioActual.nombreUsuario}"/></h2>
-       	<div th:if="${eliminado == true}" class="alert alert-success alert-dismissible fade show">
-		    Usuario eliminado correctamente.
-		   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    	<span aria-hidden="true">&times;</span>
-		  	</button>
-		</div>
-		<div th:if="${errorUsuario == true}" class="alert alert-danger alert-dismissible fade show">
-	    	El usuario no pudo agregarse/actualizarse debido a que su dni o usuario existen.
-	    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    	<span aria-hidden="true">&times;</span>
-		  	</button>
-		</div>
-        <div class="table-responsive">
-	        </br>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                    	<th scope="col">Id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido</th>
-                        <th scope="col">Tipo doc</th>
-                        <th scope="col">documento</th>
-                        <th scope="col">email</th>
-                        <th scope="col">Nombre Usuario</th>
-                        <th scope="col">Perfil</th>
-                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/usuario/nuevo}">Nuevo Usuario</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-					<tr th:each="usuario : ${listaUsuarios}">
-						<td><span th:text="${usuario.idUsuario}" /></td>
-						<td><span th:text="${usuario.nombre}" /></td>
-						<td><span th:text="${usuario.apellido}" /></td>
-						<td><span th:text="${usuario.tipoDoc}" /></td>
-						<td><span th:text="${usuario.documento}" /></td>
-						<td><span th:text="${usuario.email}" /></td>
-						<td><span th:text="${usuario.nombreUsuario}" /></td>
-						<td><span th:text="${usuario.getPerfil().getNombre()}" /></td>
-						
-						<span th:if="${usuarioActual.idUsuario != usuario.IdUsuario}">
-							<td><a class="btn btn-outline-primary btn-sm" th:href="@{/admin/usuario/{id}(id=${usuario.idUsuario})}">
-									Actualizar
-								</a></td>
-	                        <td><a class="btn btn-outline-danger btn-sm" th:href="@{/admin/usuario/eliminar/{id}(id=${usuario.idUsuario})}">
-	                        	Eliminar
-	                        </a></td>
-	                     </span>
-                        <span th:if="${usuarioActual.idUsuario == usuario.IdUsuario}">
-							<td><button class="btn btn-outline-primary btn-sm" disabled>
-									Actualizar
-								</a></td>
-	                        <td><button class="btn btn-outline-danger btn-sm" disabled >
-	                        	Eliminar
-	                        </a></td>
-	                     </span>
-					</tr>
-                </tbody>
-            </table>
-        </div>  
-    </br>
+	<div th:replace="~{/parcial/Header :: header}"></div>
+	<!-- Page Content -->
+    	<div class="container">
+	        <h1>Usuarios</h1>
+	        <h2>Admin: @ <span th:text="${usuarioActual.nombreUsuario}"/></h2>
+	       	<div th:if="${eliminado == true}" class="alert alert-success alert-dismissible fade show">
+			    Usuario eliminado correctamente.
+			   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    	<span aria-hidden="true">&times;</span>
+			  	</button>
+			</div>
+			<div th:if="${errorUsuario == true}" class="alert alert-danger alert-dismissible fade show">
+		    	El usuario no pudo agregarse/actualizarse debido a que su dni o usuario existen.
+		    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    	<span aria-hidden="true">&times;</span>
+			  	</button>
+			</div>
+	        <div class="table-responsive">
+		        </br>
+	            <table class="table">
+	                <thead class="thead-dark">
+	                    <tr>
+	                    	<th scope="col">Id</th>
+	                        <th scope="col">Nombre</th>
+	                        <th scope="col">Apellido</th>
+	                        <th scope="col">Tipo doc</th>
+	                        <th scope="col">documento</th>
+	                        <th scope="col">email</th>
+	                        <th scope="col">Nombre Usuario</th>
+	                        <th scope="col">Perfil</th>
+	                        <th scope="col" colspan="2"><a class="btn btn-success" th:href="@{/admin/usuario/nuevo}">Nuevo Usuario</a></th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+						<tr th:each="usuario : ${listaUsuarios}">
+							<td><span th:text="${usuario.idUsuario}" /></td>
+							<td><span th:text="${usuario.nombre}" /></td>
+							<td><span th:text="${usuario.apellido}" /></td>
+							<td><span th:text="${usuario.tipoDoc}" /></td>
+							<td><span th:text="${usuario.documento}" /></td>
+							<td><span th:text="${usuario.email}" /></td>
+							<td><span th:text="${usuario.nombreUsuario}" /></td>
+							<td><span th:text="${usuario.getPerfil().getNombre()}" /></td>
+							
+							<span th:if="${usuarioActual.idUsuario != usuario.IdUsuario}">
+								<td><a class="btn btn-outline-primary btn-sm" th:href="@{/admin/usuario/{id}(id=${usuario.idUsuario})}">
+										Actualizar
+									</a></td>
+		                        <td><a class="btn btn-outline-danger btn-sm" th:href="@{/admin/usuario/eliminar/{id}(id=${usuario.idUsuario})}">
+		                        	Eliminar
+		                        </a></td>
+		                     </span>
+	                        <span th:if="${usuarioActual.idUsuario == usuario.IdUsuario}">
+								<td><button class="btn btn-outline-primary btn-sm" disabled>
+										Actualizar
+									</a></td>
+		                        <td><button class="btn btn-outline-danger btn-sm" disabled >
+		                        	Eliminar
+		                        </a></td>
+		                     </span>
+						</tr>
+	                </tbody>
+	            </table>
+	        </div>  
+    		</br>
             <a class="btn btn-secondary btn-sm btn-block" th:href="@{/admin/}">Volver</a>    
         </div>
         

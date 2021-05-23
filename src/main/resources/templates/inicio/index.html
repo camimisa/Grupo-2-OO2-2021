@@ -8,34 +8,7 @@
     <title>LOG IN</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">GrupoDos</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <span th:if="${perfil == 'ROLE_ANONYMOUS'}">
-						<li class="nav-item ">
-							<a class="nav-link" th:href="@{/login}">Iniciar Sesion</a>
-						</li>                    
-                    </span>
-                    <span th:if="${perfil == 'AUDITOR'}">
-						<li class="nav-item ">
-							<a class="nav-link" th:href="@{/auditor/}">Auditor</a>
-						</li>                    
-                    </span>
-                    <span th:if="${perfil == 'ADMINISTRADOR'}">
-						<li class="nav-item ">
-							<a class="nav-link" th:href="@{/admin/}">Admin</a>
-						</li>                    
-                    </span>
-                </ul>
-          </div>
-        </div>
-      </nav>
-      
+	<div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
       <div class="container">
   		<h1>Bienvenido</h1>

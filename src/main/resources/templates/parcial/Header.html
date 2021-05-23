@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <div th:fragment="header">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">GrupoDos</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        	<div class="collapse navbar-collapse" id="navbarResponsive">
+    			<ul th:switch="${#httpServletRequest.requestURI}" class="navbar-nav ml-auto">
+					<div th:case="'/logout/'">
+						<p th:replace=":: header_usuario"></p>
+					</div>
+					<div th:case="'/login/'">
+						<div th:replace=":: header_usuario"></div>
+					</div>
+					<div th:case="'/'" >
+						<p th:replace=":: header_index"></p>
+					</div>
+					<div th:case="*" >
+						<p th:replace=":: header_common"></p>
+					</div>
+				</ul>
+			</div>
+        </div>
+      </nav>
+    </div>
+    
+    
+    <span th:fragment="header_usuario" class="navbar-nav ml-auto">
+		<li>
+            <a class="nav-link" href="/">Home</a>
+		</li>
+    </span>
+    
+    <span th:fragment="header_common" class="navbar-nav ml-auto">
+		<li th:if="${#httpServletRequest.requestURI != '/admin/' && #httpServletRequest.requestURI != '/auditor/'}">
+            <a class="nav-link" href="/">Home</a>
+		</li>
+		<li class="nav-item ">
+			<a class="nav-link" th:href="@{/logout}">Cerrar sesion</a>
+		</li>
+    </span>
+    
+    <span th:fragment="header_index" class="navbar-nav ml-auto">
+        <span th:if="${perfil == 'ROLE_ANONYMOUS'}">
+			<li class="nav-item ">
+				<a class="nav-link" th:href="@{/login}">Iniciar Sesion</a>
+			</li>                    
+        </span>
+        <span th:if="${perfil == 'AUDITOR'}">
+			<li class="nav-item ">
+				<a class="nav-link" th:href="@{/auditor/}">Auditor</a>
+			</li>                    
+        </span>
+        <span th:if="${perfil == 'ADMINISTRADOR'}">
+			<li class="nav-item ">
+				<a class="nav-link" th:href="@{/admin/}">Admin</a>
+			</li>                    
+        </span>
+    </span>
+  </body>
+</html>

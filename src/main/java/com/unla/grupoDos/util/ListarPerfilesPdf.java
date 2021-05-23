@@ -48,27 +48,31 @@ public class ListarPerfilesPdf extends AbstractPdfView {
 		document.add(titulo);
 
 		
+		dibujarHeader(tablaPerfiles,cell,font);
+		dibujarTabla(listadoPerfiles,tablaPerfiles,cell,primerColorParaCeldas,segundoColorParaCeldas,font);
+	
+		document.add(tablaPerfiles);
+	}
+	
+	private void dibujarTabla(List<Perfil> listadoPerfiles,PdfPTable tablaPerfiles,PdfPCell cell,Color primerColor, Color segundoColor, Font font) {
+		
+		for(int i = 0; i < listadoPerfiles.size();i++) {
+			if(i % 2 == 0)cell.setBackgroundColor(primerColor);
+			
+			cell.setPhrase(new Phrase(listadoPerfiles.get(i).getNombre(),font));
+			tablaPerfiles.addCell(cell);
+			cell.setPhrase(new Phrase(listadoPerfiles.get(i).getDescripcion(),font));
+			tablaPerfiles.addCell(cell);
+			cell.setBackgroundColor(segundoColor);
+		}
+	}
+	
+	private void dibujarHeader(PdfPTable tablaPerfiles, PdfPCell cell, Font font) {
+		
 		cell.setPhrase(new Phrase("Nombre",font));
 		tablaPerfiles.addCell(cell);
 		cell.setPhrase(new Phrase("Descripcion",font));
 		tablaPerfiles.addCell(cell);
-		
-		Font fontParaFilas = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-		fontParaFilas.setColor(Color.BLACK);
-		
-		for(int i = 0; i < listadoPerfiles.size();i++) {
-			if(i % 2 == 0)cell.setBackgroundColor(primerColorParaCeldas);
-			
-			cell.setPhrase(new Phrase(listadoPerfiles.get(i).getNombre(),fontParaFilas));
-			tablaPerfiles.addCell(cell);
-			cell.setPhrase(new Phrase(listadoPerfiles.get(i).getDescripcion(),fontParaFilas));
-			tablaPerfiles.addCell(cell);
-			cell.setBackgroundColor(segundoColorParaCeldas);
-		}
-		
-		document.addTitle("perfiles");
-		document.add(tablaPerfiles);
-		document.addCreationDate();
 	}
 
 }

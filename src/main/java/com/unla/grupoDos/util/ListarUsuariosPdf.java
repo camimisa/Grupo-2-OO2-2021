@@ -40,14 +40,47 @@ public class ListarUsuariosPdf extends AbstractPdfView {
 		cell.setBackgroundColor(colorParaCeldasHeader);
 		cell.setPadding(5);
 		
-		Font font = FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE);
-		font.setColor(Color.BLACK);
 		
+		Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+		font.setColor(Color.BLACK);
 		
 		Paragraph titulo = new Paragraph("Listado de usuarios", font);
 		titulo.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(titulo);
 		
+		dibujarHeader(tablaUsuarios,cell,font);
+		dibujarTabla(listadoUsuarios,tablaUsuarios,cell,primerColorParaCeldas,segundoColorParaCeldas,font);
+		
+		document.add(tablaUsuarios);
+	}
+	
+	private void dibujarTabla(List<Usuario> listadoUsuarios,PdfPTable tablaUsuarios,PdfPCell cell,Color primerColor, Color segundoColor, Font font) {
+			
+		for(int i = 0; i < listadoUsuarios.size();i++) {
+			if(i % 2 == 0)cell.setBackgroundColor(primerColor);
+			String dni = String.valueOf(listadoUsuarios.get(i).getDocumento());
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getApellido(),font));
+			tablaUsuarios.addCell(cell);
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombre(),font));
+			tablaUsuarios.addCell(cell);
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombreUsuario(),font));
+			tablaUsuarios.addCell(cell);
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getEmail(),font));
+			tablaUsuarios.addCell(cell);
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getTipoDoc(),font));
+			tablaUsuarios.addCell(cell);
+			cell.setPhrase(new Phrase(dni,font));
+			tablaUsuarios.addCell(cell);
+			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getPerfil().getNombre(),font));
+			tablaUsuarios.addCell(cell);
+			cell.setBackgroundColor(primerColor);
+		}
+		
+		tablaUsuarios.setWidthPercentage(100);
+		tablaUsuarios.setWidths(new float[] {1.8f,1.8f,1.8f,3.5f,1.8f,1.8f,3.5f});
+	}
+	
+	private void dibujarHeader(PdfPTable tablaUsuarios, PdfPCell cell, Font font) {
 		
 		cell.setPhrase(new Phrase("Apellido",font));
 		tablaUsuarios.addCell(cell);
@@ -63,34 +96,6 @@ public class ListarUsuariosPdf extends AbstractPdfView {
 		tablaUsuarios.addCell(cell);
 		cell.setPhrase(new Phrase("Tipo de usuario",font));
 		tablaUsuarios.addCell(cell);
-		
-		Font fontParaFilas = FontFactory.getFont(FontFactory.TIMES_ROMAN);
-		fontParaFilas.setColor(Color.BLACK);
-		cell.setBackgroundColor(Color.LIGHT_GRAY);
-		
-		for(int i = 0; i < listadoUsuarios.size();i++) {
-			if(i % 2 == 0)cell.setBackgroundColor(primerColorParaCeldas);
-			String dni = String.valueOf(listadoUsuarios.get(i).getDocumento());
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getApellido(),fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombre(),fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getNombreUsuario(),fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getEmail(),fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getTipoDoc(),fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(dni,fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setPhrase(new Phrase(listadoUsuarios.get(i).getPerfil().getNombre(),fontParaFilas));
-			tablaUsuarios.addCell(cell);
-			cell.setBackgroundColor(segundoColorParaCeldas);
-		};
-		
-		document.addTitle("usuarios");
-		document.add(tablaUsuarios);
-		document.addCreationDate();
 	}
 
 }

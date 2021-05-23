@@ -52,7 +52,7 @@ public class AdminController {
 		return ViewRouteHelper.INICIO_ADMIN;
 	}	
 	
-	@GetMapping("/usuarios")
+	@GetMapping(value={"/usuarios","/usuarios/"})
 	public ModelAndView vistaUsuariosAdmin() {
 		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String nombreUsuario = auth.getName();
@@ -142,7 +142,7 @@ public class AdminController {
 		return valido;
 	}
 	
-	@GetMapping("/perfiles")
+	@GetMapping(value = {"/perfiles", "/perfiles/"})
 	public ModelAndView perfilIndex() {
 		System.out.println("INDEX");
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_PERFIL_INDEX);
@@ -180,7 +180,7 @@ public class AdminController {
 		return perfilUpsert(perfil, ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, ViewRouteHelper.VISTA_PERFIL_ACTUALIZAR);
 	}
 	
-	@PostMapping("/perfil/crear")
+	@PostMapping("/perfil/nuevo")
 	public RedirectView perfilNuevo(@ModelAttribute("perfil") PerfilModel perfil) {
 		return perfilUpsert(perfil, ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, ViewRouteHelper.VISTA_PERFIL_NUEVO);
 	}

@@ -8,7 +8,7 @@ public class ViewRouteHelper {
 	
 	public final static String AUDITOR_ROOT = "/auditor/";
 	
-	public final static String INICIO_AUDITOR = "/auditor/inicioAuditor";
+	public final static String INICIO_AUDITOR = "/auditor/inicio";
 	public final static String VISTA_USUARIOS_AUDITOR = "auditor/usuario/listado";
 	public final static String VISTA_PERFILES_AUDITOR = "auditor/perfil/listado";
 	public final static String VISTA_AUDITOR_DESCARGAR_USUARIOS = "auditor/usuario/descargarListadoUsuarios";
@@ -17,7 +17,7 @@ public class ViewRouteHelper {
 	// --------------- VISTAS ADMINISTRADOR -------------------
 	
 	public final static String ADMINISTRADOR_ROOT = "/admin/";
-	public final static String INICIO_ADMIN = "/administrador/inicioAdmin";
+	public final static String INICIO_ADMIN = "/administrador/inicio";
 	
 	// Perfiles:
 	public final static String ADMINISTRADOR_ROOT_PERFILES = "/admin/perfiles";

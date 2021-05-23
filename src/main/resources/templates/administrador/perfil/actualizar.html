@@ -15,6 +15,7 @@
     	<div  class="abs-center">
             <form class="form-signin form" th:action="${perfilActualizar}" th:object="${perfil}" method="post">
     		<input type="hidden" th:field="*{idPerfil}" />
+    		<input type="hidden" th:field="*{nombre}" />
             </br>
                 <h1 class="h3 mb-3 font-weight-normal">Perfil:</h1>
                 <p>

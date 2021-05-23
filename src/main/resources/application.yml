@@ -10,9 +10,9 @@ loggin:
         
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/bd-hibernate-prueba
+        url: jdbc:mysql://localhost:3306/grupo2-bdd-oo2-2021
         username: root
-        password: 1234
+        password: 12345
     jpa:
         show-sql: true
         hibernate:

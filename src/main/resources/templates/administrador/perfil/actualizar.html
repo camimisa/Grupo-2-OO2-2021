@@ -18,7 +18,7 @@
             </br>
                 <h1 class="h3 mb-3 font-weight-normal">Perfil:</h1>
                 <p>
-                    Nombre: <input type="text" th:field="*{nombre}" class="form-control" required>
+                    Nombre: <span th:text="*{nombre}"/>
                 </p>
                 <p>
                     Descripción: <input type="text" th:field="*{descripcion}" class="form-control" required>

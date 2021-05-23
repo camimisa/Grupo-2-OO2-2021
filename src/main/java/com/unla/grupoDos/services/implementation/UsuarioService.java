@@ -57,8 +57,10 @@ public class UsuarioService implements IUsuarioService, UserDetailsService{
 	@Override
 	public UsuarioModel insertOrUpdate(UsuarioModel usuarioModel) {
 		usuarioModel.setClave(encoder.encode(usuarioModel.getClave()));
-		Usuario Usuario = usuarioRepository.save(usuarioConverter.modeloAEntidad(usuarioModel));
-		return usuarioConverter.entidadAModelo(Usuario);
+		Usuario usuario = usuarioConverter.modeloAEntidad(usuarioModel);
+		usuario.setEnabled(true);
+		usuarioRepository.save(usuario);
+		return usuarioConverter.entidadAModelo(usuario);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.unla.grupoDos.util;
 
 import java.awt.Color;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ public class ListarPerfilesPdf extends AbstractPdfView {
 		@SuppressWarnings("unchecked")
 		List<Perfil> listadoPerfiles = (List<Perfil>) model.get("listaPerfiles");
 		
+		response.setHeader("Content-Disposition","attachment; filename=Lista-de-perfiles"+LocalDate.now().toString()+".pdf");
 		PdfPTable tablaPerfiles = new PdfPTable(2);
 		tablaPerfiles.setSpacingBefore(20);
 		

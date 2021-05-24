@@ -25,7 +25,7 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUsuario;
 	
-	@Column(name="tipoDoc", nullable=false)
+	@Column(name="tipoDoc", nullable=false, length=5)
 	private String tipoDoc;
 	@Column(name="documento", unique=true, nullable=false, length=45)
 	private long documento;

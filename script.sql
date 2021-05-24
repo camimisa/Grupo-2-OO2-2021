@@ -23,7 +23,7 @@ CREATE TABLE `usuario` (
   `enabled` bit(1) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
   `nombre_usuario` varchar(45) NOT NULL,
-  `tipo_doc` varchar(255) NOT NULL,
+  `tipo_doc` varchar(5) NOT NULL,
   `updatedat` datetime(6) DEFAULT NULL,
   `id_perfil` int NOT NULL,
   PRIMARY KEY (`id_usuario`),

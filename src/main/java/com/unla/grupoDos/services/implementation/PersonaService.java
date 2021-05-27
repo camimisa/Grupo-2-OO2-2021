@@ -12,7 +12,7 @@ import com.unla.grupoDos.models.PersonaModel;
 import com.unla.grupoDos.repositories.IPersonaRepository;
 import com.unla.grupoDos.services.IPersonaService;
 
-@Service("personaService")
+@Service("PersonaService")
 public class PersonaService implements IPersonaService{
 	@Autowired
 	@Qualifier("personaRepository")

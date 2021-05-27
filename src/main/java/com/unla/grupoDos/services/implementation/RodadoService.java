@@ -11,14 +11,14 @@ import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.models.RodadoModel;
 import com.unla.grupoDos.repositories.IRodadoRepository;
 import com.unla.grupoDos.services.IRodadoService;
-@Service("RodadoService")
+@Service("rodadoService")
 public class RodadoService implements IRodadoService{
 	@Autowired
-	@Qualifier("RodadoRepository")
+	@Qualifier("rodadoRepository")
 	private IRodadoRepository RodadoRepository;
 	
 	@Autowired
-	@Qualifier("RodadoConverter")
+	@Qualifier("rodadoConverter")
 	private RodadoConverter RodadoConverter;	
 	
 	@Override

@@ -1,5 +1,7 @@
 package com.unla.grupoDos.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="persona")
@@ -26,10 +31,13 @@ public class Persona {
 	@Column(name="dni", unique=true, nullable=false, length=45)
 	private long dni;
 	
-	//TODO: agregar oneToMany cuando exista la clase Permiso
-	/*@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="id_perfil", nullable=false)
-	private Set<Permiso> permisos;*/
+	@Column(name="createdat")
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+	
+	@Column(name="updatedat")
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
 	
 	public Persona() {}
 
@@ -72,11 +80,26 @@ public class Persona {
 	public void setDni(long dni) {
 		this.dni = dni;
 	}
+	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	@Override
 	public String toString() {
-		return "Persona [idPersona=" + idPersona + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni
-				+ "]";
+		return ""+dni+"-"+nombre+" "+apellido;
 	}
 
 

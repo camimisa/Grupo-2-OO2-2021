@@ -37,6 +37,11 @@ public class RodadoModel {
 	public void setVehiculo(String vehiculo) {
 		this.vehiculo = vehiculo;
 	}
+
+	@Override
+	public String toString() {
+		return "RodadoModel [idRodado=" + idRodado + ", dominio=" + dominio + ", vehiculo=" + vehiculo + "]";
+	}
 	
 	
 }

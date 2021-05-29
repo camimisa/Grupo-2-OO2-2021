@@ -33,7 +33,7 @@ public abstract class Permiso {
     @GeneratedValue
 	protected int idPermiso;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_pedido", nullable=false)
 	protected Persona pedido;
 	
@@ -88,6 +88,7 @@ public abstract class Permiso {
 	public Set<Lugar> getDesdeHasta() {
 		return desdeHasta;
 	}
+	
 	public void setDesdeHasta(Set<Lugar> desdeHasta) {
 		this.desdeHasta = desdeHasta;
 	}

@@ -20,6 +20,12 @@ public class PermisoDiarioModel extends PermisoModel{
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
 	}
+
+	@Override
+	public String toString() {
+		return "PermisoDiarioModel [motivo=" + motivo + ", idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha="
+				+ fecha + ", desdeHasta=" + desdeHasta + "]";
+	}
 	
 	
 	

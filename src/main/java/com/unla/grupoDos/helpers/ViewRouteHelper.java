@@ -14,6 +14,9 @@ public class ViewRouteHelper {
 	public final static String VISTA_AUDITOR_DESCARGAR_USUARIOS = "auditor/usuario/descargarListadoUsuarios";
 	public final static String VISTA_AUDITOR_DESCARGAR_PERFILES = "/auditor/perfil/descargarListadoPerfiles";
 	
+	public final static String PREGUNTA_ENTRE_FECHAS = "auditor/permisos/entreFechaYFecha";
+	public final static String LISTADO_ENTRE_FECHAS = "auditor/permisos/buscarPermisosFecha";
+	
 	// --------------- VISTAS ADMINISTRADOR -------------------
 	
 	public final static String ADMINISTRADOR_ROOT = "/admin/";
@@ -38,4 +41,13 @@ public class ViewRouteHelper {
 	public final static String USUARIO_LOGIN = "usuario/login";
 	public final static String USUARIO_LOGOUT = "usuario/logout";
 	
+	// --------------- VISTAS PERMISOS -------------------
+	
+	public final static String PREGUNTA_PERMISO = "permiso/pregunta";
+	
+	public final static String PREGUNTA_DIARIO = "permiso/permisoDiario/pregunta";
+	public final static String NUEVO_PERMISO_DIARIO = "permiso/permisoDiario/nuevo";
+	
+	public final static String PREGUNTA_PERIODO = "permiso/permisoPeriodo/pregunta";
+	public final static String NUEVO_PERMISO_PERIODO = "permiso/permisoPeriodo/nuevo";
 }

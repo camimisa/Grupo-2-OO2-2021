@@ -5,25 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Home</title>
+    <title>Permiso</title>
 </head>
 <body>
-	<div th:replace="~{/parcial/Header :: header}"></div>
+   <div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
-      <div class="container">
-      <br>
-      	<h1>Bienvenido <i th:text="${nombreUsuario}"/> !</h1>
-        <h2 class="mt-4">Perfil auditor</h2>
-        <h3>Seleccione una opcion para continuar:</h3>
-        <a class="btn btn-info btn-lg" th:href="@{/auditor/usuarios}">Usuarios</a>
-        <a class="btn btn-info btn-lg" th:href="@{/auditor/perfiles}">Perfiles</a>
-        </br>
-        </br>
-        </br>
-		<p class="h3">Acciones con los permisos:</p>
-		<a class="btn btn-info btn-lg" th:href="@{/auditor/permiso/buscarEntreFechas}">Permisos activos entre fecha y fecha</a>
-      </div>
-      <!-- /.container -->
+	  <div class="container">
+	    <br>
+	    <p class="h4">Si ya saco un permiso previamente puede ingresar su documento, si no, presione omitir:</p>
+	    <br>
+	    <form class="form-signin form" action="#" th:action="@{diario/buscarDatos}" method="get" autocomplete="off">
+	        <h1 class="h3 mb-3 font-weight-normal">Datos:</h1>
+	        <p>
+	            DOCUMENTO: <input type="number" class="form-control" placeholder="1111111" min="1111111" max="99999999" name="documento">
+	        </p>
+	        <button class="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
+	        <button class="btn btn-lg btn-outline-secondary btn-block" type="submit">Omitir</button>
+	    </form>
+	    <br>
+	  </div>
+	  <!-- /.container -->
 
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

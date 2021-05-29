@@ -12,16 +12,18 @@
       <!-- Page Content -->
       <div class="container">
       <br>
-      	<h1>Bienvenido <i th:text="${nombreUsuario}"/> !</h1>
-        <h2 class="mt-4">Perfil auditor</h2>
-        <h3>Seleccione una opcion para continuar:</h3>
-        <a class="btn btn-info btn-lg" th:href="@{/auditor/usuarios}">Usuarios</a>
-        <a class="btn btn-info btn-lg" th:href="@{/auditor/perfiles}">Perfiles</a>
-        </br>
-        </br>
-        </br>
-		<p class="h3">Acciones con los permisos:</p>
-		<a class="btn btn-info btn-lg" th:href="@{/auditor/permiso/buscarEntreFechas}">Permisos activos entre fecha y fecha</a>
+		<p class="h3">Permisos activos entre fecha y fecha:</p>
+        <br>
+        <form method="get" th:action="@{buscarPermisosFecha}">
+            <p class="h5">Fecha desde...</p>
+            <input type="date" class="form-control" name="desdeFecha">
+            <br>
+            <p class="h5">Fecha hasta...</p>
+            <input type="date" class="form-control" name="hastaFecha">
+            <br>
+            <button class="btn btn-lg btn-primary" type="submit">Buscar</button>
+            <br><br>
+        </form>
       </div>
       <!-- /.container -->
 

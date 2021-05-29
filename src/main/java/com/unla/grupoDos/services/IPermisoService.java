@@ -1,5 +1,6 @@
 package com.unla.grupoDos.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.unla.grupoDos.entities.Permiso;
@@ -15,5 +16,6 @@ public interface IPermisoService {
 	public boolean remove(int id);
 	PermisoDiarioModel permisoDiarioFindById(int id);
 	PermisoPeriodoModel permisoPeriodoFindById(int id);
+	public List<Permiso> getAllBetweenDates(LocalDate startDate, LocalDate endDate);
 	
 }

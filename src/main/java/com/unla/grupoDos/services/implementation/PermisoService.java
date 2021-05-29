@@ -1,5 +1,6 @@
 package com.unla.grupoDos.services.implementation;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,11 @@ public class PermisoService implements IPermisoService{
 		catch(Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Permiso> getAllBetweenDates(LocalDate startDate, LocalDate endDate) {
+		List<Permiso> lista = permisoRepository.getAllBetweenDates(startDate, endDate);
+		return lista;
 	}
 }

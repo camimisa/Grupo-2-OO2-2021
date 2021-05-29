@@ -21,14 +21,23 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Dni Persona</th>
+                        <th scope="col">Persona</th>
+                        <th scope="col">Desde</th>
+                        <th scope="col">Hasta</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="permiso : ${permisosActivos}">
 						<td><span th:text="${permiso.IdPermiso}" /></td>
 						<td><span th:text="${permiso.fecha}" /></td>
-						<td><span th:text="${permiso.getPedido().getDni()}" /></td>
+						<td><span th:text="${permiso.getPedido().getDni() + ' - ' + permiso.getPedido().getNombre() + ' ' + permiso.getPedido().getApellido()}" /></td>
+						<td th:each="lugar : ${permiso.getDesdeHasta()}">
+							<span th:text="${lugar.toString()}" />
+						</td>
+						<!--
+						<td th:if="${permiso instanceof PermisoDiario}"><span th:text="${((PermisoDiario) permiso).getMotivo())}" /></td>
+						<td th:if="${permiso instanceof PermisoPeriodo}"><span th:text="${((PermisoPeriodo) permiso).getRodado().getDominio())}" /></td>
+						-->
 					</tr>
                     </tbody>
                 </table>

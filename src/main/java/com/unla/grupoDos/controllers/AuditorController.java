@@ -95,16 +95,17 @@ public class AuditorController {
 		
 		LocalDate hasta = LocalDate.parse(hastaFecha);
 		LocalDate desde = LocalDate.parse(desdeFecha);
-		List<Permiso>permisos = permisoService.getAll();
-		List<Permiso>permisosActivos = new ArrayList<Permiso>();
-		
+		//List<Permiso>permisos = permisoService.getAll();
+		List<Permiso>permisosActivos = permisoService.getAllBetweenDates(desde, hasta);
+		/*
 		for(Permiso p : permisos) {
-			if((p.getFecha().isAfter(desde) && p.getFecha().isBefore(hasta)) || desde.equals(p.getFecha()) || hasta.equals(p.getFecha()))
+			if((p.getFecha().isAfter(desde) && p.getFecha().isBefore(hasta)) || desde.equals(p.getFecha()) || hasta.equals(p.getFecha())) {
 				permisosActivos.add(p);
-		}
-
+			}
+		}*/
 		ModelAndView mAV = new ModelAndView("auditor/permisos/listaEntreFechas");
 		mAV.addObject("permisosActivos", permisosActivos);
+	
 		return mAV;
 	}
 	

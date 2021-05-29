@@ -15,36 +15,44 @@ import com.unla.grupoDos.services.IRodadoService;
 public class RodadoService implements IRodadoService{
 	@Autowired
 	@Qualifier("rodadoRepository")
-	private IRodadoRepository RodadoRepository;
+	private IRodadoRepository rodadoRepository;
 	
 	@Autowired
 	@Qualifier("rodadoConverter")
-	private RodadoConverter RodadoConverter;	
+	private RodadoConverter rodadoConverter;	
 	
 	@Override
 	public List<Rodado> getAll() {
-		return RodadoRepository.findAll();
+		return rodadoRepository.findAll();
 	}
 
 	@Override
 	public RodadoModel findById(int id) {
-		return RodadoConverter.entidadAModelo(RodadoRepository.findByIdRodado(id));
+		Rodado rodado = rodadoRepository.findByIdRodado(id);
+		RodadoModel rodadoModel = null;
+		if(rodado != null)
+			rodadoModel = rodadoConverter.entidadAModelo(rodado);
+		return rodadoModel;
 	}
 
 	@Override
 	public RodadoModel findByDominio(String dominio) {
-		return RodadoConverter.entidadAModelo(RodadoRepository.findByDominio(dominio));
+		Rodado rodado = rodadoRepository.findByDominio(dominio);
+		RodadoModel rodadoModel = null;
+		if(rodado != null)
+			rodadoModel = rodadoConverter.entidadAModelo(rodado);
+		return rodadoModel;
 	}
 	@Override
 	public RodadoModel insertOrUpdate(RodadoModel RodadoModel) {
-		Rodado Rodado = RodadoRepository.save(RodadoConverter.modeloAEntidad(RodadoModel));
-		return RodadoConverter.entidadAModelo(Rodado);
+		Rodado Rodado = rodadoRepository.save(rodadoConverter.modeloAEntidad(RodadoModel));
+		return rodadoConverter.entidadAModelo(Rodado);
 	}
 
 	@Override
 	public boolean remove(int id) {
 		try {
-			RodadoRepository.deleteById(id);
+			rodadoRepository.deleteById(id);
 			return true;
 		}
 		catch(Exception e) {

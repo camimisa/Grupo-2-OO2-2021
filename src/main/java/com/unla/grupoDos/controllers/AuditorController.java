@@ -1,5 +1,9 @@
 package com.unla.grupoDos.controllers;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,10 +14,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.unla.grupoDos.entities.Permiso;
+import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 import com.unla.grupoDos.models.PerfilModel;
+import com.unla.grupoDos.models.PermisoModel;
+import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.models.UsuarioModel;
 import com.unla.grupoDos.services.IPerfilService;
+import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IUsuarioService;
 
 @Controller
@@ -27,6 +38,10 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("perfilService")
 	private IPerfilService perfilService;
+	
+	@Autowired
+	@Qualifier("permisoService")
+	private IPermisoService permisoService;
 
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
 	@GetMapping("/")
@@ -67,4 +82,30 @@ public class AuditorController {
 		mAV.addObject("perfil", new PerfilModel());
 		return mAV;
 	}
+	
+	// ------------------------------ ACCIONES CON PERMISOS ---------------------------
+	@GetMapping("/permiso/buscarEntreFechas")
+	public String preguntaPermisoDiario(Model model) {
+		return "auditor/permisos/entreFechaYFecha";
+	}
+
+	@GetMapping("/permiso/buscarPermisosFecha")
+	public ModelAndView formularioPermisoDiario( @RequestParam(name="desdeFecha", required = true) String desdeFecha,
+			@RequestParam(name="hastaFecha", required = true) String hastaFecha) {
+		
+		LocalDate hasta = LocalDate.parse(hastaFecha);
+		LocalDate desde = LocalDate.parse(desdeFecha);
+		List<Permiso>permisos = permisoService.getAll();
+		List<Permiso>permisosActivos = new ArrayList<Permiso>();
+		
+		for(Permiso p : permisos) {
+			if((p.getFecha().isAfter(desde) && p.getFecha().isBefore(hasta)) || desde.equals(p.getFecha()) || hasta.equals(p.getFecha()))
+				permisosActivos.add(p);
+		}
+
+		ModelAndView mAV = new ModelAndView("auditor/permisos/listaEntreFechas");
+		mAV.addObject("permisosActivos", permisosActivos);
+		return mAV;
+	}
+	
 }

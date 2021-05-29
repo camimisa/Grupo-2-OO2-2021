@@ -80,6 +80,12 @@ public class Rodado {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Rodado [idRodado=" + idRodado + ", dominio=" + dominio + ", vehiculo=" + vehiculo + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + "]";
+	}
 	
 	
 }

@@ -51,6 +51,11 @@ public class Lugar {
 	public void setCodPostal(String codPostal) {
 		this.codPostal = codPostal;
 	}
+
+	@Override
+	public String toString() {
+		return "Lugar [idLugar=" + idLugar + ", lugar=" + lugar + ", codPostal=" + codPostal + "]";
+	}
 	
 	
 }

@@ -1,5 +1,7 @@
 package com.unla.grupoDos.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -9,10 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.unla.grupoDos.converters.PermisoConverter;
 import com.unla.grupoDos.converters.PersonaConverter;
 import com.unla.grupoDos.converters.RodadoConverter;
-import com.unla.grupoDos.models.PersonaModel;
-import com.unla.grupoDos.models.RodadoModel;
+import com.unla.grupoDos.entities.Permiso;
+import com.unla.grupoDos.entities.PermisoDiario;
+import com.unla.grupoDos.models.PermisoDiarioModel;
+import com.unla.grupoDos.models.PermisoModel;
+import com.unla.grupoDos.models.PermisoPeriodoModel;
+import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IPersonaService;
 import com.unla.grupoDos.services.IRodadoService;
 
@@ -34,6 +41,22 @@ public class PermisoController {
 	@Qualifier("personaConverter")
 	private PersonaConverter personaConverter;
 	
+	@Autowired
+	@Qualifier("permisoService")
+	private IPermisoService permisoService;
+	@Autowired
+	@Qualifier("permisoConverter")
+	private PermisoConverter permisoConverter;
+	
+	
+	@GetMapping("/")
+	public String index(Model model) {
+		//PermisoPeriodoModel permiso = permisoService.permisoPeriodoFindById(2);
+		//PermisoDiarioModel permiso2 = permisoService.permisoDiarioFindById(3);
+		//System.out.println(permiso.toString() + "\n" + permiso2.toString());
+		return "permiso/permisoDiario/pregunta";
+	}
+	
 	// --------------- PERMISO DIARIO -------------------------
 	
 	@GetMapping("/diario/pregunta")
@@ -43,14 +66,11 @@ public class PermisoController {
 
 	@GetMapping("/diario/buscarDatos")
 	public RedirectView formularioPermisoDiario(Model model, @RequestParam(name="documento", required = false) long documento) {
-		//PermisoPeriodoModel permiso = new PermisoPeriodoModel();
-		PersonaModel persona = new PersonaModel();
+		PermisoModel permiso = new PermisoPeriodoModel();
 		if(documento != 0) {
-			persona = personaService.findByDni(Long.valueOf(documento));
-			// permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+			permiso.setPedido(personaConverter.modeloAEntidad(personaService.findByDni(Long.valueOf(documento))));
 		}
-		model.addAttribute("persona", persona);
-		//model.addAttribute("pedido", pedido);
+		model.addAttribute("permiso", permiso);
 		return new RedirectView("permiso/diario/nuevo");
 	}
 	
@@ -69,20 +89,14 @@ public class PermisoController {
 	@GetMapping("/periodo/buscarDatos")
 	public RedirectView formularioPermisoPeriodo(Model model, @RequestParam(name="documento", required = false) long documento,
 			@RequestParam(name="dominio", required = false) String dominio) {
-		//PermisoPeriodoModel permiso = new PermisoPeriodoModel();
-		PersonaModel persona = new PersonaModel();
-		RodadoModel rodado = new RodadoModel();
+		PermisoModel permiso = new PermisoPeriodoModel();
 		if(!dominio.isEmpty()) {
-			rodado = rodadoService.findByDominio(dominio);
-			// permiso.setRodado(rodadoService.findByDominio(dominio));
+			((PermisoPeriodoModel) permiso).setRodado(rodadoConverter.modeloAEntidad(rodadoService.findByDominio(dominio)));
 		}
 		if(documento != 0) {
-			persona = personaService.findByDni(Long.valueOf(documento));
-			// permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+			permiso.setPedido(personaConverter.modeloAEntidad(personaService.findByDni(Long.valueOf(documento))));
 		}
-		model.addAttribute("rodado", rodado);
-		model.addAttribute("persona", persona);
-		//model.addAttribute("pedido", pedido);
+		model.addAttribute("permiso", permiso);
 		return new RedirectView("permiso/nuevo");
 	}
 	

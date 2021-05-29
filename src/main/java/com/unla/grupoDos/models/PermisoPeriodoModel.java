@@ -43,6 +43,13 @@ public class PermisoPeriodoModel extends PermisoModel{
 	public void setRodado(Rodado rodado) {
 		this.rodado = rodado;
 	}
+
+	@Override
+	public String toString() {
+		return "PermisoPeriodoModel [cantDias=" + cantDias + ", vacaciones=" + vacaciones + ", rodado=" + rodado
+				+ ", idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha=" + fecha + ", desdeHasta=" + desdeHasta
+				+ "]";
+	}
 	
 	
 	

@@ -2,8 +2,6 @@ drop database if exists `grupo2-bdd-oo2-2021`;
 create database if not exists `grupo2-bdd-oo2-2021`;
 use `grupo2-bdd-oo2-2021`;
 
--- PARTE UNO
-
 CREATE TABLE `perfil`(
   `id_perfil` int NOT NULL AUTO_INCREMENT,
   `createdat` datetime(6) DEFAULT NULL,

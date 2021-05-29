@@ -35,22 +35,38 @@ public class PersonaService implements IPersonaService{
 
 	@Override
 	public PersonaModel findById(int idPersona) {
-		return personaConverter.entidadAModelo(personaRepository.findByIdPersona(idPersona));
+		Persona persona = personaRepository.findByIdPersona(idPersona);
+		PersonaModel personaModel = null;
+		if(persona != null) 
+			personaModel = personaConverter.entidadAModelo(persona);
+		return personaModel;
 	}
 
 	@Override
 	public PersonaModel findByNombre(String nombre) {
-		return personaConverter.entidadAModelo(personaRepository.findByNombre(nombre));
+		Persona persona = personaRepository.findByNombre(nombre);
+		PersonaModel personaModel = null;
+		if(persona != null) 
+			personaModel = personaConverter.entidadAModelo(persona);
+		return personaModel;
 	}
 
 	@Override
 	public PersonaModel findByApellido(String apellido) {
-		return personaConverter.entidadAModelo(personaRepository.findByApellido(apellido));
+		Persona persona = personaRepository.findByApellido(apellido);
+		PersonaModel personaModel = null;
+		if(persona != null) 
+			personaModel = personaConverter.entidadAModelo(persona);
+		return personaModel;
 	}
 
 	@Override
 	public PersonaModel findByDni(long dni) {
-		return personaConverter.entidadAModelo(personaRepository.findByDni(dni));
+		Persona persona = personaRepository.findByDni(dni);
+		PersonaModel personaModel = null;
+		if(persona != null) 
+			personaModel = personaConverter.entidadAModelo(persona);
+		return personaModel;
 	}
 
 	@Override

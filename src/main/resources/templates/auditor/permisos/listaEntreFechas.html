@@ -13,7 +13,7 @@
       <div class="container">
       <br>
 		<p class="h3">Permisos activos entre fecha y fecha:</p>
-        <div>
+        <div th:if="${!permisosActivos.empty}">
             <p class="h4">Permisos encontrados</p>
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -30,9 +30,9 @@
                     <tr th:each="permiso : ${permisosActivos}">
 						<td><span th:text="${permiso.IdPermiso}" /></td>
 						<td><span th:text="${permiso.fecha}" /></td>
-						<td><span th:text="${permiso.getPedido().getDni() + ' - ' + permiso.getPedido().getNombre() + ' ' + permiso.getPedido().getApellido()}" /></td>
+						<td><span th:text="${permiso.getPedido().toString()}"/></td>
 						<td th:each="lugar : ${permiso.getDesdeHasta()}">
-							<span th:text="${lugar.toString()}" />
+							<span th:text="${lugar.toString()}"/>
 						</td>
 						<!--
 						<td th:if="${permiso instanceof PermisoDiario}"><span th:text="${((PermisoDiario) permiso).getMotivo())}" /></td>
@@ -43,6 +43,13 @@
                 </table>
             </div>
         </div>
+        <div th:if="${permisosActivos.empty}">        
+	        <div class="alert alert-danger" role="alert">
+	        	No se encontro ningun permiso activo entre las fechas ingresadas.
+	        </div>
+        </div>
+
+        <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/auditor/}">Volver</a>
       </div>
       <!-- /.container -->
 

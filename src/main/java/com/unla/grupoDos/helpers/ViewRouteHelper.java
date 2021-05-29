@@ -15,7 +15,7 @@ public class ViewRouteHelper {
 	public final static String VISTA_AUDITOR_DESCARGAR_PERFILES = "/auditor/perfil/descargarListadoPerfiles";
 	
 	public final static String PREGUNTA_ENTRE_FECHAS = "auditor/permisos/entreFechaYFecha";
-	public final static String LISTADO_ENTRE_FECHAS = "auditor/permisos/buscarPermisosFecha";
+	public final static String LISTADO_ENTRE_FECHAS = "auditor/permisos/listaEntreFechas";
 	
 	// --------------- VISTAS ADMINISTRADOR -------------------
 	

@@ -11,7 +11,7 @@
    <div th:replace="~{/parcial/Header :: header}"></div>
       <div class="container">
         <br>
-        <form action="#" th:action="@{crear}" th:object="${permiso}" method="post">
+        <form action="#" th:action="@{../crear}" th:object="${permiso}" method="post" autocomplete="on">
             <h1 class="h3 mb-3 font-weight-normal">Nuevo Permiso Diario:</h1>
             <hr>
             <h3 class="h3 mb-3 font-weight-normal">Datos del permiso:</h3>
@@ -33,24 +33,16 @@
                       </select>
                 </div>
             </div>
-            <p class="h4">Desde...</p>
-            <div class="form-row">
-                <br>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="lugar desde" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <input type="number" class="form-control" placeholder="codigo postal" required>
-                </div>
-            </div>
-            <p class="h4">Hasta...</p>
-            <div class="form-row">
-                <br>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="lugar hasta" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <input type="number" class="form-control" placeholder="codigo postal" required>
+            <div th:each="lugar:${desdeHasta}">
+                <p class="h4">Insertar texto</p>
+                <div class="form-row">
+                    <br>
+                    <div class="form-group col-md-6">
+                      <input type="text" class="form-control" placeholder="lugar desde" th:field="*{lugar.lugar}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="number" class="form-control" placeholder="codigo postal" th:field="*{lugar.codPostal}" required>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -58,27 +50,30 @@
             <div class="form-row">
                 <br>
                 <div class="form-group col-md-4">
-                  <input type="text" class="form-control" placeholder="Nombre" required th:field="*{permiso.pedido.nombre}">
+                	<label >Nombre:</label>
+                  	<input type="text" class="form-control" placeholder="Nombre" required th:field="*{pedido.nombre}">
                 </div>
                 <div class="form-group col-md-4">
-                  <input type="text" class="form-control" placeholder="Apellido" required th:field="*{permiso.pedido.apellido}">
+                	<label >Apellido:</label>
+                  	<input type="text" class="form-control" placeholder="Apellido" required th:field="*{pedido.apellido}">
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="number" class="form-control" placeholder="Documento" min="1111111" max="99999999" required th:field="*{permiso.pedido.dni}">
+                	<label >DNI:</label>
+                    <input type="number" class="form-control" placeholder="Documento" min="1111111" max="99999999" required th:field="*{pedido.dni}">
                 </div>
-                <input type="hidden" id="idPersona" th:field="*{permiso.pedido.idPersona}"/>
+                <input type="hidden" id="idPersona" th:field="*{pedido.idPersona}"/>
             </div>
             <hr>
             <h3 class="h3 mb-3 font-weight-normal">Datos del Rodado:</h3>
             <div class="form-row">
                 <br>
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="dominio" required th:field="*{permiso.rodado.dominio}">
+                  <input type="text" class="form-control" placeholder="dominio" required th:field="*{rodado.dominio}">
                 </div>
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="vehiculo" required th:field="*{permiso.rodado.vehiculo}">
+                  <input type="text" class="form-control" placeholder="vehiculo" required th:field="*{rodado.vehiculo}">
                 </div>
-                <input type="hidden" id="idRodado" th:field="*{permiso.rodado.idRodado}"/>
+                <input type="hidden" id="idRodado" th:field="*{rodado.idRodado}"/>
             </div>
             <hr>
 

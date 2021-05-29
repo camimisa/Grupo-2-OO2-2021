@@ -1,6 +1,8 @@
 package com.unla.grupoDos.controllers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.unla.grupoDos.converters.PermisoConverter;
 import com.unla.grupoDos.converters.PersonaConverter;
 import com.unla.grupoDos.converters.RodadoConverter;
+import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Perfil;
 import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.entities.PermisoDiario;
@@ -109,19 +112,28 @@ public class PermisoController {
 	
 	@GetMapping("/periodo/nuevo")
 	public String nuevoPermisoPeriodo(Model model) {
+		Set<Lugar> listaDesdeHasta = new HashSet<Lugar>();
+		listaDesdeHasta.add(new Lugar());
+		listaDesdeHasta.add(new Lugar());
+
 		model.addAttribute("permiso", new PermisoPeriodoModel());
 		model.addAttribute("rodado", new Rodado());
-		model.addAttribute("persona", new Persona());
-		System.out.println("Antes de mandarlo");
+		model.addAttribute("pedido", new Persona());
+		model.addAttribute("desdeHasta", listaDesdeHasta);
+		
 		return ViewRouteHelper.NUEVO_PERMISO_PERIODO;
 	}
 	
 	@PostMapping("/periodo/crear")
-	public RedirectView create(@ModelAttribute("permiso") PermisoPeriodoModel permiso) {
+	public RedirectView create(@ModelAttribute("permiso") PermisoPeriodoModel permiso,
+			@ModelAttribute("rodado") Rodado rodado,
+			@ModelAttribute("pedido") Persona pedido) {
 
 		//permisoService.insertOrUpdate(permiso);
 		System.out.println(permiso.toString());
-	
-		return new RedirectView(ViewRouteHelper.PREGUNTA_PERIODO);
+		System.out.println(rodado.toString());
+		System.out.println(pedido.toString());
+
+		return new RedirectView("/");
 	}
 }

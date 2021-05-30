@@ -91,7 +91,7 @@ public class PermisoController {
 		//int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado
 		//int idPersona, String nombre, String apellido, long dni
 		//public Rodado(int idRodado, String dominio, String vehiculo)
-
+		/*
 		Persona persona = new Persona(4,"Micaela","Gomez",41239871L);
 		Rodado rodado = new Rodado(5,"FK123ML","Toyota 29L");
 		PermisoPeriodoModel permisoModel = new PermisoPeriodoModel(6,persona,LocalDate.now(),10,false,rodado);
@@ -100,7 +100,7 @@ public class PermisoController {
 		listaDesdeHasta.add(new Lugar(8,"Luis Guillon","1836"));
 		permisoModel.setDesdeHasta(listaDesdeHasta);
 		System.out.println(permisoModel.toString());
-		permisoService.insertOrUpdate(permisoModel);
+		permisoService.insertOrUpdate(permisoModel);*/
 		return ViewRouteHelper.PREGUNTA_PERIODO;
 	}
 

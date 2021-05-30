@@ -70,4 +70,13 @@ public class PermisoService implements IPermisoService{
 		List<Permiso> lista = permisoRepository.getAllBetweenDates(startDate, endDate);
 		return lista;
 	}
+
+	@Override
+	public List<Permiso> getAllByPersona(long dni) {
+		
+		List<Permiso> lista = permisoRepository.getAllByPersona(dni);
+		System.out.println(dni);
+		System.out.println(lista);
+		return lista;
+	}
 }

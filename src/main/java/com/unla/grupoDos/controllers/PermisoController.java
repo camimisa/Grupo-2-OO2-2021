@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupoDos.converters.PermisoConverter;
@@ -103,5 +104,22 @@ public class PermisoController {
 	@GetMapping("/periodo/nuevo")
 	public String nuevoPermisoPeriodo(Model model) {
 		return "permiso/nuevo";
+	}
+	
+	// --------------- PERMISO POR PERSONA -------------------------
+	
+	@GetMapping("/buscarPorPersona")
+	public String preguntaPermisoPorPersona(Model model) {
+		return "permiso/traer/buscarPermiso";
+	}
+	
+	@GetMapping("/listarPermisoPorPersona")
+	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) long dni) {
+		ModelAndView mAV = new ModelAndView("permiso/traer/listaPermisosPorPersona"); 
+		List<Permiso>permisosActivos = permisoService.getAllByPersona(dni);
+		System.out.println(permisosActivos);
+		mAV.addObject("personas",permisosActivos);
+		
+		return mAV;
 	}
 }

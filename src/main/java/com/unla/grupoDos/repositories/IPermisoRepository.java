@@ -30,23 +30,15 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 	)
 	public abstract PermisoPeriodo permisoPeriodoFindById(int idPermiso);
 	
-	/*
-	@Query(
-			value = "select * from permiso p \r\n"
-					+ "inner join persona per on p.id_pedido = per.id_persona\r\n"
-					+ "inner join permisoxlugar pxl on pxl.id_permiso = p.id_permiso\r\n"
-					+ "inner join lugar l on l.id_lugar = pxl.id_lugar\r\n"
-					+ "where p.fecha between :startDate and :endDate",
-			nativeQuery=true
-		)*/
-	
 	@Query(
 			value = "from Permiso p inner join fetch p.pedido pe "
 					+ "where p.fecha between (:startDate) and (:endDate)")
 	public abstract List<Permiso> getAllBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
+
 	// from Permiso p inner join fetch p.pedido pe inner join fetch p.rodado r where p.idPermiso ="
 	@Query(
 			value = "from Permiso p inner join fetch p.pedido pe "
-					+ "where pe.dni =':dni)'")
+					+ "where pe.dni =:dni")
 	public abstract List<Permiso> getAllByPersona(@Param("dni")long dni);
+
 }

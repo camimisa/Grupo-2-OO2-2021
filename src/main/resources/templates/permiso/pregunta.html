@@ -5,27 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Home</title>
+    <title>Permiso</title>
 </head>
 <body>
-	<div th:replace="~{/parcial/Header :: header}"></div>
+   <div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
-      <div class="container">
-      <br>
-		<p class="h3">Permisos activos entre fecha y fecha:</p>
-        <br>
-        <form method="get" th:action="@{buscarPermisosFecha}">
-            <p class="h5">Fecha desde...</p>
-            <input type="date" class="form-control" name="desdeFecha" required>
-            <br>
-            <p class="h5">Fecha hasta...</p>
-            <input type="date" class="form-control" name="hastaFecha" required>
-            <br>
-            <button class="btn btn-lg btn-primary" type="submit">Buscar</button>
-            <br><br>
-        </form>
-      </div>
-      <!-- /.container -->
+	  <div class="container">
+	    <br>
+	    <p class="h4">Elije que tipo de permiso quiere sacar:</p>
+	    <br>
+	        <a class="btn btn-lg btn-primary btn-block" type="submit" th:href="@{/permiso/diario/}">Permiso Diario</a>
+	        <a class="btn btn-lg btn-primary btn-block" type="submit" th:href="@{/permiso/periodo/}">Permiso Periodo</a>
+	        <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/}">Volver</a>
+	    <br>
+	  </div>
+	  <!-- /.container -->
 
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

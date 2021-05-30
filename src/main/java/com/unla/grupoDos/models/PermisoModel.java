@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Persona;
 
 public abstract class PermisoModel {
 	protected int idPermiso;
 	protected Persona pedido;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	protected LocalDate fecha;
 	protected Set<Lugar> desdeHasta;
 	

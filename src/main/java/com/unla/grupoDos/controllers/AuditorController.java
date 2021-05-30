@@ -86,7 +86,7 @@ public class AuditorController {
 	// ------------------------------ ACCIONES CON PERMISOS ---------------------------
 	@GetMapping("/permiso/buscarEntreFechas")
 	public String preguntaPermisoDiario(Model model) {
-		return "auditor/permisos/entreFechaYFecha";
+		return ViewRouteHelper.PREGUNTA_ENTRE_FECHAS;
 	}
 
 	@GetMapping("/permiso/buscarPermisosFecha")
@@ -95,17 +95,12 @@ public class AuditorController {
 		
 		LocalDate hasta = LocalDate.parse(hastaFecha);
 		LocalDate desde = LocalDate.parse(desdeFecha);
-		//List<Permiso>permisos = permisoService.getAll();
 		List<Permiso>permisosActivos = permisoService.getAllBetweenDates(desde, hasta);
-		/*
-		for(Permiso p : permisos) {
-			if((p.getFecha().isAfter(desde) && p.getFecha().isBefore(hasta)) || desde.equals(p.getFecha()) || hasta.equals(p.getFecha())) {
-				permisosActivos.add(p);
-			}
-		}*/
-		ModelAndView mAV = new ModelAndView("auditor/permisos/listaEntreFechas");
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS);
+		
 		mAV.addObject("permisosActivos", permisosActivos);
-	
+		String titulo = "Permisos activos entre " + desde + " hasta " + hasta;
+		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
 	

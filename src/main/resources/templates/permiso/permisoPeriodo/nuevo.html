@@ -11,34 +11,39 @@
    <div th:replace="~{/parcial/Header :: header}"></div>
       <div class="container">
         <br>
-        <form >
+        <form action="#" th:action="@{../crear}" th:object="${permiso}" method="post" autocomplete="on">
             <h1 class="h3 mb-3 font-weight-normal">Nuevo Permiso Periodo:</h1>
             <hr>
             <h3 class="h3 mb-3 font-weight-normal">Datos del permiso:</h3>
             <div class="form-row">
                 <br>
                 <div class="form-group col-md-6">
-                  <input type="date" class="form-control" placeholder="fecha">
+                    <label>Fecha del permiso:</label>
+                    <input type="date" class="form-control" placeholder="fecha" th:field="*{fecha}" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label >Cantidad de dias:</label>
+                    <input type="number" class="form-control" placeholder="Cantidad de dias" th:field="*{cantDias}" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="preguntaVaciones">Estara de vaciones?</label>
+                    <select class="form-control" aria-placeholder="Vaciones..." id="preguntaVaciones" th:field="*{vacaciones}" required>
+                        <option value="1">Si</option>
+                        <option value="0">No</option>
+                      </select>
                 </div>
             </div>
-            <p class="h4">Desde...</p>
-            <div class="form-row">
-                <br>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="lugar desde">
-                </div>
-                <div class="form-group col-md-6">
-                    <input type="number" class="form-control" placeholder="codigo postal">
-                </div>
-            </div>
-            <p class="h4">Hasta...</p>
-            <div class="form-row">
-                <br>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="lugar hasta">
-                </div>
-                <div class="form-group col-md-6">
-                    <input type="number" class="form-control" placeholder="codigo postal">
+            <div th:each="lug, iterador: ${permiso.desdeHasta}">
+                <p class="h4" th:if="${iterador.index == 0}">Desde...</p>
+                <p class="h4" th:if="${iterador.index == 1}">Hasta...</p>
+                <div class="form-row">
+                    <br>
+                    <div class="form-group col-md-6">
+                      <input type="text" class="form-control" placeholder="lugar desde" th:field="*{lug.lugar}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" placeholder="codigo postal" th:field="*{lug.codPostal}" required>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -46,33 +51,36 @@
             <div class="form-row">
                 <br>
                 <div class="form-group col-md-4">
-                  <input type="text" class="form-control" placeholder="Nombre">
+                	<label >Nombre:</label>
+                  	<input type="text" class="form-control" placeholder="Nombre" required th:field="*{pedido.nombre}">
                 </div>
                 <div class="form-group col-md-4">
-                  <input type="text" class="form-control" placeholder="Apellido">
+                	<label >Apellido:</label>
+                  	<input type="text" class="form-control" placeholder="Apellido" required th:field="*{pedido.apellido}">
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="number" class="form-control" placeholder="Documento" min="1111111" max="99999999">
+                	<label >DNI:</label>
+                    <input type="number" class="form-control" placeholder="Documento" min="1111111" max="99999999" required th:field="*{pedido.dni}">
                 </div>
-                <input type="hidden" id="idPersona"/>
+                <input type="hidden" id="idPersona" th:field="*{pedido.idPersona}"/>
             </div>
             <hr>
             <h3 class="h3 mb-3 font-weight-normal">Datos del Rodado:</h3>
             <div class="form-row">
                 <br>
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="dominio">
+                  <input type="text" class="form-control" placeholder="dominio" required th:field="*{rodado.dominio}">
                 </div>
                 <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="vehiculo">
+                  <input type="text" class="form-control" placeholder="vehiculo" required th:field="*{rodado.vehiculo}">
                 </div>
-                <input type="hidden" id="idRodado"/>
+                <input type="hidden" id="idRodado" th:field="*{rodado.idRodado}"/>
             </div>
             <hr>
-            
-            <button class="btn btn-lg btn-primary" type="submit">Crear</button>
-            <br><br>
-            <button class="btn btn-lg btn-outline-secondary" type="submit">Volver</button>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
+            <br>
+            <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/}">Volver</a>
         </form>
         <br>
       </div>

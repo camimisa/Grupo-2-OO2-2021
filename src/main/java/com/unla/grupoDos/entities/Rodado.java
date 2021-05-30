@@ -83,8 +83,7 @@ public class Rodado {
 
 	@Override
 	public String toString() {
-		return "Rodado [idRodado=" + idRodado + ", dominio=" + dominio + ", vehiculo=" + vehiculo + ", createdAt="
-				+ createdAt + ", updatedAt=" + updatedAt + "]";
+		return dominio + " " + vehiculo;
 	}
 	
 	

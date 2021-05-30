@@ -108,5 +108,11 @@ public abstract class Permiso {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Permiso [idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha=" + fecha + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + ", desdeHasta=" + desdeHasta + "]";
+	}
 	
 }

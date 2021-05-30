@@ -16,11 +16,16 @@
            <h3>Para empezar debe iniciar sesion (arriba a la derecha)...</h3>      
         </span>
         <br />
-		<a class="btn btn-info btn-lg mt-4" th:href="@{/permiso/buscarPorPersona}">Permisos activos por persona</a>
        	<span th:if="${perfil != 'ROLE_ANONYMOUS'}">
            <h3>Debe tocar el boton de arriba a la derecha para ver las acciones que tiene disponibles...</h3>     
            <a class="btn btn-outline-dark btn-lg" th:href="@{/logout}">Cerrar sesion</a> 
         </span>
+        <hr>
+        <br>
+        <p class="h3">Acciones con los permisos:</p>
+		<a class="btn btn-info btn-lg" th:href="@{/permiso/}">Sacar un nuevo permiso</a>
+		<br>
+		<a class="btn btn-info btn-lg mt-4" th:href="@{/permiso/buscarPorPersona}">Permisos activos por persona</a>
       </div>
       <!-- /.container -->
 

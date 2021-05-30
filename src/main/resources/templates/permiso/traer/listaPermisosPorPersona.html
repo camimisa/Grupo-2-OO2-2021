@@ -13,7 +13,7 @@
       <div class="container">
       <br>
 		<p class="h3">Permisos activos por persona:</p>
-        <div>
+        <div th:if="${!permisosActivos.empty}">
             <p class="h4">Permisos encontrados</p>
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -35,14 +35,15 @@
 							<span th:text="${lugar.toString()}" />
 						</td>
 					</tr>
-						<!--
-						<td th:if="${permiso instanceof PermisoDiario}"><span th:text="${((PermisoDiario) permiso).getMotivo())}" /></td>
-						<td th:if="${permiso instanceof PermisoPeriodo}"><span th:text="${((PermisoPeriodo) permiso).getRodado().getDominio())}" /></td>
-						-->
-					
                     </tbody>
                 </table>
             </div>
+            <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
+        </div>
+        <div th:if="${permisosActivos.empty}">        
+	        <div class="alert alert-danger" role="alert">
+	        	No se encontro ningun permiso activo con los filtros ingresados.
+	        </div>
         </div>
       </div>
       <!-- /.container -->

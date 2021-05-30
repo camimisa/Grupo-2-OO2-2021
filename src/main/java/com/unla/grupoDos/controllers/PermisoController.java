@@ -158,7 +158,6 @@ public class PermisoController {
 	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) long dni) {
 		ModelAndView mAV = new ModelAndView("permiso/traer/listaPermisosPorPersona"); 
 		List<Permiso>permisosActivos = permisoService.getAllByPersona(dni);
-		System.out.println(permisosActivos);
 		mAV.addObject("permisosActivos",permisosActivos);
 		
 		return mAV;

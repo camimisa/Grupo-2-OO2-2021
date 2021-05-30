@@ -33,15 +33,16 @@
                       </select>
                 </div>
             </div>
-            <div th:each="lugar: ${permiso.getDesdeHasta()}">
-                <p class="h4">Insertar texto</p>
+            <div th:each="lug, iterador: ${permiso.desdeHasta}">
+                <p class="h4" th:if="${iterador.index == 0}">Desde...</p>
+                <p class="h4" th:if="${iterador.index == 1}">Hasta...</p>
                 <div class="form-row">
                     <br>
                     <div class="form-group col-md-6">
-                      <input type="text" class="form-control" placeholder="lugar desde" th:field="*{lugar.lugar}" required>
+                      <input type="text" class="form-control" placeholder="lugar desde" th:field="*{lug.lugar}" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <input type="number" class="form-control" placeholder="codigo postal" th:field="*{lugar.codPostal}" required>
+                        <input type="text" class="form-control" placeholder="codigo postal" th:field="*{lug.codPostal}" required>
                     </div>
                 </div>
             </div>

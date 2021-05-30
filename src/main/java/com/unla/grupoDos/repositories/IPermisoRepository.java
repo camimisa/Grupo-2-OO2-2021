@@ -35,4 +35,10 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 					+ "where p.fecha between (:startDate) and (:endDate)")
 	public abstract List<Permiso> getAllBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
 
+	// from Permiso p inner join fetch p.pedido pe inner join fetch p.rodado r where p.idPermiso ="
+	@Query(
+			value = "from Permiso p inner join fetch p.pedido pe "
+					+ "where pe.dni =:dni")
+	public abstract List<Permiso> getAllByPersona(@Param("dni")long dni);
+
 }

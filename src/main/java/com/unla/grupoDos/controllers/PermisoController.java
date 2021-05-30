@@ -1,5 +1,6 @@
 package com.unla.grupoDos.controllers;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,24 +14,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupoDos.converters.PermisoConverter;
 import com.unla.grupoDos.converters.PersonaConverter;
 import com.unla.grupoDos.converters.RodadoConverter;
 import com.unla.grupoDos.entities.Lugar;
-import com.unla.grupoDos.entities.Perfil;
 import com.unla.grupoDos.entities.Permiso;
-import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
-import com.unla.grupoDos.models.PerfilModel;
-import com.unla.grupoDos.models.PermisoDiarioModel;
 import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
-import com.unla.grupoDos.models.UsuarioModel;
 import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IPersonaService;
 import com.unla.grupoDos.services.IRodadoService;
@@ -92,6 +88,19 @@ public class PermisoController {
 	
 	@GetMapping("/periodo")
 	public String preguntaPermisoPeriodo(Model model) {
+		//int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado
+		//int idPersona, String nombre, String apellido, long dni
+		//public Rodado(int idRodado, String dominio, String vehiculo)
+
+		Persona persona = new Persona(4,"Micaela","Gomez",41239871L);
+		Rodado rodado = new Rodado(5,"FK123ML","Toyota 29L");
+		PermisoPeriodoModel permisoModel = new PermisoPeriodoModel(6,persona,LocalDate.now(),10,false,rodado);
+		Set<Lugar> listaDesdeHasta = new HashSet<Lugar>();
+		listaDesdeHasta.add(new Lugar(7,"Monte Grande","1842"));
+		listaDesdeHasta.add(new Lugar(8,"Luis Guillon","1836"));
+		permisoModel.setDesdeHasta(listaDesdeHasta);
+		System.out.println(permisoModel.toString());
+		permisoService.insertOrUpdate(permisoModel);
 		return ViewRouteHelper.PREGUNTA_PERIODO;
 	}
 
@@ -115,11 +124,12 @@ public class PermisoController {
 		Set<Lugar> listaDesdeHasta = new HashSet<Lugar>();
 		listaDesdeHasta.add(new Lugar());
 		listaDesdeHasta.add(new Lugar());
-
-		model.addAttribute("permiso", new PermisoPeriodoModel());
+		PermisoPeriodoModel permiso = new PermisoPeriodoModel();
+		permiso.setDesdeHasta(listaDesdeHasta);
+		model.addAttribute("permiso", permiso);
 		model.addAttribute("rodado", new Rodado());
 		model.addAttribute("pedido", new Persona());
-		model.addAttribute("desdeHasta", listaDesdeHasta);
+		//model.addAttribute("desdeHasta", listaDesdeHasta);
 		
 		return ViewRouteHelper.NUEVO_PERMISO_PERIODO;
 	}
@@ -135,5 +145,22 @@ public class PermisoController {
 		System.out.println(pedido.toString());
 
 		return new RedirectView("/");
+	}
+	
+	// --------------- PERMISO POR PERSONA -------------------------
+	
+	@GetMapping("/buscarPorPersona")
+	public String preguntaPermisoPorPersona(Model model) {
+		return "permiso/traer/buscarPermiso";
+	}
+	
+	@GetMapping("/listarPermisoPorPersona")
+	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) long dni) {
+		ModelAndView mAV = new ModelAndView("permiso/traer/listaPermisosPorPersona"); 
+		List<Permiso>permisosActivos = permisoService.getAllByPersona(dni);
+		System.out.println(permisosActivos);
+		mAV.addObject("permisosActivos",permisosActivos);
+		
+		return mAV;
 	}
 }

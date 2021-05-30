@@ -16,10 +16,10 @@
         <br>
         <form method="get" th:action="@{buscarPermisosFecha}">
             <p class="h5">Fecha desde...</p>
-            <input type="date" class="form-control" name="desdeFecha">
+            <input type="date" class="form-control" name="desdeFecha" required>
             <br>
             <p class="h5">Fecha hasta...</p>
-            <input type="date" class="form-control" name="hastaFecha">
+            <input type="date" class="form-control" name="hastaFecha" required>
             <br>
             <button class="btn btn-lg btn-primary" type="submit">Buscar</button>
             <br><br>

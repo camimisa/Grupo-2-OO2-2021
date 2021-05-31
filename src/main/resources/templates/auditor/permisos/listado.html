@@ -16,23 +16,27 @@
         <div th:if="${!permisosActivos.empty}">
             <p class="h4">Permisos encontrados:</p>
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Persona</th>
-                        <th scope="col">Desde</th>
-                        <th scope="col">Hasta</th>
+                        <th th:if="${#request.getParameter('desdeLugar') != null 
+                        	|| (#request.getParameter('desdeLugar') == null && #request.getParameter('hastaLugar') == null)}" 
+                        	scope="col">Desde</th>
+                        <th th:if="${#request.getParameter('hastaLugar') != null
+                        	|| (#request.getParameter('desdeLugar') == null && #request.getParameter('hastaLugar') == null)}" 
+                        	scope="col">Hasta</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="permiso : ${permisosActivos}">
 						<td><span th:text="${permiso.IdPermiso}" /></td>
 						<td><span th:text="${permiso.fecha}" /></td>
-						<td><span th:text="${permiso.getPedido().toString()}"/></td>
+						<td><span th:text="${permiso.getPedido()}"/></td>
 						<td th:each="lugar : ${permiso.getDesdeHasta()}">
-							<span th:text="${lugar.toString()}"/>
+							<span th:text="${lugar}"/>
 						</td>
 						<!--
 						<td th:if="${permiso instanceof PermisoDiario}"><span th:text="${((PermisoDiario) permiso).getMotivo())}" /></td>

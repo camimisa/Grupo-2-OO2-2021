@@ -23,9 +23,11 @@ import com.unla.grupoDos.models.PerfilModel;
 import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.models.UsuarioModel;
+import com.unla.grupoDos.services.ILugarService;
 import com.unla.grupoDos.services.IPerfilService;
 import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IUsuarioService;
+import com.unla.grupoDos.services.implementation.LugarService;
 
 @Controller
 @RequestMapping("/auditor")
@@ -42,6 +44,10 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("permisoService")
 	private IPermisoService permisoService;
+	
+	@Autowired
+	@Qualifier("lugarService")
+	private ILugarService lugarService;
 
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
 	@GetMapping("/")
@@ -86,16 +92,41 @@ public class AuditorController {
 	// ------------------------------ ACCIONES CON PERMISOS ---------------------------
 	@GetMapping("/permiso/buscarEntreFechas")
 	public String preguntaPermisoDiario(Model model) {
+		model.addAttribute("lugares", lugarService.getAll());
 		return ViewRouteHelper.PREGUNTA_ENTRE_FECHAS;
 	}
 
 	@GetMapping("/permiso/buscarPermisosFecha")
-	public ModelAndView formularioPermisoDiario( @RequestParam(name="desdeFecha", required = true) String desdeFecha,
-			@RequestParam(name="hastaFecha", required = true) String hastaFecha) {
+	public ModelAndView formularioPermisoDiario( 
+			@RequestParam(name="desdeFecha") String desdeFecha,
+			@RequestParam(name="hastaFecha") String hastaFecha,
+			@RequestParam(name="desdeLugar", defaultValue = "-55") int desdeLugarId,
+			@RequestParam(name="hastaLugar", defaultValue = "-55") int hastaLugarId
+	) {
 		
 		LocalDate hasta = LocalDate.parse(hastaFecha);
 		LocalDate desde = LocalDate.parse(desdeFecha);
-		List<Permiso>permisosActivos = permisoService.getAllBetweenDates(desde, hasta);
+		
+		List<Permiso> permisosActivos;
+		
+		if (desdeLugarId != -55 || hastaLugarId != -55) {
+			List<Integer> lugaresId = new ArrayList<Integer>();
+			if (desdeLugarId != -55) {
+				lugaresId.add(desdeLugarId);			
+			} 
+			if (hastaLugarId != -55) {
+				lugaresId.add(hastaLugarId);			
+			}
+			permisosActivos = permisoService.getAllEntreFechasYLugaresEspecificos(desde, hasta, lugaresId);
+		} else {
+			permisosActivos = permisoService.getAllBetweenDates(desde, hasta);			
+		}
+		
+		//Si ambos son distintos de -55, significa que tiene que haber sí o sí 2 elementos en el set desdeHasta.
+		if (desdeLugarId != -55 && hastaLugarId != -55 ) {
+			permisosActivos.removeIf(p -> p.getDesdeHasta().size() < 2);			
+		}
+		
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS);
 		
 		mAV.addObject("permisosActivos", permisosActivos);
@@ -103,6 +134,7 @@ public class AuditorController {
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
+	
 	
 	
 }

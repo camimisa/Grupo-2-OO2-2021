@@ -8,9 +8,9 @@ import com.unla.grupoDos.models.RodadoModel;
 public interface IRodadoService {
 	
 	public List<Rodado> getAll();
-	public RodadoModel insertOrUpdate(RodadoModel rodadoModel);
+	public Rodado insertOrUpdate(Rodado rodado);
 	public boolean remove(int id);
-	RodadoModel findById(int id);
-	RodadoModel findByDominio(String dominio);
+	Rodado findById(int id);
+	Rodado findByDominio(String dominio);
 	
 }

@@ -33,17 +33,24 @@
                       </select>
                 </div>
             </div>
-            <div th:each="lug, iterador: ${permiso.desdeHasta}">
-                <p class="h4" th:if="${iterador.index == 0}">Desde...</p>
-                <p class="h4" th:if="${iterador.index == 1}">Hasta...</p>
-                <div class="form-row">
-                    <br>
-                    <div class="form-group col-md-6">
-                      <input type="text" class="form-control" placeholder="lugar desde" th:field="*{lug.lugar}" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <input type="text" class="form-control" placeholder="codigo postal" th:field="*{lug.codPostal}" required>
-                    </div>
+			<p class="h4">Desde...</p>
+            <div class="form-row">
+                <br>
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" placeholder="lugar desde" name="desdeLugar" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="codigo postal" name="desdeCodPostal" required>
+                </div>
+            </div>
+            <p class="h4">Hasta...</p>
+            <div class="form-row">
+                <br>
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" placeholder="lugar hasta" required name="hastaLugar">
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" placeholder="codigo postal" required name="hastaCodPostal">
                 </div>
             </div>
             <hr>

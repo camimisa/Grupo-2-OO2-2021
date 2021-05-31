@@ -97,7 +97,6 @@ public class AuditorController {
 		LocalDate desde = LocalDate.parse(desdeFecha);
 		List<Permiso>permisosActivos = permisoService.getAllBetweenDates(desde, hasta);
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS);
-		
 		mAV.addObject("permisosActivos", permisosActivos);
 		String titulo = "Permisos activos entre " + desde + " hasta " + hasta;
 		mAV.addObject("titulo", titulo );

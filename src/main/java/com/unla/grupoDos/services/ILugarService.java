@@ -7,8 +7,8 @@ import com.unla.grupoDos.models.LugarModel;
 
 public interface ILugarService {
 	public List<Lugar> getAll();
-	public LugarModel insertOrUpdate(LugarModel LugarModel);
+	public Lugar insertOrUpdate(Lugar Lugar);
 	public boolean remove(int id);
-	LugarModel findById(int id);
-	LugarModel findByCodPostal(String codPostal);
+	Lugar findById(int id);
+	Lugar findByCodPostal(String codPostal);
 }

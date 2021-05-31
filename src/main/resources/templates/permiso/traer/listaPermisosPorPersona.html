@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Home</title>
+    <title>Permisos por persona</title>
 </head>
 <body>
 	<div th:replace="~{/parcial/Header :: header}"></div>
@@ -24,6 +24,8 @@
                         <th scope="col">Persona</th>
                         <th scope="col">Desde</th>
                         <th scope="col">Hasta</th>
+                        <th scope="col">Tipo Permiso</th>
+                        <th scope="col">Motivo/Dominio</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +36,10 @@
 						<td th:each="lugar : ${permiso.getDesdeHasta()}">
 							<span th:text="${lugar.toString()}" />
 						</td>
+												<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
+						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
+						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
+						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
 					</tr>
                     </tbody>
                 </table>

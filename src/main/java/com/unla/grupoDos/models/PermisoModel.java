@@ -18,12 +18,12 @@ public abstract class PermisoModel {
 	
 	public PermisoModel() {}
 	
-	public PermisoModel(int idPermiso, Persona pedido, LocalDate fecha) {
+	public PermisoModel(int idPermiso, Persona pedido, LocalDate fecha, Set<Lugar>desdeHasta) {
 		super();
 		this.idPermiso = idPermiso;
 		this.pedido = pedido;
 		this.fecha = fecha;
-		this.desdeHasta = new HashSet<Lugar>();
+		this.desdeHasta = desdeHasta;
 	}
 	
 	public int getIdPermiso() {

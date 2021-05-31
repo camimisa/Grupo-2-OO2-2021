@@ -28,9 +28,8 @@ public class PersonaService implements IPersonaService{
 	}
 
 	@Override
-	public PersonaModel insertOrUpdate(PersonaModel personaModel) {
-		Persona persona = personaRepository.save(personaConverter.modeloAEntidad(personaModel));
-		return personaConverter.entidadAModelo(persona);
+	public Persona insertOrUpdate(Persona persona) {
+		return personaRepository.save(persona);
 	}
 
 	@Override
@@ -61,12 +60,8 @@ public class PersonaService implements IPersonaService{
 	}
 
 	@Override
-	public PersonaModel findByDni(long dni) {
-		Persona persona = personaRepository.findByDni(dni);
-		PersonaModel personaModel = null;
-		if(persona != null) 
-			personaModel = personaConverter.entidadAModelo(persona);
-		return personaModel;
+	public Persona findByDni(long dni) {
+		return personaRepository.findByDni(dni);
 	}
 
 	@Override

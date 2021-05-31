@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,8 @@ import com.unla.grupoDos.converters.PersonaConverter;
 import com.unla.grupoDos.converters.RodadoConverter;
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
+import com.unla.grupoDos.entities.PermisoDiario;
+import com.unla.grupoDos.entities.PermisoPeriodo;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
@@ -61,6 +64,19 @@ public class PermisoController {
 	@GetMapping("/")
 	public String index() {
 		return ViewRouteHelper.PREGUNTA_PERMISO;
+	}
+	
+	@GetMapping("/{id}")
+	public ModelAndView verPermiso(@PathVariable("id") int id) {
+		ModelAndView mAV = new ModelAndView();
+		Permiso permiso = permisoService.findByIdPermiso(id);
+		mAV.addObject("permiso", permiso);
+		if(permiso == null) mAV.setViewName(ViewRouteHelper.PERMISO_NO_ENCONTRADO);
+		if(permiso instanceof PermisoPeriodo)
+			mAV.setViewName(ViewRouteHelper.VER_PERMISO_PERIODO);
+		if(permiso instanceof PermisoDiario)
+			mAV.setViewName(ViewRouteHelper.VER_PERMISO_DIARIO);
+		return mAV;
 	}
 	
 	// --------------- PERMISO DIARIO -------------------------
@@ -142,9 +158,10 @@ public class PermisoController {
 		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
 		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
 
-		permisoService.insertOrUpdate(permiso);
-		return new RedirectView("/");
+		permiso = permisoService.insertOrUpdate(permiso);
+		return new RedirectView(""+permiso.getIdPermiso());
 	}
+	
 	
 	// --------------- PERMISO POR PERSONA -------------------------
 	

@@ -5,10 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,8 +117,8 @@ public class PermisoController {
 		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
 		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
 		
-		permisoService.insertOrUpdate(permiso);
-		return new RedirectView("/");
+		permiso = permisoService.insertOrUpdate(permiso);
+		return new RedirectView("../"+permiso.getIdPermiso());
 	}
 	
 	// --------------- PERMISO PERIODO -------------------------
@@ -153,13 +156,14 @@ public class PermisoController {
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
 			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal) {
-
+		
 		permiso.setDesdeHasta(new HashSet<Lugar>());
 		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
 		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
 
 		permiso = permisoService.insertOrUpdate(permiso);
-		return new RedirectView(""+permiso.getIdPermiso());
+
+		return new RedirectView("../"+permiso.getIdPermiso());
 	}
 	
 	

@@ -23,7 +23,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label >Cantidad de dias:</label>
-                    <input type="number" class="form-control" placeholder="Cantidad de dias" th:field="*{cantDias}" required>
+                    <input type="number" class="form-control" th:field="*{cantDias}" min="1" value="1" required>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="preguntaVaciones">Estara de vaciones?</label>
@@ -40,7 +40,7 @@
                   <input type="text" class="form-control" placeholder="lugar desde" name="desdeLugar" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" placeholder="codigo postal" name="desdeCodPostal" required>
+                    <input type="text" class="form-control" placeholder="codigo postal" name="desdeCodPostal" minlength="4" maxlength="4" required>
                 </div>
             </div>
             <p class="h4">Hasta...</p>
@@ -50,7 +50,7 @@
                   <input type="text" class="form-control" placeholder="lugar hasta" required name="hastaLugar">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" placeholder="codigo postal" required name="hastaCodPostal">
+                    <input type="text" class="form-control" placeholder="codigo postal" minlength="4" maxlength="4" required name="hastaCodPostal">
                 </div>
             </div>
             <hr>
@@ -67,7 +67,8 @@
                 </div>
                 <div class="form-group col-md-4">
                 	<label >DNI:</label>
-                    <input type="number" class="form-control" placeholder="Documento" min="1111111" max="99999999" required th:field="*{pedido.dni}">
+                    <input type="number" class="form-control" placeholder="1111111" min="1111111" max="99999999" required th:field="*{pedido.dni}">
+
                 </div>
                 <input type="hidden" id="idPersona" th:field="*{pedido.idPersona}"/>
             </div>

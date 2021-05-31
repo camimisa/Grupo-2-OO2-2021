@@ -11,31 +11,30 @@
   	<div th:replace="~{/parcial/Header :: header}"></div>
     	<div class="container">
         <br>
-
-        <h1 class="h3 mb-3 font-weight-normal">Permiso:</h1>
+        <h1 class="h3 mb-3 font-weight-normal"><em>Permiso Periodo</em></h1>
         <hr>
         <div class="row">
             <br>
             <div class="col-md-6">
-                <p>Fecha del permiso: <span th:text="*{permiso.fecha}"/></p>
+                <p class="h5">Fecha del permiso: <span class="lead" th:text="*{permiso.fecha}"/></p>
             </div>
             <div class="col-md-3">
-                <p>Cantidad de dias: <span th:text="*{permiso.cantDias}"/></p>
+                <p class="h5">Cantidad de dias: <span class="lead" th:text="*{permiso.cantDias}"/></p>
             </div>
             <div class="col-md-3">
-				<p>Estara de vaciones? <span th:text="${permiso.vacaciones} ? 'Si' : 'No'"/></p>
+				<p class="h5">Estara de vaciones? <span class="lead" th:text="${permiso.vacaciones} ? 'Si' : 'No'"/></p>
             </div>
         </div>
 		<div th:each="lugar, iterador : ${permiso.getDesdeHasta()}">
-			<h3 class="h3 mb-3 font-weight-normal" th:if="${iterador.index == 0}" >Desde...</h3>
-			<h3 class="h3 mb-3 font-weight-normal" th:if="${iterador.index == 1}" >Hasta...</h3>
+			<h3 class="h3 mb-3 font-weight-normal" th:if="${iterador.index == 0}" >Desde:</h3>
+			<h3 class="h3 mb-3 font-weight-normal" th:if="${iterador.index == 1}" >Hasta:</h3>
 			<div class="row">
 				<br>
 	            <div class="col-md-6">
-	              <p>Lugar: <span th:text="${lugar.getLugar()}"/></p>
+	              <p class="h5">Lugar: <span class="lead" th:text="${lugar.getLugar()}"/></p>
 	            </div>
 	            <div class="col-md-6">
-	              <p>Codigo Postal: <span th:text="${lugar.getCodPostal()}"/></p>
+	              <p class="h5">Codigo Postal: <span class="lead" th:text="${lugar.getCodPostal()}"/></p>
 	            </div>
 			</div>
 		</div>
@@ -44,13 +43,13 @@
         <div class="row">
             <br>
             <div class="col-md-4">
-              	<p>Nombre: <span th:text="*{permiso.pedido.nombre}"/></p>
+              	<p class="h5">Nombre: <span class="lead" th:text="*{permiso.pedido.nombre}"/></p>
             </div>
             <div class="col-md-4">
-              	<p>Apellido: <span th:text="*{permiso.pedido.apellido}"/></p>
+              	<p class="h5">Apellido: <span class="lead" th:text="*{permiso.pedido.apellido}"/></p>
             </div>
             <div class="col-md-4">
-                <p>DNI: <span th:text="*{permiso.pedido.dni}"/></p>
+                <p class="h5">DNI: <span class="lead" th:text="*{permiso.pedido.dni}"/></p>
             </div>
         </div>
         <hr>
@@ -58,10 +57,10 @@
         <div class="row">
             <br>
             <div class="col-md-6">
-              <p>Dominio : <span th:text="*{permiso.rodado.dominio}"/></p>
+              <p class="h5">Dominio : <span  class="lead" th:text="*{permiso.rodado.dominio}"/></p>
             </div>
             <div class="col-md-6">
-              <p>Vehiculo: <span th:text="*{permiso.rodado.vehiculo}"/></p>
+              <p class="h5">Vehiculo: <span class="lead" th:text="*{permiso.rodado.vehiculo}"/></p>
             </div>
         </div>
         <hr>

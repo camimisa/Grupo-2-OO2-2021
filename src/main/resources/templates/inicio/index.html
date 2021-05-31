@@ -13,11 +13,11 @@
       <div class="container">
   		<h1>Bienvenido</h1>
         <span th:if="${perfil == 'ROLE_ANONYMOUS'}">
-           <h3>Para empezar debe iniciar sesion (arriba a la derecha)...</h3>      
+           <a class="btn btn-outline-info btn-lg" th:href="@{/login}">Iniciar sesion</a>      
         </span>
         <br />
        	<span th:if="${perfil != 'ROLE_ANONYMOUS'}">
-           <h3>Debe tocar el boton de arriba a la derecha para ver las acciones que tiene disponibles...</h3>     
+           <h3>Tocar el boton de arriba a la derecha para ver las acciones que tiene disponibles como usuario...</h3>     
            <a class="btn btn-outline-dark btn-lg" th:href="@{/logout}">Cerrar sesion</a> 
         </span>
         <hr>

@@ -31,7 +31,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public abstract class Permiso {
 	
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int idPermiso;
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -39,8 +39,8 @@ public class Lugar {
 	
 	public Lugar(String lugar, String codPostal) {
 		super();
-		this.lugar = lugar;
-		this.codPostal = codPostal;
+		this.setLugar(lugar);
+		this.setCodPostal(codPostal);
 	}
 
 	public int getIdLugar() {
@@ -64,7 +64,10 @@ public class Lugar {
 	}
 
 	public void setCodPostal(String codPostal) {
-		this.codPostal = codPostal;
+		if(codPostal.matches("[0-9]{4}"))
+			this.codPostal = codPostal;
+		else
+			this.codPostal = "0000";
 	}
 
 	@Override

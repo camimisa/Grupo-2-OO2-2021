@@ -3,11 +3,13 @@ package com.unla.grupoDos.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Persona;
 
 public class PermisoDiarioModel extends PermisoModel{
-
+	@NotNull
 	private String motivo;
 
 	public PermisoDiarioModel() {}

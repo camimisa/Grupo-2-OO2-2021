@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Entity(name="permiso_diario")
 public class PermisoDiario extends Permiso{
 
-	@Column(name="motivo")
+	@Column(name="motivo", nullable=false)
 	private String motivo;
 	public PermisoDiario() {}
 	public PermisoDiario(int idPermiso, Persona pedido, LocalDate fecha, String motivo, Set<Lugar>desdeHasta) {

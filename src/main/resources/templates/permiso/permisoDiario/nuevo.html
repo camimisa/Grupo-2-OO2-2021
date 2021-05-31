@@ -30,7 +30,7 @@
                   <input type="text" class="form-control" placeholder="lugar desde" name="desdeLugar" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" placeholder="codigo postal" name="desdeCodPostal" required>
+                    <input type="text" class="form-control" placeholder="codigo postal" name="desdeCodPostal" minlength="4" maxlength="4" required>
                 </div>
             </div>
             <p class="h4">Hasta...</p>
@@ -40,7 +40,7 @@
                   <input type="text" class="form-control" placeholder="lugar hasta" required name="hastaLugar">
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" placeholder="codigo postal" required name="hastaCodPostal">
+                    <input type="text" class="form-control" placeholder="codigo postal" required name="hastaCodPostal" minlength="4" maxlength="4">
                 </div>
             </div>
             <hr>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group col-md-4">
                 	<label >DNI:</label>
-                    <input type="number" class="form-control" placeholder="Documento" min="1111111" max="99999999" required th:field="*{pedido.dni}">
+                    <input type="number" class="form-control" placeholder="1111111" min="1111111" max="99999999" required th:field="*{pedido.dni}">
                 </div>
                 <input type="hidden" id="idPersona" th:field="*{pedido.idPersona}"/>
             </div>

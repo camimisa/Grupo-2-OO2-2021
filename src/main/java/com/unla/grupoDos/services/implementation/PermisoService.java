@@ -11,6 +11,8 @@ import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.entities.PermisoPeriodo;
+import com.unla.grupoDos.entities.Persona;
+import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.models.PermisoDiarioModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.repositories.IPermisoRepository;
@@ -72,17 +74,54 @@ public class PermisoService implements IPermisoService{
 	}
 
 	@Override
-	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel PermisoModel) {
-		PermisoDiario Permiso = (PermisoDiario) permisoRepository.save(permisoConverter.modeloAEntidad(PermisoModel));
-		return permisoConverter.entidadAModelo(Permiso);
+	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel permisoModel) {
+
+		Persona persona = personaService.findByDni(permisoModel.getPedido().getDni());
+		if(persona == null)
+			personaService.insertOrUpdate(permisoModel.getPedido());
+		else
+			permisoModel.setPedido(persona);
+
+		Lugar lugarAux = new Lugar();
+		for(Lugar lugar: permisoModel.getDesdeHasta()) {			
+			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
+			if(lugarAux == null) {
+				lugarAux = lugarService.insertOrUpdate(lugar);
+			}	
+			else {
+				lugar = lugarAux;
+			}
+		}
+		
+		System.out.println(permisoModel.toString());
+		PermisoDiario permiso = (PermisoDiario) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
+		System.out.println("DSP: " + permiso.toString() + permiso.getIdPermiso());
+		return permisoConverter.entidadAModelo(permiso);
 	}
 	
 	@Override
 	public PermisoPeriodoModel insertOrUpdate(PermisoPeriodoModel permisoModel) {
-		personaService.insertOrUpdate(personaConverter.entidadAModelo(permisoModel.getPedido()));
-		rodadoService.insertOrUpdate(rodadoConverter.entidadAModelo(permisoModel.getRodado()));
-		for(Lugar lugar: permisoModel.getDesdeHasta())
-			lugarService.insertOrUpdate(lugarConverter.entidadAModelo(lugar));
+		// Guardar persona si no existe, si existe asignarle su ID
+		Persona persona = personaService.findByDni(permisoModel.getPedido().getDni());
+		if(persona == null) 
+			persona = personaService.insertOrUpdate(permisoModel.getPedido());
+		permisoModel.setPedido(persona); // Esto se hace por si se ingreso un dni con nombre distinto. Se va a remplazar por los datos correcto que vienen de la bd.
+		
+		// Guardar rodado si no existe, si existe asignarle su ID
+		Rodado rodado = rodadoService.findByDominio(permisoModel.getRodado().getDominio());
+		if(rodado == null)
+			rodado = rodadoService.insertOrUpdate(permisoModel.getRodado());
+		permisoModel.setRodado(rodado);
+
+		Lugar lugarAux = new Lugar();
+		for(Lugar lugar: permisoModel.getDesdeHasta()) {
+			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
+			if(lugarAux == null)
+				lugarAux = lugarService.insertOrUpdate(lugar);
+			lugar = lugarAux;
+			System.out.println("EN EL FOR " + lugar.toString() + lugar.getIdLugar());
+		}
+		System.out.println(permisoModel.toString());
 		PermisoPeriodo permiso = (PermisoPeriodo) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
 		return permisoConverter.entidadAModelo(permiso);
 	}

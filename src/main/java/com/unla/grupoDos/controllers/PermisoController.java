@@ -25,6 +25,7 @@ import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
+import com.unla.grupoDos.models.PermisoDiarioModel;
 import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.services.IPermisoService;
@@ -69,81 +70,79 @@ public class PermisoController {
 		return ViewRouteHelper.PREGUNTA_DIARIO;
 	}
 
-	@GetMapping("/diario/buscarDatos")
-	public RedirectView formularioPermisoDiario(Model model, @RequestParam(name="documento", required = false) long documento) {
-		PermisoModel permiso = new PermisoPeriodoModel();
+	@GetMapping("/diario/buscarDatos/")
+	public String formularioPermisoDiario(Model model, @RequestParam(name="documento", required = false) long documento) {
+		PermisoModel permiso = new PermisoDiarioModel();
 		if(documento != 0) {
-			permiso.setPedido(personaConverter.modeloAEntidad(personaService.findByDni(Long.valueOf(documento))));
+			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
 		}
 		model.addAttribute("permiso", permiso);
-		return new RedirectView("permiso/diario/nuevo");
+		return ViewRouteHelper.NUEVO_PERMISO_DIARIO;
 	}
 	
 	@GetMapping("/diario/nuevo")
 	public String nuevoPermisoDiario(Model model) {
+		model.addAttribute("permiso", new PermisoDiarioModel());
+		model.addAttribute("pedido", new Persona());
 		return ViewRouteHelper.NUEVO_PERMISO_DIARIO;
+	}
+	
+	@PostMapping("/diario/crear")
+	public RedirectView crearPermisoDiario(@ModelAttribute("permiso") PermisoDiarioModel permiso,
+			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
+			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
+			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
+			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal) {
+		
+		permiso.setDesdeHasta(new HashSet<Lugar>());
+		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
+		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
+		
+		permisoService.insertOrUpdate(permiso);
+		return new RedirectView("/");
 	}
 	
 	// --------------- PERMISO PERIODO -------------------------
 	
 	@GetMapping("/periodo")
 	public String preguntaPermisoPeriodo(Model model) {
-		//int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado
-		//int idPersona, String nombre, String apellido, long dni
-		//public Rodado(int idRodado, String dominio, String vehiculo)
-
-		Persona persona = new Persona(4,"Micaela","Gomez",41239871L);
-		Rodado rodado = new Rodado(5,"FK123ML","Toyota 29L");
-		PermisoPeriodoModel permisoModel = new PermisoPeriodoModel(6,persona,LocalDate.now(),10,false,rodado);
-		Set<Lugar> listaDesdeHasta = new HashSet<Lugar>();
-		listaDesdeHasta.add(new Lugar(7,"Monte Grande","1842"));
-		listaDesdeHasta.add(new Lugar(8,"Luis Guillon","1836"));
-		permisoModel.setDesdeHasta(listaDesdeHasta);
-		System.out.println(permisoModel.toString());
-		permisoService.insertOrUpdate(permisoModel);
 		return ViewRouteHelper.PREGUNTA_PERIODO;
 	}
 
-	@GetMapping("/periodo/buscarDatos")
-	public String formularioPermisoPeriodo(Model model, @RequestParam(name="documento", required = false) long documento,
-			@RequestParam(name="dominio", required = false) String dominio) {
+	@GetMapping("/periodo/buscarDatos/")
+	public String formularioPermisoPeriodo(Model model,@RequestParam(name="dominio", required = false, defaultValue = "") String dominio, 
+			@RequestParam(name="documento", required = false) long documento) {
 		PermisoModel permiso = new PermisoPeriodoModel();
 		if(!dominio.isEmpty()) {
-			((PermisoPeriodoModel) permiso).setRodado(rodadoConverter.modeloAEntidad(rodadoService.findByDominio(dominio)));
+			((PermisoPeriodoModel) permiso).setRodado(rodadoService.findByDominio(dominio));
 		}
 		if(documento != 0) {
-			permiso.setPedido(personaConverter.modeloAEntidad(personaService.findByDni(Long.valueOf(documento))));
+			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
 		}
 		model.addAttribute("permiso", permiso);
-		System.out.println(model.toString());
 		return ViewRouteHelper.NUEVO_PERMISO_PERIODO;
 	}
 	
 	@GetMapping("/periodo/nuevo")
 	public String nuevoPermisoPeriodo(Model model) {
-		Set<Lugar> listaDesdeHasta = new HashSet<Lugar>();
-		listaDesdeHasta.add(new Lugar());
-		listaDesdeHasta.add(new Lugar());
-		PermisoPeriodoModel permiso = new PermisoPeriodoModel();
-		permiso.setDesdeHasta(listaDesdeHasta);
-		model.addAttribute("permiso", permiso);
+		model.addAttribute("permiso", new PermisoPeriodoModel());
 		model.addAttribute("rodado", new Rodado());
 		model.addAttribute("pedido", new Persona());
-		//model.addAttribute("desdeHasta", listaDesdeHasta);
-		
 		return ViewRouteHelper.NUEVO_PERMISO_PERIODO;
 	}
 	
 	@PostMapping("/periodo/crear")
-	public RedirectView create(@ModelAttribute("permiso") PermisoPeriodoModel permiso,
-			@ModelAttribute("rodado") Rodado rodado,
-			@ModelAttribute("pedido") Persona pedido) {
+	public RedirectView crearPermisoPeriodo(@ModelAttribute("permiso") PermisoPeriodoModel permiso,
+			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
+			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
+			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
+			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal) {
 
-		//permisoService.insertOrUpdate(permiso);
-		System.out.println(permiso.toString());
-		System.out.println(rodado.toString());
-		System.out.println(pedido.toString());
+		permiso.setDesdeHasta(new HashSet<Lugar>());
+		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
+		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
 
+		permisoService.insertOrUpdate(permiso);
 		return new RedirectView("/");
 	}
 	

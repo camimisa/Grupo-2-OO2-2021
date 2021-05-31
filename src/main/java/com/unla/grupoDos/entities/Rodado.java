@@ -45,7 +45,7 @@ public class Rodado {
 		return idRodado;
 	}
 
-	protected void setIdRodado(int idRodado) {
+	public void setIdRodado(int idRodado) {
 		this.idRodado = idRodado;
 	}
 

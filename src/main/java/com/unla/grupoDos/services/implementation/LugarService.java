@@ -18,28 +18,23 @@ public class LugarService implements ILugarService{
 	@Qualifier("lugarRepository")
 	private ILugarRepository lugarRepository;
 	
-	@Autowired
-	@Qualifier("lugarConverter")
-	private LugarConverter lugarConverter;	
-	
 	@Override
 	public List<Lugar> getAll() {
 		return lugarRepository.findAll();
 	}
 
 	@Override
-	public LugarModel findById(int id) {
-		return lugarConverter.entidadAModelo(lugarRepository.findByIdLugar(id));
+	public Lugar findById(int id) {
+		return lugarRepository.findByIdLugar(id);
 	}
 
 	@Override
-	public LugarModel findByCodPostal(String codPostal) {
-		return lugarConverter.entidadAModelo(lugarRepository.findByCodPostal(codPostal));
+	public Lugar findByCodPostal(String codPostal) {
+		return lugarRepository.findByCodPostal(codPostal);
 	}
 	@Override
-	public LugarModel insertOrUpdate(LugarModel LugarModel) {
-		Lugar Lugar = lugarRepository.save(lugarConverter.modeloAEntidad(LugarModel));
-		return lugarConverter.entidadAModelo(Lugar);
+	public Lugar insertOrUpdate(Lugar lugar) {
+		return lugarRepository.save(lugar);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.unla.grupoDos.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,8 +26,8 @@ public class PermisoPeriodo extends Permiso{
 	public PermisoPeriodo() {}
 
 	public PermisoPeriodo(int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones,
-			Rodado rodado) {
-		super(idPermiso, pedido, fecha);
+			Rodado rodado,  Set<Lugar>desdeHasta) {
+		super(idPermiso, pedido, fecha, desdeHasta);
 		this.cantDias = cantDias;
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;

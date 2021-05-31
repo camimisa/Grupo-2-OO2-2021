@@ -1,6 +1,7 @@
 package com.unla.grupoDos.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +12,8 @@ public class PermisoDiario extends Permiso{
 	@Column(name="motivo")
 	private String motivo;
 	public PermisoDiario() {}
-	public PermisoDiario(int idPermiso, Persona pedido, LocalDate fecha, String motivo) {
-		super(idPermiso, pedido, fecha);
+	public PermisoDiario(int idPermiso, Persona pedido, LocalDate fecha, String motivo, Set<Lugar>desdeHasta) {
+		super(idPermiso, pedido, fecha, desdeHasta);
 		this.motivo = motivo;
 	}
 

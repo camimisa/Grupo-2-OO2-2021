@@ -15,7 +15,7 @@ public class PermisoConverter {
 	}
 	
 	public PermisoDiarioModel entidadAModelo(PermisoDiario permiso) {
-		return new PermisoDiarioModel(permiso.getIdPermiso(), permiso.getPedido(), permiso.getFecha(), permiso.getMotivo());
+		return new PermisoDiarioModel(permiso.getIdPermiso(), permiso.getPedido(), permiso.getFecha(), permiso.getMotivo(), permiso.getDesdeHasta());
 	}
 	
 	public PermisoPeriodo modeloAEntidad(PermisoPeriodoModel permisoModel) {
@@ -25,6 +25,6 @@ public class PermisoConverter {
 	
 	public PermisoPeriodoModel entidadAModelo(PermisoPeriodo permiso) {
 		return new PermisoPeriodoModel(permiso.getIdPermiso(), permiso.getPedido(), permiso.getFecha(), permiso.getCantDias(), 
-				permiso.isVacaciones(), permiso.getRodado());
+				permiso.isVacaciones(), permiso.getRodado(), permiso.getDesdeHasta());
 	}
 }

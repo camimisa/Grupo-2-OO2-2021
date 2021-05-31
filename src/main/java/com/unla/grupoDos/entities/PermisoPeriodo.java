@@ -31,6 +31,7 @@ public class PermisoPeriodo extends Permiso{
 		this.cantDias = cantDias;
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;
+		this.desdeHasta = desdeHasta;
 	}
 
 	public int getCantDias() {

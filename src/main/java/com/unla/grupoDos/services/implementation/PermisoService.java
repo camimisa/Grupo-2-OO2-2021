@@ -78,24 +78,21 @@ public class PermisoService implements IPermisoService{
 
 		Persona persona = personaService.findByDni(permisoModel.getPedido().getDni());
 		if(persona == null)
-			personaService.insertOrUpdate(permisoModel.getPedido());
-		else
-			permisoModel.setPedido(persona);
-
-		Lugar lugarAux = new Lugar();
-		for(Lugar lugar: permisoModel.getDesdeHasta()) {			
-			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
-			if(lugarAux == null) {
-				lugarAux = lugarService.insertOrUpdate(lugar);
-			}	
-			else {
-				lugar = lugarAux;
-			}
-		}
+			persona = personaService.insertOrUpdate(permisoModel.getPedido());
 		
-		System.out.println(permisoModel.toString());
+		permisoModel.setPedido(persona); // Esto se hace por si se ingreso un dni con nombre distinto. Se va a remplazar por los datos correcto que vienen de la bd.
+
+		Lugar lugarAux = null;
+		for(Lugar lugar: permisoModel.getDesdeHasta()) {	
+			lugarAux = new Lugar();
+			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
+			if(lugarAux == null) 
+				lugarAux = lugarService.insertOrUpdate(lugar);
+			lugar.setIdLugar(lugarAux.getIdLugar());
+			lugar.setCodPostal(lugarAux.getCodPostal());
+			lugar.setLugar(lugarAux.getLugar());
+		}
 		PermisoDiario permiso = (PermisoDiario) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
-		System.out.println("DSP: " + permiso.toString() + permiso.getIdPermiso());
 		return permisoConverter.entidadAModelo(permiso);
 	}
 	
@@ -117,11 +114,12 @@ public class PermisoService implements IPermisoService{
 		for(Lugar lugar: permisoModel.getDesdeHasta()) {
 			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
 			if(lugarAux == null)
-				lugarAux = lugarService.insertOrUpdate(lugar);
-			lugar = lugarAux;
-			System.out.println("EN EL FOR " + lugar.toString() + lugar.getIdLugar());
+				lugarAux = lugarService.insertOrUpdate(lugar);			
+			lugar.setIdLugar(lugarAux.getIdLugar());
+			lugar.setCodPostal(lugarAux.getCodPostal());
+			lugar.setLugar(lugarAux.getLugar());
 		}
-		System.out.println(permisoModel.toString());
+
 		PermisoPeriodo permiso = (PermisoPeriodo) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
 		return permisoConverter.entidadAModelo(permiso);
 	}
@@ -145,10 +143,7 @@ public class PermisoService implements IPermisoService{
 
 	@Override
 	public List<Permiso> getAllByPersona(long dni) {
-		
 		List<Permiso> lista = permisoRepository.getAllByPersona(dni);
-		System.out.println(dni);
-		System.out.println(lista);
 		return lista;
 	}
 }

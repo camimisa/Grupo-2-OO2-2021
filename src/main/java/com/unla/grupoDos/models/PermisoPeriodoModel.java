@@ -1,7 +1,9 @@
 package com.unla.grupoDos.models;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 
@@ -13,8 +15,8 @@ public class PermisoPeriodoModel extends PermisoModel{
 	
 	public PermisoPeriodoModel() {}
 	
-	public PermisoPeriodoModel(int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado) {
-		super(idPermiso, pedido, fecha);
+	public PermisoPeriodoModel(int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado, Set<Lugar>desdeHasta) {
+		super(idPermiso, pedido, fecha, desdeHasta);
 		this.cantDias = cantDias;
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;

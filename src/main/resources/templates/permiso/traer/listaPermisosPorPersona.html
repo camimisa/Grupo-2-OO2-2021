@@ -13,7 +13,7 @@
       <div class="container">
       <br>
 		<p class="h3">Permisos activos por persona:</p>
-        <div>
+        <div th:if="${!permisosActivos.empty}">
             <p class="h4">Permisos encontrados</p>
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -41,10 +41,15 @@
 						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
 						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
 					</tr>
-					
                     </tbody>
                 </table>
             </div>
+            <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
+        </div>
+        <div th:if="${permisosActivos.empty}">        
+	        <div class="alert alert-danger" role="alert">
+	        	No se encontro ningun permiso activo con los filtros ingresados.
+	        </div>
         </div>
       </div>
       <!-- /.container -->

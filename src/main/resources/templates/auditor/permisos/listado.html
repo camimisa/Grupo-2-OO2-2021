@@ -21,6 +21,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Fecha</th>
+                        <th scope="col">Fecha Vencimiento</th>
                         <th scope="col">Persona</th>
                         <th scope="col">Desde</th>
                         <th scope="col">Hasta</th>
@@ -32,6 +33,8 @@
                     <tr th:each="permiso : ${permisosActivos}">
 						<td><span th:text="${permiso.IdPermiso}" /></td>
 						<td><span th:text="${permiso.fecha}" /></td>
+						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.fecha}" /></td>
+						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.getFechaVencimiento()}"/></td>
 						<td><span th:text="${permiso.getPedido().toString()}"/></td>
 						<td th:each="lugar : ${permiso.getDesdeHasta()}">
 							<span th:text="${lugar.toString()}"/>

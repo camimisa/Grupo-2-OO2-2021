@@ -58,7 +58,10 @@ public class PermisoPeriodo extends Permiso{
 		this.rodado = rodado;
 	}
 	
-	
+	public LocalDate getFechaVencimiento() {
+		LocalDate fechaVencimiento = this.fecha.plusDays(cantDias);
+		return fechaVencimiento;
+	}
 	
 	
 }

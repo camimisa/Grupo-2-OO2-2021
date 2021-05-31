@@ -67,7 +67,12 @@ public class PermisoService implements IPermisoService{
 	public PermisoDiarioModel permisoDiarioFindById(int id) {
 		return permisoConverter.entidadAModelo(permisoRepository.permisoDiarioFindById(id));
 	}
-	
+
+
+	@Override
+	public Permiso findByIdPermiso(int id) {
+		return permisoRepository.findByIdPermiso(id);
+	}
 	@Override
 	public PermisoPeriodoModel permisoPeriodoFindById(int id) {
 		return permisoConverter.entidadAModelo(permisoRepository.permisoPeriodoFindById(id));

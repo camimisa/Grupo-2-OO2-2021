@@ -48,7 +48,10 @@ public abstract class PermisoModel {
 		return desdeHasta;
 	}
 	public void setDesdeHasta(Set<Lugar> desdeHasta) {
-		this.desdeHasta = desdeHasta;
+		if(desdeHasta.size() == 2)
+			this.desdeHasta = desdeHasta;
+		else
+			this.desdeHasta = null;
 	}
 	
 	

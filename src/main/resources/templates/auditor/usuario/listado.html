@@ -18,7 +18,6 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-dark">
                     <tr>
-                    	<th scope="col">Id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
                         <th scope="col">Tipo doc</th>
@@ -30,7 +29,6 @@
                 </thead>
                 <tbody>
 					<tr th:each="usuario : ${listaUsuarios}">
-						<td><span th:text="${usuario.idUsuario}" /></td>
 						<td><span th:text="${usuario.nombre}" /></td>
 						<td><span th:text="${usuario.apellido}" /></td>
 						<td><span th:text="${usuario.tipoDoc}" /></td>

@@ -130,7 +130,7 @@ public class PermisoController {
 
 	@GetMapping("/periodo/buscarDatos/")
 	public String formularioPermisoPeriodo(Model model,@RequestParam(name="dominio", required = false, defaultValue = "") String dominio, 
-			@RequestParam(name="documento", required = false) long documento) {
+			@RequestParam(name="documento", required = false, defaultValue = "0") long documento) {
 		PermisoModel permiso = new PermisoPeriodoModel();
 		if(!dominio.isEmpty()) {
 			((PermisoPeriodoModel) permiso).setRodado(rodadoService.findByDominio(dominio));

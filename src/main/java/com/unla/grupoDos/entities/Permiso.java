@@ -38,7 +38,7 @@ public abstract class Permiso {
 	@JoinColumn(name="id_pedido", nullable=false)
 	protected Persona pedido;
 	
-	@Column(name = "fecha")
+	@Column(name = "fecha", nullable=false)
 	protected LocalDate fecha;
 	
 

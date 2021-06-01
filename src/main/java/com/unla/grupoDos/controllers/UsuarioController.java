@@ -48,12 +48,6 @@ public class UsuarioController {
 			return ViewRouteHelper.USUARIO_LOGIN;
 		}
 		
-		/*
-		@GetMapping("/logout")
-		public String logout(Model model) {
-			return ViewRouteHelper.USUARIO_LOGOUT;
-		}*/
-		
 		@GetMapping("/logout")
 		public String logout(HttpServletRequest request, HttpServletResponse response) {
 		    org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();

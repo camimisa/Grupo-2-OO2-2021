@@ -54,4 +54,7 @@ public class ViewRouteHelper {
 	public final static String VER_PERMISO_PERIODO = "permiso/permisoPeriodo/verPermiso";
 	
 	public final static String PERMISO_NO_ENCONTRADO = "permiso/noExiste";
+	
+	public final static String PREGUNTA_PERMISO_POR_PERSONA = "permiso/traer/buscarPermiso";
+	public final static String LISTADO_PERMISOS_POR_PERSONA = "permiso/traer/listaPermisosPorPersona";
 }

@@ -144,7 +144,6 @@ public class AdminController {
 	
 	@GetMapping(value = {"/perfiles", "/perfiles/"})
 	public ModelAndView perfilIndex() {
-		System.out.println("INDEX");
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_PERFIL_INDEX);
 		mAV.addObject("listaPerfiles", perfilService.getAll());
 		mAV.addObject("perfil", new PerfilModel());

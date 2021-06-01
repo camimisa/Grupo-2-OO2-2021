@@ -48,7 +48,7 @@
                     Perfil:
                 	<select th:field="*{idPerfil}" class="form-select">
 			            <option th:each="perfilLista : ${listaPerfiles}"
-			              th:value="${perfilLista.idLugar}" 
+			              th:value="${perfilLista.idPerfil}" 
 			              th:text="${perfilLista.nombre}"/>
 		          </select>
                 </p>

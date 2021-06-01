@@ -65,7 +65,7 @@ public abstract class Permiso {
 		this.idPermiso = idPermiso;
 		this.pedido = pedido;
 		this.fecha = fecha;
-		this.desdeHasta = desdeHasta;
+		this.setDesdeHasta(desdeHasta);
 	}
 	
 	public int getIdPermiso() {
@@ -91,7 +91,10 @@ public abstract class Permiso {
 	}
 	
 	public void setDesdeHasta(Set<Lugar> desdeHasta) {
-		this.desdeHasta = desdeHasta;
+		if(desdeHasta.size() == 2)
+			this.desdeHasta = desdeHasta;
+		else
+			this.desdeHasta = null;
 	}
 
 	public LocalDateTime getCreatedAt() {

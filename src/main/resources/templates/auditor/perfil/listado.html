@@ -18,14 +18,12 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-dark">
                     <tr>
-                    	<th scope="col">id</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
                     </tr>
                 </thead>
                 <tbody>
 					<tr th:each="perfil : ${listaPerfiles}">
-						<td><span th:text="${perfil.idPerfil}" /></td>
 						<td><span th:text="${perfil.nombre}" /></td>
 						<td><span th:text="${perfil.descripcion}" /></td>
 					</tr>

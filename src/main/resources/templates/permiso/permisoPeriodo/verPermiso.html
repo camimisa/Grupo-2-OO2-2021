@@ -19,10 +19,10 @@
                 <p class="h5">Fecha del permiso: <span class="lead" th:text="*{permiso.fecha}"/></p>
             </div>
             <div class="col-md-3">
-                <p class="h5">Cantidad de dias: <span class="lead" th:text="*{permiso.cantDias}"/></p>
+                <p class="h5">Cantidad de días: <span class="lead" th:text="*{permiso.cantDias}"/></p>
             </div>
             <div class="col-md-3">
-				<p class="h5">Estara de vaciones? <span class="lead" th:text="${permiso.vacaciones} ? 'Si' : 'No'"/></p>
+				<p class="h5">Estará de vaciones? <span class="lead" th:text="${permiso.vacaciones} ? 'Si' : 'No'"/></p>
             </div>
         </div>
 		<div th:each="lugar, iterador : ${permiso.getDesdeHasta()}">
@@ -34,7 +34,7 @@
 	              <p class="h5">Lugar: <span class="lead" th:text="${lugar.getLugar()}"/></p>
 	            </div>
 	            <div class="col-md-6">
-	              <p class="h5">Codigo Postal: <span class="lead" th:text="${lugar.getCodPostal()}"/></p>
+	              <p class="h5">Código Postal: <span class="lead" th:text="${lugar.getCodPostal()}"/></p>
 	            </div>
 			</div>
 		</div>
@@ -60,7 +60,7 @@
               <p class="h5">Dominio : <span  class="lead" th:text="*{permiso.rodado.dominio}"/></p>
             </div>
             <div class="col-md-6">
-              <p class="h5">Vehiculo: <span class="lead" th:text="*{permiso.rodado.vehiculo}"/></p>
+              <p class="h5">Vehículo: <span class="lead" th:text="*{permiso.rodado.vehiculo}"/></p>
             </div>
         </div>
         <hr>

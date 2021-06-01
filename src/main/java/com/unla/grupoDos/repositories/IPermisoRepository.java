@@ -17,18 +17,35 @@ import com.unla.grupoDos.entities.PermisoDiario;
 public interface IPermisoRepository extends JpaRepository<Permiso, Serializable> {
 
 	@Query(
-		value = "SELECT * FROM permiso_periodo pp INNER JOIN Rodado r ON pp.id_rodado = r.id_rodado "
-			+ "where pp.id_permiso = (:idPermiso)",
+		value = "SELECT * FROM permido p "
+				+ "INNER JOIN permiso_diario pd ON pd.id_pedido= p.id_pedido"
+				+ "where pd.id_permiso = (:idPermiso)",
 		nativeQuery=true
 	)
 	public abstract PermisoDiario permisoDiarioFindById(int idPermiso);
 	
 	
 	@Query(
-		value = "SELECT * FROM permiso_diario pd where pd.id_permiso = (:idPermiso)",
+		value = "SELECT * FROM permiso p "
+				+ "INNER JOIN permiso_periodo pp ON p.id_permiso = pp.id_permiso"
+				+ "INNER JOIN rodado r ON r.id_rodado = pp.id_rodado"
+				+ "WHERE pd.id_permiso = (:idPermiso)",
 		nativeQuery=true
 	)
 	public abstract PermisoPeriodo permisoPeriodoFindById(int idPermiso);
+	/*@Query(
+			value = "SELECT *, 0 AS clazz_ FROM permisoxlugar pxl"
+					+ " INNER JOIN permiso p ON p.id_permiso = pxl.id_permiso"
+					+ " INNER JOIN lugar l ON l.id_lugar = pxl.id_lugar"
+					+ " WHERE l.id_lugar IN (:idLugares) AND p.fecha between :startDate AND :endDate",
+			nativeQuery = true
+	)*/
+	@Query(
+			value = "FROM Permiso p "
+					+ "INNER JOIN FETCH p.desdeHasta pxl "
+					+ "WHERE pxl.idLugar IN (:idLugares)"
+	)
+	public abstract List<Permiso> findByLugares(@Param("idLugares") List<Integer> idLugares);
 	
 	public abstract Permiso findByIdPermiso(int idPermiso);
 	@Query(

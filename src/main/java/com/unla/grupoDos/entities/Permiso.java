@@ -109,7 +109,10 @@ public abstract class Permiso {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	public abstract boolean esValido(LocalDate desde, LocalDate hasta);
 
+	public abstract LocalDate getFechaVencimiento();
 	@Override
 	public String toString() {
 		return "Permiso [idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha=" + fecha + ", createdAt="

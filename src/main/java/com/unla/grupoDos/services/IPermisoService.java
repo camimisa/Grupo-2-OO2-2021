@@ -17,6 +17,7 @@ public interface IPermisoService {
 	PermisoDiarioModel permisoDiarioFindById(int id);
 	PermisoPeriodoModel permisoPeriodoFindById(int id);
 	public List<Permiso> getAllBetweenDates(LocalDate startDate, LocalDate endDate);
+	public List<Permiso> getAllByLugares(List<Integer> lugaresId);
 	public List<Permiso> getAllByPersona(long dni);
 	public Permiso findByIdPermiso(int id);
 	

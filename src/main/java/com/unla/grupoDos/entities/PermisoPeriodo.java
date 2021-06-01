@@ -1,6 +1,7 @@
 package com.unla.grupoDos.entities;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,11 +26,12 @@ public class PermisoPeriodo extends Permiso{
 	public PermisoPeriodo() {}
 
 	public PermisoPeriodo(int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones,
-			Rodado rodado) {
-		super(idPermiso, pedido, fecha);
+			Rodado rodado,  Set<Lugar>desdeHasta) {
+		super(idPermiso, pedido, fecha, desdeHasta);
 		this.cantDias = cantDias;
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;
+		this.desdeHasta = desdeHasta;
 	}
 
 	public int getCantDias() {
@@ -55,13 +57,11 @@ public class PermisoPeriodo extends Permiso{
 	public void setRodado(Rodado rodado) {
 		this.rodado = rodado;
 	}
-
 	@Override
 	public LocalDate getFechaVencimiento() {
 		LocalDate fechaVencimiento = this.fecha.plusDays(cantDias);
 		return fechaVencimiento;
 	}
-
 	@Override
 	public boolean esValido(LocalDate desde, LocalDate hasta) { 
 		LocalDate fechaHastaEnLaQueElPermisoEsValido = this.fecha.plusDays(cantDias);
@@ -73,7 +73,4 @@ public class PermisoPeriodo extends Permiso{
 			)
 		);
 	}
-	
-	
-	
 }

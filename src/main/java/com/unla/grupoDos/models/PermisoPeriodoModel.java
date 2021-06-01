@@ -1,20 +1,24 @@
 package com.unla.grupoDos.models;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import javax.validation.constraints.Min;
+
+import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 
 public class PermisoPeriodoModel extends PermisoModel{
-	
+	@Min(value = 1, message = "Para sacar este permiso tiene que seleccionar un valor igual o mayor a 1 dia.")
 	private int cantDias;
 	private boolean vacaciones;
 	private Rodado rodado;
 	
 	public PermisoPeriodoModel() {}
 	
-	public PermisoPeriodoModel(int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado) {
-		super(idPermiso, pedido, fecha);
+	public PermisoPeriodoModel(int idPermiso, Persona pedido, LocalDate fecha, int cantDias, boolean vacaciones, Rodado rodado, Set<Lugar>desdeHasta) {
+		super(idPermiso, pedido, fecha, desdeHasta);
 		this.cantDias = cantDias;
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;

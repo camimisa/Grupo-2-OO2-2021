@@ -27,26 +27,17 @@ public class RodadoService implements IRodadoService{
 	}
 
 	@Override
-	public RodadoModel findById(int id) {
-		Rodado rodado = rodadoRepository.findByIdRodado(id);
-		RodadoModel rodadoModel = null;
-		if(rodado != null)
-			rodadoModel = rodadoConverter.entidadAModelo(rodado);
-		return rodadoModel;
+	public Rodado findById(int id) {
+		return rodadoRepository.findByIdRodado(id);
 	}
 
 	@Override
-	public RodadoModel findByDominio(String dominio) {
-		Rodado rodado = rodadoRepository.findByDominio(dominio);
-		RodadoModel rodadoModel = null;
-		if(rodado != null)
-			rodadoModel = rodadoConverter.entidadAModelo(rodado);
-		return rodadoModel;
+	public Rodado findByDominio(String dominio) {
+		return rodadoRepository.findByDominio(dominio);
 	}
 	@Override
-	public RodadoModel insertOrUpdate(RodadoModel RodadoModel) {
-		Rodado Rodado = rodadoRepository.save(rodadoConverter.modeloAEntidad(RodadoModel));
-		return rodadoConverter.entidadAModelo(Rodado);
+	public Rodado insertOrUpdate(Rodado rodado) {
+		return rodadoRepository.save(rodado);
 	}
 
 	@Override

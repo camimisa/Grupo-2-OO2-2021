@@ -47,6 +47,7 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 	)
 	public abstract List<Permiso> findByLugares(@Param("idLugares") List<Integer> idLugares);
 	
+	public abstract Permiso findByIdPermiso(int idPermiso);
 	@Query(
 			value = "from Permiso p inner join fetch p.pedido pe "
 					+ "where p.fecha between (:startDate) and (:endDate)")

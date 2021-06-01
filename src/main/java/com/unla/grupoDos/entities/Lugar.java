@@ -1,9 +1,16 @@
 package com.unla.grupoDos.entities;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +26,7 @@ public class Lugar {
 	@Column(name="codPostal", unique=true, nullable=false, length=10)
 	private String codPostal;
 	
+	
 	public Lugar() {}
 
 	public Lugar(int idLugar, String lugar, String codPostal) {
@@ -26,13 +34,20 @@ public class Lugar {
 		this.idLugar = idLugar;
 		this.lugar = lugar;
 		this.codPostal = codPostal;
+	
+	}
+	
+	public Lugar(String lugar, String codPostal) {
+		super();
+		this.setLugar(lugar);
+		this.setCodPostal(codPostal);
 	}
 
 	public int getIdLugar() {
 		return idLugar;
 	}
 
-	protected void setIdLugar(int idLugar) {
+	public void setIdLugar(int idLugar) {
 		this.idLugar = idLugar;
 	}
 
@@ -49,7 +64,10 @@ public class Lugar {
 	}
 
 	public void setCodPostal(String codPostal) {
-		this.codPostal = codPostal;
+		if(codPostal.matches("[0-9]{4}"))
+			this.codPostal = codPostal;
+		else
+			this.codPostal = "0000";
 	}
 
 	@Override

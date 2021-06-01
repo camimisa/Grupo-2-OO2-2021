@@ -7,10 +7,10 @@ import com.unla.grupoDos.models.PersonaModel;
 
 public interface IPersonaService {
 	public List<Persona> getAll();
-	public PersonaModel insertOrUpdate(PersonaModel personaModel);
+	public Persona insertOrUpdate(Persona persona);
 	public PersonaModel findById(int idPersona);
 	public PersonaModel findByNombre(String nombre);
 	public PersonaModel findByApellido(String apellido);
-	public PersonaModel findByDni(long dni);
+	public Persona findByDni(long dni);
 	public boolean remove(int idPersona);
 }

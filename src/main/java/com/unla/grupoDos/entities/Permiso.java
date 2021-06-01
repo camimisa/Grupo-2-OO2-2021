@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public abstract class Permiso {
 	
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int idPermiso;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,22 +50,22 @@ public abstract class Permiso {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 
-	@ManyToMany()
+	@ManyToMany
 	@JoinTable(
 		name = "permisoxlugar",
-		joinColumns = @JoinColumn(name = "id_permiso"),
-		inverseJoinColumns = @JoinColumn(name = "id_lugar")
+		joinColumns = {@JoinColumn(name = "id_permiso", nullable = false)},
+		inverseJoinColumns = {@JoinColumn(name = "id_lugar", nullable = false)}
 	)
 	protected Set<Lugar> desdeHasta;
 	
 	public Permiso() {}
 	
-	public Permiso(int idPermiso, Persona pedido, LocalDate fecha) {
+	public Permiso(int idPermiso, Persona pedido, LocalDate fecha, Set<Lugar>desdeHasta) {
 		super();
 		this.idPermiso = idPermiso;
 		this.pedido = pedido;
 		this.fecha = fecha;
-		this.desdeHasta = new HashSet<Lugar>();
+		this.desdeHasta = desdeHasta;
 	}
 	
 	public int getIdPermiso() {

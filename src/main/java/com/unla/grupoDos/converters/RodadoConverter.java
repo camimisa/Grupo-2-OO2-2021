@@ -9,10 +9,16 @@ import com.unla.grupoDos.models.RodadoModel;
 public class RodadoConverter {
 	
 	public Rodado modeloAEntidad(RodadoModel rodadoModel) {
-		return new Rodado(rodadoModel.getIdRodado(),rodadoModel.getDominio(),rodadoModel.getVehiculo());
+		Rodado rodado = null;
+		if(rodadoModel != null)
+			rodado = new Rodado(rodadoModel.getIdRodado(),rodadoModel.getDominio(),rodadoModel.getVehiculo());
+		return rodado;
 	}
 	
 	public RodadoModel entidadAModelo(Rodado rodado) {
-		return new RodadoModel(rodado.getIdRodado(), rodado.getDominio(), rodado.getVehiculo());
+		RodadoModel rodadoModel = null;
+		if(rodado != null)
+			rodadoModel = new RodadoModel(rodado.getIdRodado(), rodado.getDominio(), rodado.getVehiculo());
+		return rodadoModel;
 	}
 }

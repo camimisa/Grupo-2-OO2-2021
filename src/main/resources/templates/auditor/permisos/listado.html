@@ -11,54 +11,55 @@
 		    box-sizing: content-box;
 		}
 	</style>
+    <title>Listado Permisos</title>
 </head>
 <body>
 	<div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
       <div class="container">
-      <br>
-		<p class="h3"><span th:text="${titulo}"/></p>
-        <div th:if="${permisosActivos}">
-            <p class="h4">Permisos encontrados:</p>
-            <table class="table table-striped table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col">Válido desde</th>
-                    <th scope="col">Válido hasta</th>
-                    <th scope="col">Persona</th>
-                    <th th:if="${#request.getParameter('desdeLugar') != null 
-                    	|| (#request.getParameter('desdeLugar') == null && #request.getParameter('hastaLugar') == null)}" 
-                    	scope="col">Desde</th>
-                    <th th:if="${#request.getParameter('hastaLugar') != null
-                    	|| (#request.getParameter('desdeLugar') == null && #request.getParameter('hastaLugar') == null)}" 
-                    	scope="col">Hasta</th>
-                    <th scope="col">Tipo Permiso</th>
-                    <th scope="col">Motivo/Dominio</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="permiso : ${permisosActivos}">
-					<td><span th:text="${permiso.fecha}" /></td>
-					<td><span th:text="${permiso.getFechaVencimiento()}" /></td>
-					<td><span th:text="${permiso.getPedido()}"/></td>
-					<td th:each="lugar : ${lugares}">
-						<span th:text="${lugar}"/>
-					</td>
-					<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
-					<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
-					<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
-					<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
-				</tr>
-                </tbody>
-            </table>
-        </div>
-        <div th:if="${permisosActivos == null || permisosActivos.empty}">        
-	        <div class="alert alert-danger" role="alert">
-	        	No se encontro ningun permiso activo con los filtros ingresados.
-	        </div>
-        </div>
+          <br>
+		      <p class="h3"><span th:text="${titulo}"/></p>
+          <div th:if="${permisosActivos}">
+              <p class="h4">Permisos encontrados:</p>
+              <table class="table table-striped table-hover table-bordered">
+                  <thead>
+                      <tr>
+                          <th scope="col">Válido desde</th>
+                          <th scope="col">Válido hasta</th>
+                          <th scope="col">Persona</th>
+                          <th th:if="${#request.getParameter('desdeLugar') != null 
+                            || (#request.getParameter('desdeLugar') == null && #request.getParameter('hastaLugar') == null)}" 
+                            scope="col">Desde</th>
+                          <th th:if="${#request.getParameter('hastaLugar') != null
+                            || (#request.getParameter('desdeLugar') == null && #request.getParameter('hastaLugar') == null)}" 
+                            scope="col">Hasta</th>
+                          <th scope="col">Tipo Permiso</th>
+                          <th scope="col">Motivo/Dominio</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr th:each="permiso : ${permisosActivos}">
+                          <td><span th:text="${permiso.fecha}" /></td>
+                          <td><span th:text="${permiso.getFechaVencimiento()}" /></td>
+                          <td><span th:text="${permiso.getPedido()}"/></td>
+                          <td th:each="lugar : ${lugares}">
+                            <span th:text="${lugar}"/>
+                          </td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
+                       </tr>
+                    </tbody>
+                </table>
+          </div>
+          <div th:if="${permisosActivos == null || permisosActivos.empty}">        
+              <div class="alert alert-danger" role="alert">
+                  No se encontro ningun permiso activo con los filtros ingresados.
+              </div>
+          </div>
 
-        <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/auditor/}">Volver</a>
+          <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/auditor/}">Volver</a>
       </div>
 
     

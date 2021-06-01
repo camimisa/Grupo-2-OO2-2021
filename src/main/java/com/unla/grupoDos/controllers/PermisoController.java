@@ -90,7 +90,7 @@ public class PermisoController {
 	}
 
 	@GetMapping("/diario/buscarDatos/")
-	public String formularioPermisoDiario(Model model, @RequestParam(name="documento", required = false) long documento) {
+	public String formularioPermisoDiario(Model model, @RequestParam(name="documento", required = false, defaultValue = "0") long documento) {
 		PermisoModel permiso = new PermisoDiarioModel();
 		if(documento != 0) {
 			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
@@ -116,7 +116,7 @@ public class PermisoController {
 		permiso.setDesdeHasta(new HashSet<Lugar>());
 		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
 		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
-		
+		System.out.println(permiso);
 		permiso = permisoService.insertOrUpdate(permiso);
 		return new RedirectView("../"+permiso.getIdPermiso());
 	}

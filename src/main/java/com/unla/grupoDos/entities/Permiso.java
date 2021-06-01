@@ -91,7 +91,7 @@ public abstract class Permiso {
 	}
 	
 	public void setDesdeHasta(Set<Lugar> desdeHasta) {
-		if(desdeHasta.size() == 2)
+		if(desdeHasta.size() == 2 || desdeHasta.isEmpty())
 			this.desdeHasta = desdeHasta;
 		else
 			this.desdeHasta = null;

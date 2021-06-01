@@ -171,15 +171,16 @@ public class PermisoController {
 	
 	@GetMapping("/buscarPorPersona")
 	public String preguntaPermisoPorPersona(Model model) {
-		return "permiso/traer/buscarPermiso";
+		return ViewRouteHelper.PREGUNTA_PERMISO_POR_PERSONA;
 	}
 	
 	@GetMapping("/listarPermisoPorPersona")
 	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) long dni) {
-		ModelAndView mAV = new ModelAndView("permiso/traer/listaPermisosPorPersona"); 
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS_POR_PERSONA); 
 		List<Permiso>permisosActivos = permisoService.getAllByPersona(dni);
 		mAV.addObject("permisosActivos",permisosActivos);
-		
+		String titulo = "Permisos encontrados, dni: " + dni;
+		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
 	

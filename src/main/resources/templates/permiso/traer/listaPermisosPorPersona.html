@@ -13,13 +13,12 @@
       <div class="container">
       <br>
         <div th:if="${!permisosActivos.empty}">
-        <p class="h3 mb-2">Permisos encontrados</p>
+        <p class="h3"><span th:text="${titulo}"/></p>
 		<hr />
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Persona</th>
                         <th scope="col">Desde</th>
@@ -30,7 +29,6 @@
                     </thead>
                     <tbody>
                     <tr th:each="permiso : ${permisosActivos}">
-                    	<td><span th:text="${permiso.IdPermiso}" /></td>
 						<td><span th:text="${permiso.fecha}" /></td>
 						<td><span th:text="${permiso.getPedido().getDni() + ' - ' + permiso.getPedido().getNombre() + ' ' + permiso.getPedido().getApellido()}" /></td>
 						<td th:each="lugar : ${permiso.getDesdeHasta()}">

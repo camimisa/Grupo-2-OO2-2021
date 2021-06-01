@@ -35,28 +35,19 @@ public class PermisoService implements IPermisoService{
 	private IPermisoRepository permisoRepository;
 	@Autowired
 	@Qualifier("permisoConverter")
-	private PermisoConverter permisoConverter;	
+	private PermisoConverter permisoConverter;
+	
 	@Autowired
 	@Qualifier("rodadoService")
 	private IRodadoService rodadoService;
-	@Autowired
-	@Qualifier("rodadoConverter")
-	private RodadoConverter rodadoConverter;
 	
 	@Autowired
 	@Qualifier("lugarService")
 	private ILugarService lugarService;
-	@Autowired
-	@Qualifier("lugarConverter")
-	private LugarConverter lugarConverter;
-	
+
 	@Autowired
 	@Qualifier("personaService")
 	private IPersonaService personaService;
-	@Autowired
-	@Qualifier("personaConverter")
-	private PersonaConverter personaConverter;
-	
 	
 	@Override
 	public List<Permiso> getAll() {

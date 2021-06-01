@@ -15,11 +15,7 @@ import com.unla.grupoDos.services.IRodadoService;
 public class RodadoService implements IRodadoService{
 	@Autowired
 	@Qualifier("rodadoRepository")
-	private IRodadoRepository rodadoRepository;
-	
-	@Autowired
-	@Qualifier("rodadoConverter")
-	private RodadoConverter rodadoConverter;	
+	private IRodadoRepository rodadoRepository;	
 	
 	@Override
 	public List<Rodado> getAll() {

@@ -1,4 +1,5 @@
 package com.unla.grupoDos.entities;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 @Table(name="lugar")
 public class Lugar {
@@ -25,7 +29,13 @@ public class Lugar {
 	
 	@Column(name="codPostal", unique=true, nullable=false, length=10)
 	private String codPostal;
+	@Column(name="createdat")
+	@CreationTimestamp
+	private LocalDateTime createdAt;
 	
+	@Column(name="updatedat")
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
 	
 	public Lugar() {}
 
@@ -73,6 +83,22 @@ public class Lugar {
 	@Override
 	public String toString() {
 		return this.codPostal + " - " + this.lugar;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 	

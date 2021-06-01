@@ -24,5 +24,21 @@ public class PermisoDiario extends Permiso{
 		this.motivo = motivo;
 	}
 	
+	@Override
+	public LocalDate getFechaVencimiento() {
+		return fecha;
+	}
+	
+	@Override
+	public boolean esValido(LocalDate desde, LocalDate hasta) { 
+		LocalDate fechaEnLaQueSacoElPermiso = this.fecha;
+		return (fechaEnLaQueSacoElPermiso.isEqual(desde) 
+			|| fechaEnLaQueSacoElPermiso.isEqual(hasta) 
+			|| (hasta.isBefore(fechaEnLaQueSacoElPermiso) 
+				&& 
+				desde.isAfter(fechaEnLaQueSacoElPermiso)
+			)
+		);
+	}
 	
 }

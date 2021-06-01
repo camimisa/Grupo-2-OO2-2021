@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
@@ -103,34 +104,44 @@ public class AuditorController {
 			@RequestParam(name="desdeLugar", defaultValue = "-55") int desdeLugarId,
 			@RequestParam(name="hastaLugar", defaultValue = "-55") int hastaLugarId
 	) {
-		
-		LocalDate hasta = LocalDate.parse(hastaFecha);
-		LocalDate desde = LocalDate.parse(desdeFecha);
-		
+		LocalDate hasta; 
+		LocalDate desde;			
+		String titulo = "";
 		List<Permiso> permisosActivos;
-		
-		if (desdeLugarId != -55 || hastaLugarId != -55) {
-			List<Integer> lugaresId = new ArrayList<Integer>();
-			if (desdeLugarId != -55) {
-				lugaresId.add(desdeLugarId);			
-			} 
-			if (hastaLugarId != -55) {
-				lugaresId.add(hastaLugarId);			
-			}
-			permisosActivos = permisoService.getAllEntreFechasYLugaresEspecificos(desde, hasta, lugaresId);
-		} else {
-			permisosActivos = permisoService.getAllBetweenDates(desde, hasta);			
-		}
-		
-		//Si ambos son distintos de -55, significa que tiene que haber sí o sí 2 elementos en el set desdeHasta.
-		if (desdeLugarId != -55 && hastaLugarId != -55 ) {
-			permisosActivos.removeIf(p -> p.getDesdeHasta().size() < 2);			
-		}
-		
+		List<Lugar> lugares;
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS);
-		
-		mAV.addObject("permisosActivos", permisosActivos);
-		String titulo = "Permisos activos entre " + desde + " hasta " + hasta;
+		try {
+			
+			List<Integer> lugaresId = new ArrayList<Integer>();
+			if (desdeLugarId != -55 || hastaLugarId != -55) {
+				if (desdeLugarId != -55) {
+					lugaresId.add(desdeLugarId);			
+				} 
+				if (hastaLugarId != -55) {
+					lugaresId.add(hastaLugarId);			
+				}
+				permisosActivos = permisoService.getAllByLugares(lugaresId);
+				//Si ambos son distintos de -55, significa que tiene que haber sí o sí 2 elementos en el set desdeHasta.
+				if (desdeLugarId != -55 && hastaLugarId != -55 ) {
+					permisosActivos.removeIf(p -> p.getDesdeHasta().size() < 2);			
+				}
+			} else {
+				permisosActivos = permisoService.getAll();	
+			}
+			
+			hasta = LocalDate.parse(hastaFecha);
+			desde = LocalDate.parse(desdeFecha);
+
+			lugares = lugarService.findByIds(lugaresId);
+			permisosActivos.removeIf(p -> !p.esValido(hasta, desde));
+			titulo = "Permisos activos entre fechas: " + desde + " hasta " + hasta + 
+					" y desde " + ((desdeLugarId != -55) ? lugares.get(0).getLugar() : "cualquier lugar") +
+					" hasta " + ((hastaLugarId != -55) ? lugares.get(1).getLugar() : "cualquier lugar");
+			mAV.addObject("permisosActivos", permisosActivos);
+			mAV.addObject("lugares", lugares);
+		} catch(Exception e) {
+			titulo = "Datos erróneos.";
+		}
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}

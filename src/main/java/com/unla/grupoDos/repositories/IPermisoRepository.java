@@ -43,13 +43,9 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 	@Query(
 			value = "FROM Permiso p "
 					+ "INNER JOIN FETCH p.desdeHasta pxl "
-					+ "WHERE pxl.idLugar IN (:idLugares) AND p.fecha between :startDate AND :endDate"
+					+ "WHERE pxl.idLugar IN (:idLugares)"
 	)
-	public abstract List<Permiso> getAllEntreFechasYLugaresEspecificos(
-			@Param("startDate") LocalDate startDate, 
-			@Param("endDate") LocalDate endDate,
-			@Param("idLugares") List<Integer> idLugares
-	);
+	public abstract List<Permiso> findByLugares(@Param("idLugares") List<Integer> idLugares);
 	
 	@Query(
 			value = "from Permiso p inner join fetch p.pedido pe "

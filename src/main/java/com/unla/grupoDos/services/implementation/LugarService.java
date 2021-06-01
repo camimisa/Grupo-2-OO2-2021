@@ -1,5 +1,6 @@
 package com.unla.grupoDos.services.implementation;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,10 @@ public class LugarService implements ILugarService{
 		Lugar Lugar = lugarRepository.save(lugarConverter.modeloAEntidad(LugarModel));
 		return lugarConverter.entidadAModelo(Lugar);
 	}
-
+	@Override
+	public List<Lugar> findByIds(List<Integer> ids){
+		return lugarRepository.findAllByIds(ids);
+	}
 	@Override
 	public boolean remove(int id) {
 		try {

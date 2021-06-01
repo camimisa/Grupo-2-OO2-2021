@@ -10,5 +10,6 @@ public interface ILugarService {
 	public LugarModel insertOrUpdate(LugarModel LugarModel);
 	public boolean remove(int id);
 	LugarModel findById(int id);
+	public List<Lugar> findByIds(List<Integer> ids);
 	LugarModel findByCodPostal(String codPostal);
 }

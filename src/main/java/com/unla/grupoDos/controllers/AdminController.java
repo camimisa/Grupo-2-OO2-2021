@@ -78,8 +78,10 @@ public class AdminController {
 		Perfil p = perfilConverter.modeloAEntidad(m);
 		usuarioModel.setPerfil(p);
 		
-		if(corroborarUsuario(usuarioModel))
+		if(corroborarUsuario(usuarioModel)) {
 			usuarioService.insertOrUpdate(usuarioModel);
+			atts.addFlashAttribute("guardado", true);
+		}
 		else
 			atts.addFlashAttribute("errorUsuario", true);
 	
@@ -104,8 +106,10 @@ public class AdminController {
 			Perfil p = perfilConverter.modeloAEntidad(m);
 			usuario.setPerfil(p);
 			
-			if(corroborarUsuario(usuario))
+			if(corroborarUsuario(usuario)) {
 				usuarioService.insertOrUpdate(usuario);
+				atts.addFlashAttribute("guardado", true);
+			}
 			else
 				atts.addFlashAttribute("errorUsuario", true);			
 		}

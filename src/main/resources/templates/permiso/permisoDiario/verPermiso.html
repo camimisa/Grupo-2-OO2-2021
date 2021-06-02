@@ -10,7 +10,13 @@
 <body>
   	<div th:replace="~{/parcial/Header :: header}"></div>
     	<div class="container">
-        <br>
+    	<br>
+    	<div th:if="${guardado}" class="alert alert-success alert-dismissible fade show">
+		    Permiso creado correctamente!
+		   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		  	</button>
+		</div>
         <h1 class="h3 mb-3 font-weight-normal"><em>Permiso Diario</em></h1>
         <hr>
         <div class="row">

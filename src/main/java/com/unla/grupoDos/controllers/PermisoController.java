@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupoDos.converters.PermisoConverter;
@@ -111,14 +112,25 @@ public class PermisoController {
 			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
-			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal) {
+			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
+			RedirectAttributes atts) {
 		
 		permiso.setDesdeHasta(new HashSet<Lugar>());
-		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
-		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
-		System.out.println(permiso);
-		permiso = permisoService.insertOrUpdate(permiso);
-		return new RedirectView("../"+permiso.getIdPermiso());
+		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
+		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
+		String url = "";
+		if(!lugarDesde.equals(lugarHasta)) {
+			permiso.getDesdeHasta().add(lugarDesde);
+			permiso.getDesdeHasta().add(lugarHasta);
+			permiso = permisoService.insertOrUpdate(permiso);
+			url = "../"+permiso.getIdPermiso();
+			atts.addFlashAttribute("guardado", true);
+		}else {
+			url = "../diario";
+			atts.addFlashAttribute("errorLugares", true);
+		}
+		
+		return new RedirectView(url);
 	}
 	
 	// --------------- PERMISO PERIODO -------------------------
@@ -155,15 +167,25 @@ public class PermisoController {
 			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
-			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal) {
+			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
+			RedirectAttributes atts) {
 		
 		permiso.setDesdeHasta(new HashSet<Lugar>());
-		permiso.getDesdeHasta().add(new Lugar(desdeLugar, desdeCodPostal));
-		permiso.getDesdeHasta().add(new Lugar(hastaLugar, hastaCodPostal));
-
-		permiso = permisoService.insertOrUpdate(permiso);
-
-		return new RedirectView("../"+permiso.getIdPermiso());
+		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
+		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
+		String url = "";
+		if(!lugarDesde.equals(lugarHasta)) {
+			permiso.getDesdeHasta().add(lugarDesde);
+			permiso.getDesdeHasta().add(lugarHasta);
+			permiso = permisoService.insertOrUpdate(permiso);
+			url = "../"+permiso.getIdPermiso();
+			atts.addFlashAttribute("guardado", true);
+		}else {
+			url = "../periodo";
+			atts.addFlashAttribute("errorLugares", true);
+		}
+		
+		return new RedirectView(url);
 	}
 	
 	

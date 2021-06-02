@@ -100,6 +100,33 @@ public class Lugar {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codPostal == null) ? 0 : codPostal.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lugar other = (Lugar) obj;
+		if (codPostal == null) {
+			if (other.codPostal != null)
+				return false;
+		} else if (!codPostal.equals(other.codPostal))
+			return false;
+		return true;
+	}
+
+
 	
 	
 }

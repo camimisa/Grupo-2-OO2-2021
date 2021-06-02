@@ -21,8 +21,6 @@ import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 import com.unla.grupoDos.models.PerfilModel;
-import com.unla.grupoDos.models.PermisoModel;
-import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.models.UsuarioModel;
 import com.unla.grupoDos.services.ILugarService;
 import com.unla.grupoDos.services.IPerfilService;
@@ -145,7 +143,4 @@ public class AuditorController {
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
-	
-	
-	
 }

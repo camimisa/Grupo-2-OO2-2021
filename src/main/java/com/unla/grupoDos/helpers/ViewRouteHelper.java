@@ -44,14 +44,12 @@ public class ViewRouteHelper {
 	// --------------- VISTAS PERMISOS -------------------
 	
 	public final static String PREGUNTA_PERMISO = "permiso/pregunta";
+	public final static String NUEVO_PERMISO = "permiso/nuevo";
+	public final static String VER_PERMISO = "permiso/verPermiso";
 	
-	public final static String PREGUNTA_DIARIO = "permiso/permisoDiario/pregunta";
-	public final static String NUEVO_PERMISO_DIARIO = "permiso/permisoDiario/nuevo";
-	public final static String VER_PERMISO_DIARIO = "permiso/permisoDiario/verPermiso";
-	
+	public final static String PREGUNTA_DIARIO = "permiso/permisoDiario/pregunta";	
 	public final static String PREGUNTA_PERIODO = "permiso/permisoPeriodo/pregunta";
-	public final static String NUEVO_PERMISO_PERIODO = "permiso/permisoPeriodo/nuevo";
-	public final static String VER_PERMISO_PERIODO = "permiso/permisoPeriodo/verPermiso";
+	
 	
 	public final static String PERMISO_NO_ENCONTRADO = "permiso/noExiste";
 	

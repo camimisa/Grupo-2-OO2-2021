@@ -22,11 +22,11 @@
                     <label>Fecha del permiso:</label>
                     <input type="date" class="form-control" placeholder="fecha" th:field="*{fecha}" required>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
                     <label >Cantidad de días:</label>
                     <input type="number" class="form-control" th:field="*{cantDias}" min="1" value="1" required>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
                     <label for="preguntaVaciones">Estará de vaciones?</label>
                     <select class="form-control" aria-placeholder="Vaciones..." id="preguntaVaciones" th:field="*{vacaciones}" required>
                         <option value="1">Si</option>
@@ -84,6 +84,7 @@
                 <input type="hidden" id="idPersona" th:field="*{pedido.idPersona}"/>
             </div>
             <hr>
+            <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
             <h3 class="h3 mb-3 font-weight-normal">Datos del Rodado:</h3>
             <div class="form-row">
                 <br>
@@ -98,6 +99,16 @@
                   <input type="text" class="form-control" placeholder="vehiculo" required th:field="*{rodado.vehiculo}">
                 </div>
                 <input type="hidden" id="idRodado" th:field="*{rodado.idRodado}"/>
+            </div>
+            </div>
+            <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}">
+            <h3 class="h3 mb-3 font-weight-normal">Motivo del permiso:</h3>
+            <div class="form-row">
+                <br>
+                <div class="form-group col-md-6">
+                  <input type="text" class="form-control" placeholder="motivo..." required th:field="*{motivo}">
+                </div>
+            </div>
             </div>
             <hr>
 

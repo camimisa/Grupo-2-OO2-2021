@@ -124,7 +124,7 @@ public class PermisoController {
 			url = "../"+permiso.getIdPermiso();
 			atts.addFlashAttribute("guardado", true);
 		}else {
-			url = "../diario";
+			url = "../diario/";
 			atts.addFlashAttribute("errorLugares", true);
 		}
 		
@@ -179,7 +179,7 @@ public class PermisoController {
 			url = "../"+permiso.getIdPermiso();
 			atts.addFlashAttribute("guardado", true);
 		}else {
-			url = "../periodo";
+			url = "../periodo/";
 			atts.addFlashAttribute("errorLugares", true);
 		}
 		

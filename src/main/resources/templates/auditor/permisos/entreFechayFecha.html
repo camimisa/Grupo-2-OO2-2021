@@ -121,6 +121,12 @@
 			hastaCualquierLugarElement = document.getElementById("hastaCualquierLugar");
 			desdeCualquierLugarElement = document.getElementById("desdeCualquierLugar");
 			
+			hastaLugarElement.disabled = true;
+			desdeLugarElement.disabled = true;
+			
+			hastaCualquierLugarElement.checked = true;
+			desdeCualquierLugarElement.checked = true;
+			
 			desdeFechaElement.addEventListener("change", desdeFechaOnChange);
 			hastaCualquierLugarElement.addEventListener("change", hastaCualquierLugarOnChange);
 			desdeCualquierLugarElement.addEventListener("change", desdeCualquierLugarOnChange);

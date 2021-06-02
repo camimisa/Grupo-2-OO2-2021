@@ -1,5 +1,9 @@
 package com.unla.grupoDos.controllers;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,21 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-<<<<<<< HEAD
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
-import com.unla.grupoDos.entities.PermisoDiario;
-=======
->>>>>>> ee0fd9e71aac9900ca6abe63255ee108164c2e02
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 import com.unla.grupoDos.models.PerfilModel;
 import com.unla.grupoDos.models.UsuarioModel;
 import com.unla.grupoDos.services.ILugarService;
 import com.unla.grupoDos.services.IPerfilService;
+import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IUsuarioService;
-import com.unla.grupoDos.services.implementation.LugarService;
 
 @Controller
 @RequestMapping("/auditor")
@@ -37,8 +35,7 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("perfilService")
 	private IPerfilService perfilService;
-<<<<<<< HEAD
-	
+
 	@Autowired
 	@Qualifier("permisoService")
 	private IPermisoService permisoService;
@@ -46,8 +43,6 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("lugarService")
 	private ILugarService lugarService;
-=======
->>>>>>> ee0fd9e71aac9900ca6abe63255ee108164c2e02
 
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
 	@GetMapping("/")
@@ -88,7 +83,6 @@ public class AuditorController {
 		mAV.addObject("perfil", new PerfilModel());
 		return mAV;
 	}
-<<<<<<< HEAD
 	
 	// ------------------------------ ACCIONES CON PERMISOS ---------------------------
 	@GetMapping("/permiso/buscarEntreFechas")
@@ -145,9 +139,5 @@ public class AuditorController {
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
-	
-	
-	
-=======
->>>>>>> ee0fd9e71aac9900ca6abe63255ee108164c2e02
+
 }

@@ -24,6 +24,14 @@
             <div class="col-md-6">
                 <p class="h5">Fecha del permiso: <span class="lead" th:text="*{permiso.fecha}"/></p>
             </div>
+
+	            <div class="col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">
+	                <p class="h5">Cantidad de días: <span class="lead" th:text="*{permiso.cantDias}"/></p>
+	            </div>
+	            <div class="col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">
+					<p class="h5">Estará de vaciones? <span class="lead" th:text="${permiso.vacaciones} ? 'Si' : 'No'"/></p>
+	            </div>
+
         </div>
 		<div th:each="lugar, iterador : ${permiso.getDesdeHasta()}">
 			<h3 class="h3 mb-3 font-weight-normal" th:if="${iterador.index == 0}" >Desde:</h3>
@@ -53,12 +61,26 @@
             </div>
         </div>
         <hr>
-        <h3 class="h3 mb-3 font-weight-normal">Motivo del permiso:</h3>
-        <div class="row">
-            <br>
-            <div class="col-md-6">
-              <p class="h5">Motivo : <span class="lead" th:text="*{permiso.motivo}"/></p>
-            </div>
+        <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoModel'}">
+	        <h3 class="h3 mb-3 font-weight-normal">Datos del Rodado:</h3>
+	        <div class="row">
+	            <br>
+	            <div class="col-md-6">
+	              <p class="h5">Dominio : <span  class="lead" th:text="*{permiso.rodado.dominio}"/></p>
+	            </div>
+	            <div class="col-md-6">
+	              <p class="h5">Vehículo: <span class="lead" th:text="*{permiso.rodado.vehiculo}"/></p>
+	            </div>
+	        </div>
+        </div>
+        <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">
+	        <h3 class="h3 mb-3 font-weight-normal">Motivo del permiso:</h3>
+	        <div class="row">
+	            <br>
+	            <div class="col-md-6">
+	              <p class="h5">Motivo : <span class="lead" th:text="*{permiso.motivo}"/></p>
+	            </div>
+	        </div>
         </div>
         <hr>
         <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/}">Volver</a>

@@ -14,18 +14,14 @@ import com.unla.grupoDos.entities.PermisoPeriodo;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.models.PermisoDiarioModel;
+import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.repositories.IPermisoRepository;
-import com.unla.grupoDos.repositories.IPersonaRepository;
-import com.unla.grupoDos.repositories.IRodadoRepository;
 import com.unla.grupoDos.services.ILugarService;
 import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IPersonaService;
 import com.unla.grupoDos.services.IRodadoService;
-import com.unla.grupoDos.converters.LugarConverter;
 import com.unla.grupoDos.converters.PermisoConverter;
-import com.unla.grupoDos.converters.PersonaConverter;
-import com.unla.grupoDos.converters.RodadoConverter;
 
 
 @Service("permisoService")
@@ -71,29 +67,19 @@ public class PermisoService implements IPermisoService{
 
 	@Override
 	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel permisoModel) {
-
-		Persona persona = personaService.findByDni(permisoModel.getPedido().getDni());
-		if(persona == null)
-			persona = personaService.insertOrUpdate(permisoModel.getPedido());
-		
-		permisoModel.setPedido(persona); // Esto se hace por si se ingreso un dni con nombre distinto. Se va a remplazar por los datos correcto que vienen de la bd.
-
-		Lugar lugarAux = null;
-		for(Lugar lugar: permisoModel.getDesdeHasta()) {	
-			lugarAux = new Lugar();
-			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
-			if(lugarAux == null) 
-				lugarAux = lugarService.insertOrUpdate(lugar);
-			lugar.setIdLugar(lugarAux.getIdLugar());
-			lugar.setCodPostal(lugarAux.getCodPostal());
-			lugar.setLugar(lugarAux.getLugar());
-		}
+		permisoModel = (PermisoDiarioModel) this.obtenerDatos(permisoModel);
 		PermisoDiario permiso = (PermisoDiario) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
 		return permisoConverter.entidadAModelo(permiso);
 	}
 	
 	@Override
 	public PermisoPeriodoModel insertOrUpdate(PermisoPeriodoModel permisoModel) {
+		permisoModel = (PermisoPeriodoModel) this.obtenerDatos(permisoModel);
+		PermisoPeriodo permiso = (PermisoPeriodo) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
+		return permisoConverter.entidadAModelo(permiso);
+	}
+
+	private PermisoModel obtenerDatos(PermisoModel permisoModel) {
 		// Guardar persona si no existe, si existe asignarle su ID
 		Persona persona = personaService.findByDni(permisoModel.getPedido().getDni());
 		if(persona == null) 
@@ -101,11 +87,12 @@ public class PermisoService implements IPermisoService{
 		permisoModel.setPedido(persona); // Esto se hace por si se ingreso un dni con nombre distinto. Se va a remplazar por los datos correcto que vienen de la bd.
 		
 		// Guardar rodado si no existe, si existe asignarle su ID
-		Rodado rodado = rodadoService.findByDominio(permisoModel.getRodado().getDominio());
-		if(rodado == null)
-			rodado = rodadoService.insertOrUpdate(permisoModel.getRodado());
-		permisoModel.setRodado(rodado);
-
+		if(permisoModel instanceof PermisoPeriodoModel) {
+			Rodado rodado = rodadoService.findByDominio(((PermisoPeriodoModel) permisoModel).getRodado().getDominio());
+			if(rodado == null)
+				rodado = rodadoService.insertOrUpdate(((PermisoPeriodoModel) permisoModel).getRodado());
+			((PermisoPeriodoModel) permisoModel).setRodado(rodado);
+		}
 		Lugar lugarAux = new Lugar();
 		for(Lugar lugar: permisoModel.getDesdeHasta()) {
 			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
@@ -115,11 +102,9 @@ public class PermisoService implements IPermisoService{
 			lugar.setCodPostal(lugarAux.getCodPostal());
 			lugar.setLugar(lugarAux.getLugar());
 		}
-
-		PermisoPeriodo permiso = (PermisoPeriodo) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
-		return permisoConverter.entidadAModelo(permiso);
+		return permisoModel;
 	}
-
+	
 	@Override
 	public boolean remove(int id) {
 		try {

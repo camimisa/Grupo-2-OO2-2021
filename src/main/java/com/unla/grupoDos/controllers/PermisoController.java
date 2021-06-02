@@ -76,10 +76,8 @@ public class PermisoController {
 		Permiso permiso = permisoService.findByIdPermiso(id);
 		mAV.addObject("permiso", permiso);
 		if(permiso == null) mAV.setViewName(ViewRouteHelper.PERMISO_NO_ENCONTRADO);
-		if(permiso instanceof PermisoPeriodo)
-			mAV.setViewName(ViewRouteHelper.VER_PERMISO_PERIODO);
-		if(permiso instanceof PermisoDiario)
-			mAV.setViewName(ViewRouteHelper.VER_PERMISO_DIARIO);
+		else
+			mAV.setViewName(ViewRouteHelper.VER_PERMISO);
 		return mAV;
 	}
 	
@@ -97,14 +95,14 @@ public class PermisoController {
 			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
 		}
 		model.addAttribute("permiso", permiso);
-		return ViewRouteHelper.NUEVO_PERMISO_DIARIO;
+		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	
 	@GetMapping("/diario/nuevo")
 	public String nuevoPermisoDiario(Model model) {
 		model.addAttribute("permiso", new PermisoDiarioModel());
 		model.addAttribute("pedido", new Persona());
-		return ViewRouteHelper.NUEVO_PERMISO_DIARIO;
+		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	
 	@PostMapping("/diario/crear")
@@ -151,7 +149,7 @@ public class PermisoController {
 			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
 		}
 		model.addAttribute("permiso", permiso);
-		return ViewRouteHelper.NUEVO_PERMISO_PERIODO;
+		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	
 	@GetMapping("/periodo/nuevo")
@@ -159,7 +157,7 @@ public class PermisoController {
 		model.addAttribute("permiso", new PermisoPeriodoModel());
 		model.addAttribute("rodado", new Rodado());
 		model.addAttribute("pedido", new Persona());
-		return ViewRouteHelper.NUEVO_PERMISO_PERIODO;
+		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	
 	@PostMapping("/periodo/crear")

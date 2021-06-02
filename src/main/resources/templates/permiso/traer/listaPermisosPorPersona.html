@@ -42,13 +42,12 @@
                     </tbody>
                 </table>
             </div>
-            <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
-        </div>
         <div th:if="${permisosActivos.empty}">        
 	        <div class="alert alert-danger" role="alert">
 	        	No se encontro ningun permiso con los filtros ingresados.
 	        </div>
         </div>
+	      <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
       </div>
       <!-- /.container -->
 

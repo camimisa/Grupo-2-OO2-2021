@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,21 +13,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
-import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
 import com.unla.grupoDos.models.PerfilModel;
-import com.unla.grupoDos.models.PermisoModel;
-import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.models.UsuarioModel;
 import com.unla.grupoDos.services.ILugarService;
 import com.unla.grupoDos.services.IPerfilService;
 import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IUsuarioService;
-import com.unla.grupoDos.services.implementation.LugarService;
 
 @Controller
 @RequestMapping("/auditor")
@@ -145,7 +139,4 @@ public class AuditorController {
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
-	
-	
-	
 }

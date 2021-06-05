@@ -1,5 +1,6 @@
 package com.unla.grupoDos.controllers;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.google.zxing.WriterException;
 import com.unla.grupoDos.converters.PermisoConverter;
 import com.unla.grupoDos.converters.PersonaConverter;
 import com.unla.grupoDos.converters.RodadoConverter;
@@ -38,6 +42,7 @@ import com.unla.grupoDos.models.PermisoPeriodoModel;
 import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IPersonaService;
 import com.unla.grupoDos.services.IRodadoService;
+import com.unla.grupoDos.util.GeneradorQR;
 
 @Controller
 @RequestMapping("/permiso")
@@ -204,5 +209,20 @@ public class PermisoController {
 		return mAV;
 	}
 	
-	
+	// --------------- GENERAR QR -------------------------
+	@GetMapping("/generarQR/{id}")
+	public ResponseEntity<byte[]>generarCodigoQR(@PathVariable("id") int id){
+		Permiso permiso = permisoService.findByIdPermiso(id);
+		GeneradorQR generadorQR = new GeneradorQR();
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(generadorQR.getQRCodeImage(permiso));
+		} catch (WriterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
@@ -35,7 +35,7 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("perfilService")
 	private IPerfilService perfilService;
-
+	
 	@Autowired
 	@Qualifier("permisoService")
 	private IPermisoService permisoService;
@@ -139,5 +139,4 @@ public class AuditorController {
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
-
 }

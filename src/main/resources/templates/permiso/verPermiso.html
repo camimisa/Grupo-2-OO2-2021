@@ -81,6 +81,10 @@
 	        </div>
         </div>
         <hr>
+        <div >
+        	<p class="h5">Puede ver su permiso desde cualquier lugar escaneando este qr...</p>
+        	<img class="img-fluid" alt="qr permiso" th:src="@{/permiso/generarQR/{id}(id=${permiso.idPermiso})}"/>
+        </div>
         <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/}">Volver</a>
 
         <br>

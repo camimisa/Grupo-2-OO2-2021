@@ -40,8 +40,7 @@ public class GeneradorQR {
 	private String generarUrl(Permiso permiso) {
 		String url = "";
 		int cont = 0;	
-		url = "https://www.grupodospermisos.com/?fecha=" + permiso.getFecha().toString() + "&datosPersona=" + permiso.getPedido().toString();
-		
+		url = "https://grupodospermiso.netlify.app/index.html?fecha=" + permiso.getFecha().toString() + "&datosPersona=" + permiso.getPedido().toString();
 		for(Lugar lugar : permiso.getDesdeHasta()) {
 			url += "&datosDesde=" + lugar.toString();
 			if(cont == 1)
@@ -55,8 +54,9 @@ public class GeneradorQR {
 			int vacaciones = 0;
 			if(((PermisoPeriodo)permiso).isVacaciones()) vacaciones = 1;
 			url += "&permisoDiario=0&datosRodado=" + ((PermisoPeriodo)permiso).getRodado().toString() +
-				"&cantDias" + ((PermisoPeriodo)permiso).getCantDias() + "&vacaciones=" + vacaciones;
+				"&cantDias=" + ((PermisoPeriodo)permiso).getCantDias() + "&vacaciones=" + vacaciones;
 		}
+		url = url.replace(" ", "%20");
 		return url;
 	}
 }

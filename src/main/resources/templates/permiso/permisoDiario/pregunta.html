@@ -20,13 +20,14 @@
 	    <br>
 	    <p class="h4">Si ya saco un permiso previamente puede ingresar su documento, si no, presione omitir:</p>
 	    <br>
-	    <form class="form-signin form" action="#" th:action="@{buscarDatos/}" method="get" autocomplete="off">
+	    <form class="form-signin form" action="#" th:action="@{/permiso/diario/nuevo}" method="get" autocomplete="off">
 	        <h1 class="h3 mb-3 font-weight-normal">Datos:</h1>
 	        <p>
-	            DOCUMENTO: <input type="number" class="form-control" placeholder="1111111" min="1111111" max="99999999" name="documento">
+	            DOCUMENTO: 
+	            <input type="number" class="form-control" placeholder="Ingrese su número de documento." min="1111111" max="99999999" name="documento">
 	        </p>
 	        <button class="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
-	        <a class="btn btn-lg btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/diario/nuevo/}">Omitir</a>
+	        <a class="btn btn-lg btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/diario/nuevo}">Omitir</a>
 	        <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/}">Volver</a>
 	    </form>
 	    <br>

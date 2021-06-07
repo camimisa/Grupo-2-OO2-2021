@@ -16,7 +16,7 @@
 		<hr />
         <br>
         <form method="get" th:action="@{listarPermisoPorPersona}">
-            <input type="long" class="form-control" name="dni" placeholder="Ingrese su dni" required="">
+            <input type="number" class="form-control" name="dni" placeholder="Ingrese su dni" required="">
             <br>
             <button class="btn btn-lg btn-primary mr-2" type="submit">Buscar</button>
             <a class="btn btn-lg btn-outline-primary" type="submit" th:href="@{/}">Volver</a>

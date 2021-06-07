@@ -92,21 +92,26 @@ public class PermisoController {
 	public String preguntaPermisoDiario(Model model) {
 		return ViewRouteHelper.PREGUNTA_DIARIO;
 	}
-
-	@GetMapping("/diario/buscarDatos/")
-	public String formularioPermisoDiario(Model model, @RequestParam(name="documento", required = false, defaultValue = "0") long documento) {
-		PermisoModel permiso = new PermisoDiarioModel();
-		if(documento != 0) {
-			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
-		}
-		model.addAttribute("permiso", permiso);
-		return ViewRouteHelper.NUEVO_PERMISO;
-	}
 	
 	@GetMapping("/diario/nuevo")
-	public String nuevoPermisoDiario(Model model) {
-		model.addAttribute("permiso", new PermisoDiarioModel());
-		model.addAttribute("pedido", new Persona());
+	public String nuevoPermisoDiario(
+			Model model, 
+			@RequestParam(name="documento", required = false) String documento
+	) {
+		PermisoModel permiso = new PermisoDiarioModel();
+		String aviso = "";
+		if (documento != null && !documento.isBlank()) {
+			try {
+				permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+				if (permiso.getPedido() == null) {
+					aviso += "No se encontró información para el DNI ingresado.";
+				}
+			} catch(Exception e) {
+				aviso += "Introdujo el DNI en un formato erróneo.";
+			}
+		}
+		model.addAttribute("permiso", permiso);
+		model.addAttribute("aviso", aviso);
 		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	
@@ -142,26 +147,33 @@ public class PermisoController {
 	public String preguntaPermisoPeriodo(Model model) {
 		return ViewRouteHelper.PREGUNTA_PERIODO;
 	}
-
-	@GetMapping("/periodo/buscarDatos/")
-	public String formularioPermisoPeriodo(Model model,@RequestParam(name="dominio", required = false, defaultValue = "") String dominio, 
-			@RequestParam(name="documento", required = false, defaultValue = "0") long documento) {
-		PermisoModel permiso = new PermisoPeriodoModel();
-		if(!dominio.isEmpty()) {
-			((PermisoPeriodoModel) permiso).setRodado(rodadoService.findByDominio(dominio));
-		}
-		if(documento != 0) {
-			permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
-		}
-		model.addAttribute("permiso", permiso);
-		return ViewRouteHelper.NUEVO_PERMISO;
-	}
 	
 	@GetMapping("/periodo/nuevo")
-	public String nuevoPermisoPeriodo(Model model) {
-		model.addAttribute("permiso", new PermisoPeriodoModel());
-		model.addAttribute("rodado", new Rodado());
-		model.addAttribute("pedido", new Persona());
+	public String nuevoPermisoPeriodo(
+			Model model,
+			@RequestParam(name="dominio", required = false, defaultValue = "") String dominio, 
+			@RequestParam(name="documento", required = false) String documento
+	) {
+		PermisoPeriodoModel permiso = new PermisoPeriodoModel();
+		String aviso = "";
+		if(dominio != null && !dominio.isBlank()) {
+			permiso.setRodado(rodadoService.findByDominio(dominio));
+			if (permiso.getRodado() == null) {
+				aviso +="No se encontró ningún rodado asociado al dominio ingresado.";
+			}
+		}
+		if (documento != null && !documento.isBlank()) {
+			try {
+				permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+				if (permiso.getPedido() == null) {
+					aviso += " No se encontró información para el DNI ingresado.";
+				}
+			} catch(Exception e) {
+				aviso += " Introdujo el DNI en un formato erróneo.";
+			}
+		}
+		model.addAttribute("permiso", permiso);
+		model.addAttribute("aviso", aviso);
 		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	

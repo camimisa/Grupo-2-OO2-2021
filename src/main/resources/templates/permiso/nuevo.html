@@ -12,6 +12,8 @@
    <div th:replace="~{/parcial/Header :: header}"></div>
       <div class="container">
         <br>
+      	<div th:if="${!aviso.isBlank}" class="alert alert-warning" th:text="${aviso}">
+      	</div>
         <form action="#" th:action="@{../crear}" th:object="${permiso}" method="post" autocomplete="on">
             <h1 class="h3 mb-3 font-weight-normal"><em>Nuevo Permiso</em></h1>
             <hr>

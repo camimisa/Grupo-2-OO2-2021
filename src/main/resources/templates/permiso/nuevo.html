@@ -10,9 +10,15 @@
 </head>
 <body>
    <div th:replace="~{/parcial/Header :: header}"></div>
-      <div class="container">
+      <div class="container" th:with="esPeriodo = ${action == 'Periodo'}">
         <br>
-        <form action="#" th:action="@{../crear}" th:object="${permiso}" method="post" autocomplete="on">
+      	<div th:if="${!aviso.isBlank}" class="alert alert-warning alert-dismissible fade show">
+      		<p th:text="${aviso}" style="margin:0px"></p>
+		   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    	<span aria-hidden="true">&times;</span>
+		  	</button>
+      	</div>
+        <form action="#" th:action="${esPeriodo} ? @{/permiso/periodo/crear} : @{/permiso/diario/crear}" th:object="${permiso}" method="post" autocomplete="on">
             <h1 class="h3 mb-3 font-weight-normal"><em>Nuevo Permiso</em></h1>
             <hr>
             <h3 class="h3 mb-3 font-weight-normal">Datos del permiso:</h3>
@@ -22,11 +28,11 @@
                     <label>Fecha del permiso:</label>
                     <input type="date" class="form-control" placeholder="fecha" th:field="*{fecha}" required>
                 </div>
-                <div class="form-group col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
+                <div class="form-group col-md-3" th:if="${esPeriodo}">
                     <label >Cantidad de días:</label>
                     <input type="number" class="form-control" th:field="*{cantDias}" min="1" value="1" required>
                 </div>
-                <div class="form-group col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
+                <div class="form-group col-md-3" th:if="${esPeriodo}">
                     <label for="preguntaVaciones">Estará de vaciones?</label>
                     <select class="form-control" aria-placeholder="Vaciones..." id="preguntaVaciones" th:field="*{vacaciones}" required>
                         <option value="1">Si</option>
@@ -84,7 +90,7 @@
                 <input type="hidden" id="idPersona" th:field="*{pedido.idPersona}"/>
             </div>
             <hr>
-            <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
+            <div th:if="${esPeriodo}">
             <h3 class="h3 mb-3 font-weight-normal">Datos del Rodado:</h3>
             <div class="form-row">
                 <br>
@@ -101,7 +107,7 @@
                 <input type="hidden" id="idRodado" th:field="*{rodado.idRodado}"/>
             </div>
             </div>
-            <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}">
+            <div th:if="${!esPeriodo}">
             <h3 class="h3 mb-3 font-weight-normal">Motivo del permiso:</h3>
             <div class="form-row">
                 <br>

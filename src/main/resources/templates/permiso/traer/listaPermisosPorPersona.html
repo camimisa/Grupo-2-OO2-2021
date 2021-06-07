@@ -10,48 +10,47 @@
 <body>
 	<div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
-      <div class="container">
-      <br>
-        <div th:if="${!permisosActivos.empty}">
-        <p class="h3"><span th:text="${titulo}"/></p>
-		<hr />
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Persona</th>
-                        <th scope="col">Desde</th>
-                        <th scope="col">Hasta</th>
-                        <th scope="col">Tipo Permiso</th>
-                        <th scope="col">Motivo/Dominio</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="permiso : ${permisosActivos}">
-						<td><span th:text="${permiso.fecha}" /></td>
-						<td><span th:text="${permiso.getPedido().getDni() + ' - ' + permiso.getPedido().getNombre() + ' ' + permiso.getPedido().getApellido()}" /></td>
-						<td th:each="lugar : ${permiso.getDesdeHasta()}">
-							<span th:text="${lugar.toString()}" />
-						</td>
-												<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
-						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
-						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
-						<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
-					</tr>
-                    </tbody>
-                </table>
-            </div>
-        <div th:if="${permisosActivos.empty}">        
-	        <div class="alert alert-danger" role="alert">
-	        	No se encontro ningun permiso con los filtros ingresados.
+		<div class="container">
+			<br>
+	        <div th:if="${permisosActivos.empty}" class="alert alert-danger" role="alert">
+	        	No se encontraron permisos para el DNI ingresado.
 	        </div>
-        </div>
-	      <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
-      </div>
+        	<div th:if="${!permisosActivos.empty}">
+        		<p class="h3"><span th:text="${titulo}"/></p>
+				<hr />
+            	<div class="table-responsive">
+	                <table class="table table-bordered table-striped table-hover">
+	                    <thead class="thead-dark">
+	                    <tr>
+	                        <th scope="col">Fecha</th>
+	                        <th scope="col">Persona</th>
+	                        <th scope="col">Desde</th>
+	                        <th scope="col">Hasta</th>
+	                        <th scope="col">Tipo Permiso</th>
+	                        <th scope="col">Motivo/Dominio</th>
+	                        <th scope="col">QR</th>
+	                    </tr>
+	                    </thead>
+	                    <tbody>
+	                    <tr th:each="permiso : ${permisosActivos}">
+							<td><span th:text="${permiso.fecha}" /></td>
+							<td><span th:text="${permiso.getPedido().getDni() + ' - ' + permiso.getPedido().getNombre() + ' ' + permiso.getPedido().getApellido()}" /></td>
+							<td th:each="lugar : ${permiso.getDesdeHasta()}">
+								<span th:text="${lugar.toString()}" />
+							</td>
+													<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
+							<td><a th:href="@{/permiso/{id}(id=${permiso.idPermiso})}">Ver QR </a></td>
+						</tr>
+	                    </tbody>
+	                </table>
+				</div>
+			</div>
+		<a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
+		</div>
       <!-- /.container -->
-
-    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

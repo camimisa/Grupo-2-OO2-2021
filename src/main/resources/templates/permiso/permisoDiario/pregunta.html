@@ -11,13 +11,13 @@
    <div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
 	  <div class="container">
-		  <div th:if="${errorLugares}" class="alert alert-danger alert-dismissible fade show">
+	    <br>
+			<div th:if="${errorLugares}" class="alert alert-danger alert-dismissible fade show">
 			    No se pudo crear el permiso porque el codigo postal de los lugares desde y hasta no pueden ser iguales.
 			   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			    	<span aria-hidden="true">&times;</span>
 			  	</button>
 			</div>
-	    <br>
 	    <p class="h4">Si ya saco un permiso previamente puede ingresar su documento, si no, presione omitir:</p>
 	    <br>
 	    <form class="form-signin form" action="#" th:action="@{/permiso/diario/nuevo}" method="get" autocomplete="off">

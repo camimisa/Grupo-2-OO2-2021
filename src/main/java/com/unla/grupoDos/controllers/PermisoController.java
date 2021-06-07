@@ -112,6 +112,7 @@ public class PermisoController {
 		}
 		model.addAttribute("permiso", permiso);
 		model.addAttribute("aviso", aviso);
+		model.addAttribute("action", "Diario");
 		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	
@@ -174,6 +175,7 @@ public class PermisoController {
 		}
 		model.addAttribute("permiso", permiso);
 		model.addAttribute("aviso", aviso);
+		model.addAttribute("action", "Periodo");
 		return ViewRouteHelper.NUEVO_PERMISO;
 	}
 	

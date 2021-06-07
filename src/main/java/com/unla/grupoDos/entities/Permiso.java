@@ -32,6 +32,7 @@ public abstract class Permiso {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_permiso")
 	protected int idPermiso;
 
 	@ManyToOne(fetch = FetchType.LAZY)

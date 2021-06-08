@@ -21,7 +21,6 @@ public class Rodado {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idRodado;
 	
-	@Pattern(regexp="^([a-zA-Z]{3}[0-9]{3})|([a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2})$", message="Debe ingresar una patente valida. [AAA123 // AA123AA]")
 	@Column(name="dominio", unique=true,nullable=false, length=10)
 	private String dominio;
 	

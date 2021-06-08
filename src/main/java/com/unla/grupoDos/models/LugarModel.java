@@ -1,10 +1,17 @@
 package com.unla.grupoDos.models;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 public class LugarModel {
 	private int idLugar;
 	
+	@NotNull
+	@Pattern(regexp="^[A-Za-z\\s]+$", message="Debe ingresar un lugar correcto. [Solo caracteres]")
 	private String lugar;
-	
+
+	@NotNull
+	@Pattern(regexp="^[0-9]{4}$", message="Debe ingresar un codigo postal correcto. [4 numeros]")
 	private String codPostal;
 	
 	public LugarModel() {}
@@ -15,12 +22,18 @@ public class LugarModel {
 		this.lugar = lugar;
 		this.codPostal = codPostal;
 	}
+	
+	public LugarModel(String lugar, String codPostal) {
+		super();
+		this.lugar = lugar;
+		this.codPostal = codPostal;
+	}
 
 	public int getIdLugar() {
 		return idLugar;
 	}
 
-	protected void setIdLugar(int idLugar) {
+	public void setIdLugar(int idLugar) {
 		this.idLugar = idLugar;
 	}
 

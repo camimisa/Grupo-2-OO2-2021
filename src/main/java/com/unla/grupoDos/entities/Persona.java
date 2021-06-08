@@ -27,19 +27,12 @@ public class Persona {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idPersona;
 	
-	@NotNull
-	@Pattern(regexp="^[A-Za-z\\s]+$", message="Debe ingresar un nombre valido. [Solo caracteres]")
 	@Column(name="nombre", nullable=false)
 	private String nombre;
 	
-	@NotNull
-	@Pattern(regexp="^[A-Za-z\\s]+$", message="Debe ingresar un apellido valido. [Solo caracteres]")
 	@Column(name="apellido", nullable=false)
 	private String apellido;
 	
-	@NotNull
-	@Min(value=1111111, message="Debe ingresar un dni valido. [Solo numeros, de 7 a 8 numeros]")	
-	@Max(value=99999999, message="Debe ingresar un dni valido. [Solo numeros, de 7 a 8 numeros]")
 	@Column(name="dni", unique=true, nullable=false, length=45)
 	private long dni;
 	

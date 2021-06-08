@@ -13,6 +13,7 @@ import com.unla.grupoDos.entities.PermisoDiario;
 import com.unla.grupoDos.entities.PermisoPeriodo;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
+import com.unla.grupoDos.models.LugarModel;
 import com.unla.grupoDos.models.PermisoDiarioModel;
 import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
@@ -21,7 +22,10 @@ import com.unla.grupoDos.services.ILugarService;
 import com.unla.grupoDos.services.IPermisoService;
 import com.unla.grupoDos.services.IPersonaService;
 import com.unla.grupoDos.services.IRodadoService;
+import com.unla.grupoDos.converters.LugarConverter;
 import com.unla.grupoDos.converters.PermisoConverter;
+import com.unla.grupoDos.converters.PersonaConverter;
+import com.unla.grupoDos.converters.RodadoConverter;
 
 
 @Service("permisoService")
@@ -44,6 +48,16 @@ public class PermisoService implements IPermisoService{
 	@Autowired
 	@Qualifier("personaService")
 	private IPersonaService personaService;
+
+	@Autowired
+	@Qualifier("rodadoConverter")
+	private RodadoConverter rodadoConverter;
+	@Autowired
+	@Qualifier("personaConverter")
+	private PersonaConverter personaConverter;
+	@Autowired
+	@Qualifier("lugarConverter")
+	private LugarConverter lugarConverter;
 	
 	@Override
 	public List<Permiso> getAll() {
@@ -51,57 +65,51 @@ public class PermisoService implements IPermisoService{
 	}
 
 	@Override
-	public PermisoDiarioModel permisoDiarioFindById(int id) {
-		return permisoConverter.entidadAModelo(permisoRepository.permisoDiarioFindById(id));
-	}
-
-
-	@Override
 	public Permiso findByIdPermiso(int id) {
 		return permisoRepository.findByIdPermiso(id);
 	}
-	@Override
-	public PermisoPeriodoModel permisoPeriodoFindById(int id) {
-		return permisoConverter.entidadAModelo(permisoRepository.permisoPeriodoFindById(id));
-	}
 
 	@Override
-	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel permisoModel) {
-		permisoModel = (PermisoDiarioModel) this.obtenerDatos(permisoModel);
-		PermisoDiario permiso = (PermisoDiario) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
+	public PermisoModel insertOrUpdate(PermisoModel permisoModel) {
+		Permiso permiso = null;
+		if(permisoModel instanceof PermisoDiarioModel) {
+			permisoModel = (PermisoDiarioModel) this.obtenerDatos(permisoModel);
+			permiso = permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
+		}
+		if(permisoModel instanceof PermisoPeriodoModel) {
+			permisoModel = (PermisoPeriodoModel) this.obtenerDatos(permisoModel);
+			permiso = permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
+		}
 		return permisoConverter.entidadAModelo(permiso);
 	}
 	
-	@Override
-	public PermisoPeriodoModel insertOrUpdate(PermisoPeriodoModel permisoModel) {
-		permisoModel = (PermisoPeriodoModel) this.obtenerDatos(permisoModel);
-		PermisoPeriodo permiso = (PermisoPeriodo) permisoRepository.save(permisoConverter.modeloAEntidad(permisoModel));
-		return permisoConverter.entidadAModelo(permiso);
-	}
 
 	private PermisoModel obtenerDatos(PermisoModel permisoModel) {
 		// Guardar persona si no existe, si existe asignarle su ID
 		Persona persona = personaService.findByDni(permisoModel.getPedido().getDni());
 		if(persona == null) 
-			persona = personaService.insertOrUpdate(permisoModel.getPedido());
-		permisoModel.setPedido(persona); // Esto se hace por si se ingreso un dni con nombre distinto. Se va a remplazar por los datos correcto que vienen de la bd.
+			persona = personaService.insertOrUpdate(personaConverter.modeloAEntidad(permisoModel.getPedido()));
+		permisoModel.setPedido(personaConverter.entidadAModelo(persona)); // Esto se hace por si se ingreso un dni con nombre distinto. Se va a remplazar por los datos correcto que vienen de la bd.
 		
 		// Guardar rodado si no existe, si existe asignarle su ID
+		
 		if(permisoModel instanceof PermisoPeriodoModel) {
 			Rodado rodado = rodadoService.findByDominio(((PermisoPeriodoModel) permisoModel).getRodado().getDominio());
 			if(rodado == null)
-				rodado = rodadoService.insertOrUpdate(((PermisoPeriodoModel) permisoModel).getRodado());
-			((PermisoPeriodoModel) permisoModel).setRodado(rodado);
+				rodado = rodadoService.insertOrUpdate(rodadoConverter.modeloAEntidad(((PermisoPeriodoModel) permisoModel).getRodado()));
+			((PermisoPeriodoModel) permisoModel).setRodado(rodadoConverter.entidadAModelo(rodado));
 		}
+		
 		Lugar lugarAux = new Lugar();
-		for(Lugar lugar: permisoModel.getDesdeHasta()) {
+		for(LugarModel lugar: permisoModel.getDesdeHasta()) {
 			lugarAux = lugarService.findByCodPostal(lugar.getCodPostal());
 			if(lugarAux == null)
-				lugarAux = lugarService.insertOrUpdate(lugar);			
+				lugarAux = lugarService.insertOrUpdate(lugarConverter.modeloAEntidad(lugar));			
 			lugar.setIdLugar(lugarAux.getIdLugar());
 			lugar.setCodPostal(lugarAux.getCodPostal());
 			lugar.setLugar(lugarAux.getLugar());
 		}
+		
 		return permisoModel;
 	}
 	

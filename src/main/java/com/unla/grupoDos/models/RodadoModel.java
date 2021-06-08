@@ -1,7 +1,10 @@
 package com.unla.grupoDos.models;
 
+import javax.validation.constraints.Pattern;
+
 public class RodadoModel {
 	private int idRodado;
+	@Pattern(regexp="^([a-zA-Z]{3}[0-9]{3})|([a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2})$", message="Debe ingresar una patente valida. [AAA123 // AA123AA]")
 	private String dominio;
 	private String vehiculo;
 	

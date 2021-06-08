@@ -38,6 +38,7 @@ import com.unla.grupoDos.entities.PermisoPeriodo;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
+import com.unla.grupoDos.models.LugarModel;
 import com.unla.grupoDos.models.PermisoDiarioModel;
 import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
@@ -104,7 +105,8 @@ public class PermisoController {
 		String aviso = "";
 		if (documento != null && !documento.isBlank()) {
 			try {
-				permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+				Persona persona = personaService.findByDni(Long.valueOf(documento));
+				permiso.setPedido(personaConverter.entidadAModelo(persona));
 				if (permiso.getPedido() == null) {
 					aviso += "No se encontró información para el DNI ingresado.";
 				}
@@ -126,16 +128,16 @@ public class PermisoController {
 			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
 			RedirectAttributes atts) {
 
-		permiso.setDesdeHasta(new HashSet<Lugar>());
-		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
-		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
+		permiso.setDesdeHasta(new HashSet<LugarModel>());
+		LugarModel lugarDesde = new LugarModel(desdeLugar, desdeCodPostal);
+		LugarModel lugarHasta = new LugarModel(hastaLugar, hastaCodPostal);
 		String url = "../diario/";
 
 		try {
 			if(!lugarDesde.equals(lugarHasta)) {
 				permiso.getDesdeHasta().add(lugarDesde);
 				permiso.getDesdeHasta().add(lugarHasta);
-				permiso = permisoService.insertOrUpdate(permiso);
+				permiso = (PermisoDiarioModel) permisoService.insertOrUpdate(permiso);
 				url = "../"+permiso.getIdPermiso();
 				atts.addFlashAttribute("guardado", true);
 			}
@@ -170,14 +172,16 @@ public class PermisoController {
 		PermisoPeriodoModel permiso = new PermisoPeriodoModel();
 		String aviso = "";
 		if(dominio != null && !dominio.isBlank()) {
-			permiso.setRodado(rodadoService.findByDominio(dominio));
+			Rodado rodado = rodadoService.findByDominio(dominio);
+			permiso.setRodado(rodadoConverter.entidadAModelo(rodado));
 			if (permiso.getRodado() == null) {
 				aviso +="No se encontró ningún rodado asociado al dominio ingresado.";
 			}
 		}
 		if (documento != null && !documento.isBlank()) {
 			try {
-				permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+				Persona persona = personaService.findByDni(Long.valueOf(documento));
+				permiso.setPedido(personaConverter.entidadAModelo(persona));
 				if (permiso.getPedido() == null) {
 					aviso += " No se encontró información para el DNI ingresado.";
 				}
@@ -199,15 +203,15 @@ public class PermisoController {
 			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
 			RedirectAttributes atts) {
 		
-		permiso.setDesdeHasta(new HashSet<Lugar>());
-		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
-		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
+		permiso.setDesdeHasta(new HashSet<LugarModel>());
+		LugarModel lugarDesde = new LugarModel(desdeLugar, desdeCodPostal);
+		LugarModel lugarHasta = new LugarModel(hastaLugar, hastaCodPostal);
 		String url =  "../periodo/";
 		try {
 			if(!lugarDesde.equals(lugarHasta)) {
 				permiso.getDesdeHasta().add(lugarDesde);
 				permiso.getDesdeHasta().add(lugarHasta);
-				permiso = permisoService.insertOrUpdate(permiso);
+				permiso = (PermisoPeriodoModel) permisoService.insertOrUpdate(permiso);
 				url = "../"+permiso.getIdPermiso();
 				atts.addFlashAttribute("guardado", true);
 			}

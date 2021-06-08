@@ -27,13 +27,9 @@ public class Lugar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idLugar;
 	
-	@NotNull
-	@Pattern(regexp="^[A-Za-z\\s]+$", message="Debe ingresar un lugar correcto. [Solo caracteres]")
 	@Column(name="lugar", nullable=false, length=35)
 	private String lugar;
 	
-	@NotNull
-	@Pattern(regexp="^[0-9]{4}$", message="Debe ingresar un codigo postal correcto. [4 numeros]")
 	@Column(name="codPostal", unique=true, nullable=false, length=10)
 	private String codPostal;
 	

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,22 +125,32 @@ public class PermisoController {
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
 			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
 			RedirectAttributes atts) {
-		
+
 		permiso.setDesdeHasta(new HashSet<Lugar>());
 		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
 		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
-		String url = "";
-		if(!lugarDesde.equals(lugarHasta)) {
-			permiso.getDesdeHasta().add(lugarDesde);
-			permiso.getDesdeHasta().add(lugarHasta);
-			permiso = permisoService.insertOrUpdate(permiso);
-			url = "../"+permiso.getIdPermiso();
-			atts.addFlashAttribute("guardado", true);
-		}else {
-			url = "../diario/";
-			atts.addFlashAttribute("errorLugares", true);
+		String url = "../diario/";
+
+		try {
+			if(!lugarDesde.equals(lugarHasta)) {
+				permiso.getDesdeHasta().add(lugarDesde);
+				permiso.getDesdeHasta().add(lugarHasta);
+				permiso = permisoService.insertOrUpdate(permiso);
+				url = "../"+permiso.getIdPermiso();
+				atts.addFlashAttribute("guardado", true);
+			}
+			else 
+			{
+				atts.addFlashAttribute("errorLugares", true);
+			}
 		}
-		
+		catch(ConstraintViolationException e) {
+			String errorAtributo = "\n";
+			for(ConstraintViolation<?> cve :  e.getConstraintViolations())
+				errorAtributo += cve.getMessageTemplate() + "\n";
+			atts.addFlashAttribute("errorAtributo",errorAtributo);
+		}
+
 		return new RedirectView(url);
 	}
 	
@@ -190,16 +202,25 @@ public class PermisoController {
 		permiso.setDesdeHasta(new HashSet<Lugar>());
 		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
 		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
-		String url = "";
-		if(!lugarDesde.equals(lugarHasta)) {
-			permiso.getDesdeHasta().add(lugarDesde);
-			permiso.getDesdeHasta().add(lugarHasta);
-			permiso = permisoService.insertOrUpdate(permiso);
-			url = "../"+permiso.getIdPermiso();
-			atts.addFlashAttribute("guardado", true);
-		}else {
-			url = "../periodo/";
-			atts.addFlashAttribute("errorLugares", true);
+		String url =  "../periodo/";
+		try {
+			if(!lugarDesde.equals(lugarHasta)) {
+				permiso.getDesdeHasta().add(lugarDesde);
+				permiso.getDesdeHasta().add(lugarHasta);
+				permiso = permisoService.insertOrUpdate(permiso);
+				url = "../"+permiso.getIdPermiso();
+				atts.addFlashAttribute("guardado", true);
+			}
+			else 
+			{
+				atts.addFlashAttribute("errorLugares", true);
+			}
+		}
+		catch(ConstraintViolationException e) {
+			String errorAtributo = "\n";
+			for(ConstraintViolation<?> cve : e.getConstraintViolations())
+				errorAtributo += cve.getMessageTemplate() + "\n";
+			atts.addFlashAttribute("errorAtributo",errorAtributo);
 		}
 		
 		return new RedirectView(url);
@@ -231,10 +252,8 @@ public class PermisoController {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(generadorQR.getQRCodeImage(permiso));
 		} catch (WriterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

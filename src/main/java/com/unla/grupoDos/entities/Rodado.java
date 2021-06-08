@@ -7,8 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.ConstraintViolationException;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name="rodado")
@@ -18,6 +21,7 @@ public class Rodado {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idRodado;
 	
+	@Pattern(regexp="^([a-zA-Z]{3}[0-9]{3})|([a-zA-Z]{2}[0-9]{3}[a-zA-Z]{2})$", message="Debe ingresar una patente valida. [AAA123 // AA123AA]")
 	@Column(name="dominio", unique=true,nullable=false, length=10)
 	private String dominio;
 	
@@ -53,7 +57,7 @@ public class Rodado {
 		return dominio;
 	}
 
-	public void setDominio(String dominio) {
+	public void setDominio(String dominio){
 		this.dominio = dominio;
 	}
 
@@ -85,6 +89,5 @@ public class Rodado {
 	public String toString() {
 		return dominio + " " + vehiculo;
 	}
-	
 	
 }

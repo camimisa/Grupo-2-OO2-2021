@@ -8,7 +8,7 @@ import com.unla.grupoDos.models.RodadoModel;
 @Component("rodadoConverter")
 public class RodadoConverter {
 	
-	public Rodado modeloAEntidad(RodadoModel rodadoModel) {
+	public Rodado modeloAEntidad(RodadoModel rodadoModel) throws Exception {
 		Rodado rodado = null;
 		if(rodadoModel != null)
 			rodado = new Rodado(rodadoModel.getIdRodado(),rodadoModel.getDominio(),rodadoModel.getVehiculo());

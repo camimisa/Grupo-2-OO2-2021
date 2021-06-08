@@ -11,8 +11,8 @@ import com.unla.grupoDos.models.PermisoPeriodoModel;
 public interface IPermisoService {
 
 	public List<Permiso> getAll();
-	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel ermisoModel);
-	public PermisoPeriodoModel insertOrUpdate(PermisoPeriodoModel ermisoModel);
+	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel permisoModel);
+	public PermisoPeriodoModel insertOrUpdate(PermisoPeriodoModel permisoModel);
 	public boolean remove(int id);
 	PermisoDiarioModel permisoDiarioFindById(int id);
 	PermisoPeriodoModel permisoPeriodoFindById(int id);

@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 
 public class PersonaModel {
 	private int idPersona;
+	
 	@NotNull
 	@Pattern(regexp="^[A-Za-z\\s]+$", message="Debe ingresar un nombre valido. [Solo caracteres]")
 	private String nombre;
@@ -62,8 +63,7 @@ public class PersonaModel {
 
 	@Override
 	public String toString() {
-		return "PersonaModel [idPersona=" + idPersona + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni
-				+ "]";
+		return nombre.toUpperCase() + ", " + apellido.toUpperCase() + " - " + dni;
 	}
 
 	@Override

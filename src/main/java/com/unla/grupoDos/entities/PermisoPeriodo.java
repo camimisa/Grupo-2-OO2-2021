@@ -57,11 +57,7 @@ public class PermisoPeriodo extends Permiso{
 	public void setRodado(Rodado rodado) {
 		this.rodado = rodado;
 	}
-	@Override
-	public LocalDate getFechaVencimiento() {
-		LocalDate fechaVencimiento = this.fecha.plusDays(cantDias);
-		return fechaVencimiento;
-	}
+
 	@Override
 	public boolean esValido(LocalDate desde, LocalDate hasta) { 
 		LocalDate fechaHastaEnLaQueElPermisoEsValido = this.fecha.plusDays(cantDias);

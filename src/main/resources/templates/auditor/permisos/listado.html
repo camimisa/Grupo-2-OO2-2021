@@ -41,8 +41,8 @@
                   <tbody>
                       <tr th:each="permiso : ${permisosActivos}">
                           <td><span th:text="${permiso.fecha}" /></td>
-                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.fecha}" /></td>
-						  <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.getFechaVencimiento()}"/></td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}"><span th:text="${permiso.fecha}" /></td>
+						  <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}"><span th:text="${permiso.getFechaVencimiento()}"/></td>
                           <td><span th:text="${permiso.getPedido()}"/></td>
                           <td th:each="lugar : ${lugares}">
                             <span th:text="${lugar.toString()}"/>
@@ -50,10 +50,11 @@
                           <td th:each="lugar : ${permiso.getDesdeHasta()}" th:if="${lugares == null || lugares.empty}">
                             <span th:text="${lugar.toString()}"/>
                           </td>
-                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
-                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
-                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
-                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}">Diario</td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}"><span th:text="${permiso.motivo}"/></td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">Periodo</td>
+                          <td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}"><span th:text="${permiso.rodado.dominio}"/></td>
+                          <td><a th:href="@{/permiso/{id}(id=${permiso.idPermiso})}">Ver QR </a></td>
                        </tr>
                     </tbody>
                 </table>

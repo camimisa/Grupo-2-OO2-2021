@@ -24,10 +24,10 @@
             <div class="col-md-6">
                 <p class="h5">Fecha del permiso: <span class="lead" th:text="*{permiso.fecha}"/></p>
             </div>
-            <div class="col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">
+            <div class="col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
                 <p class="h5">Cantidad de días: <span class="lead" th:text="*{permiso.cantDias}"/></p>
             </div>
-            <div class="col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">
+            <div class="col-md-3" th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
 				<p class="h5">Estará de vaciones? <span class="lead" th:text="${permiso.vacaciones} ? 'Si' : 'No'"/></p>
             </div>
         </div>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <hr>
-        <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">
+        <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">
 	        <h3 class="h3 mb-3 font-weight-normal">Datos del Rodado:</h3>
 	        <div class="row">
 	            <br>
@@ -71,7 +71,7 @@
 	            </div>
 	        </div>
         </div>
-        <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">
+        <div th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}">
 	        <h3 class="h3 mb-3 font-weight-normal">Motivo del permiso:</h3>
 	        <div class="row">
 	            <br>

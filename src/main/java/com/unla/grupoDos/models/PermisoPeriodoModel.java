@@ -3,12 +3,15 @@ package com.unla.grupoDos.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 public class PermisoPeriodoModel extends PermisoModel{
 	@Min(value = 1, message = "Para sacar este permiso tiene que seleccionar un valor igual o mayor a 1 dia.")
 	private int cantDias;
 	private boolean vacaciones;
+
+	@Valid
 	private RodadoModel rodado;
 	
 	public PermisoPeriodoModel() {}
@@ -44,6 +47,11 @@ public class PermisoPeriodoModel extends PermisoModel{
 		this.rodado = rodado;
 	}
 
+	@Override
+	public LocalDate getFechaVencimiento() {
+		LocalDate fechaVencimiento = this.fecha.plusDays(cantDias);
+		return fechaVencimiento;
+	}
 	@Override
 	public String toString() {
 		return "PermisoPeriodoModel [cantDias=" + cantDias + ", vacaciones=" + vacaciones + ", rodado=" + rodado

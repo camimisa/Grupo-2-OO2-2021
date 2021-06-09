@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,7 +82,7 @@ public class PermisoController {
 	@GetMapping("/{id}")
 	public ModelAndView verPermiso(@PathVariable("id") int id) {
 		ModelAndView mAV = new ModelAndView();
-		Permiso permiso = permisoService.findByIdPermiso(id);
+		PermisoModel permiso = permisoConverter.entidadAModelo(permisoService.findByIdPermiso(id));
 		mAV.addObject("permiso", permiso);
 		if(permiso == null) mAV.setViewName(ViewRouteHelper.PERMISO_NO_ENCONTRADO);
 		else
@@ -121,7 +122,8 @@ public class PermisoController {
 	}
 	
 	@PostMapping("/diario/crear")
-	public RedirectView crearPermisoDiario(@ModelAttribute("permiso") PermisoDiarioModel permiso,
+	public RedirectView crearPermisoDiario(@Valid @ModelAttribute("permiso") PermisoDiarioModel permiso,
+			BindingResult bindingResult,
 			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
@@ -132,8 +134,13 @@ public class PermisoController {
 		LugarModel lugarDesde = new LugarModel(desdeLugar, desdeCodPostal);
 		LugarModel lugarHasta = new LugarModel(hastaLugar, hastaCodPostal);
 		String url = "../diario/";
-
-		try {
+		String errorAtributo = "";
+		if(bindingResult.hasErrors()) {
+			for(ObjectError e : bindingResult.getAllErrors())
+				errorAtributo += e.getDefaultMessage() + "\n";
+			atts.addFlashAttribute("errorAtributo",errorAtributo);
+		}
+		else {
 			if(!lugarDesde.equals(lugarHasta)) {
 				permiso.getDesdeHasta().add(lugarDesde);
 				permiso.getDesdeHasta().add(lugarHasta);
@@ -146,13 +153,6 @@ public class PermisoController {
 				atts.addFlashAttribute("errorLugares", true);
 			}
 		}
-		catch(ConstraintViolationException e) {
-			String errorAtributo = "\n";
-			for(ConstraintViolation<?> cve :  e.getConstraintViolations())
-				errorAtributo += cve.getMessageTemplate() + "\n";
-			atts.addFlashAttribute("errorAtributo",errorAtributo);
-		}
-
 		return new RedirectView(url);
 	}
 	
@@ -196,7 +196,8 @@ public class PermisoController {
 	}
 	
 	@PostMapping("/periodo/crear")
-	public RedirectView crearPermisoPeriodo(@ModelAttribute("permiso") PermisoPeriodoModel permiso,
+	public RedirectView crearPermisoPeriodo(@Valid @ModelAttribute("permiso") PermisoPeriodoModel permiso,
+			BindingResult bindingResult,
 			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
@@ -207,7 +208,13 @@ public class PermisoController {
 		LugarModel lugarDesde = new LugarModel(desdeLugar, desdeCodPostal);
 		LugarModel lugarHasta = new LugarModel(hastaLugar, hastaCodPostal);
 		String url =  "../periodo/";
-		try {
+		String errorAtributo = "";
+		if(bindingResult.hasErrors()) {
+			for(ObjectError e : bindingResult.getAllErrors())
+				errorAtributo += e.getDefaultMessage() + "\n";
+			atts.addFlashAttribute("errorAtributo",errorAtributo);
+		}
+		else {
 			if(!lugarDesde.equals(lugarHasta)) {
 				permiso.getDesdeHasta().add(lugarDesde);
 				permiso.getDesdeHasta().add(lugarHasta);
@@ -219,12 +226,6 @@ public class PermisoController {
 			{
 				atts.addFlashAttribute("errorLugares", true);
 			}
-		}
-		catch(ConstraintViolationException e) {
-			String errorAtributo = "\n";
-			for(ConstraintViolation<?> cve : e.getConstraintViolations())
-				errorAtributo += cve.getMessageTemplate() + "\n";
-			atts.addFlashAttribute("errorAtributo",errorAtributo);
 		}
 		
 		return new RedirectView(url);
@@ -239,11 +240,17 @@ public class PermisoController {
 	}
 	
 	@GetMapping("/listarPermisoPorPersona")
-	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) long dni) {
+	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) String dni) {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS_POR_PERSONA); 
-		List<Permiso>permisosActivos = permisoService.getAllByPersona(dni);
-		mAV.addObject("permisosActivos",permisosActivos);
-		String titulo = "Permisos encontrados, dni: " + dni;
+		List<Permiso>permisosActivos = null;
+		Long documento = 0L;
+		try {
+			documento = Long.valueOf(dni);
+			permisosActivos = permisoService.getAllByPersona(Long.valueOf(dni));
+		}
+		catch(Exception e) {}
+		mAV.addObject("permisosActivos",permisoConverter.listaEntidadAModelo(permisosActivos));
+		String titulo = "Permisos encontrados, dni: " + documento;
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}

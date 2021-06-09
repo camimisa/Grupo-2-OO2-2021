@@ -43,7 +43,7 @@ public class RodadoModel {
 
 	@Override
 	public String toString() {
-		return "RodadoModel [idRodado=" + idRodado + ", dominio=" + dominio + ", vehiculo=" + vehiculo + "]";
+		return vehiculo.toUpperCase() + " - " + dominio.toUpperCase();
 	}
 	
 	

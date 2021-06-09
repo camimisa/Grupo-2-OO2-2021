@@ -3,6 +3,7 @@ package com.unla.grupoDos.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,10 +13,12 @@ import com.unla.grupoDos.entities.Persona;
 
 public abstract class PermisoModel {
 	protected int idPermiso;
+	@Valid
 	protected PersonaModel pedido;
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	protected LocalDate fecha;
+	@Valid
 	protected Set<LugarModel> desdeHasta;
 	
 	public PermisoModel() {}
@@ -56,6 +59,6 @@ public abstract class PermisoModel {
 			this.desdeHasta = null;
 	}
 	
-	
+	public abstract LocalDate getFechaVencimiento();
 	
 }

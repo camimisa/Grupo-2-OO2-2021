@@ -52,4 +52,10 @@ public class LugarModel {
 	public void setCodPostal(String codPostal) {
 		this.codPostal = codPostal;
 	}
+
+	@Override
+	public String toString() {
+		return lugar.toUpperCase() + " - " + codPostal;
+	}
+	
 }

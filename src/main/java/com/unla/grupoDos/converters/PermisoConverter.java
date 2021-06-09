@@ -1,6 +1,8 @@
 package com.unla.grupoDos.converters;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +79,15 @@ public class PermisoConverter {
 		}
 		
 		return permiso;
+	}
+	
+	public List<PermisoModel>listaEntidadAModelo(List<Permiso>listaPermisos){
+		List<PermisoModel>listaPermisosModel = new ArrayList<PermisoModel>();
+		
+		for(Permiso permiso : listaPermisos)
+			listaPermisosModel.add(this.entidadAModelo(permiso));
+		
+		return listaPermisosModel;
 	}
 
 }

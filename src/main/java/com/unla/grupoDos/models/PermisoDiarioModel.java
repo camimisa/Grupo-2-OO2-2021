@@ -31,6 +31,10 @@ public class PermisoDiarioModel extends PermisoModel{
 		return "PermisoDiarioModel [motivo=" + motivo + ", idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha="
 				+ fecha + ", desdeHasta=" + desdeHasta + "]";
 	}
+	@Override
+	public LocalDate getFechaVencimiento() {
+		return this.fecha;
+	}
 	
 	
 	

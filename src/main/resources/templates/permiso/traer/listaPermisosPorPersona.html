@@ -38,17 +38,18 @@
 							<td th:each="lugar : ${permiso.getDesdeHasta()}">
 								<span th:text="${lugar.toString()}" />
 							</td>
-													<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}">Diario</td>
-							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoDiario'}"><span th:text="${permiso.motivo}"/></td>
-							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}">Periodo</td>
-							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.entities.PermisoPeriodo'}"><span th:text="${permiso.rodado.dominio}"/></td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}">Diario</td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoDiarioModel'}"><span th:text="${permiso.motivo}"/></td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}">Periodo</td>
+							<td th:if="${permiso.getClass().getName() == 'com.unla.grupoDos.models.PermisoPeriodoModel'}"><span th:text="${permiso.rodado.dominio}"/></td>
 							<td><a th:href="@{/permiso/{id}(id=${permiso.idPermiso})}">Ver QR </a></td>
 						</tr>
 	                    </tbody>
 	                </table>
 				</div>
 			</div>
-		<a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}">Volver</a>
+		<a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/buscarPorPersona}" sec:authorize="isAnonymous()">Volver</a>
+		<a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/auditor/}" sec:authorize="hasAuthority('AUDITOR')">Volver</a>
 		</div>
       <!-- /.container -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

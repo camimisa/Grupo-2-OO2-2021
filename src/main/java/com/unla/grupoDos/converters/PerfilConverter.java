@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 public class PerfilConverter {
 
 	public Perfil modeloAEntidad(PerfilModel perfilModel) {
-		return new Perfil(perfilModel.getIdPerfil(),perfilModel.getNombre(),perfilModel.getDescripcion());
+		return new Perfil(perfilModel.getIdPerfil(),perfilModel.getNombre(),perfilModel.getDescripcion(),perfilModel.isHabilitado());
 	}
 	
 	public PerfilModel entidadAModelo(Perfil perfil) {
-		return new PerfilModel(perfil.getIdPerfil(), perfil.getNombre(), perfil.getDescripcion());
+		return new PerfilModel(perfil.getIdPerfil(), perfil.getNombre(), perfil.getDescripcion(), perfil.isHabilitado());
 	}
 
 }

@@ -67,7 +67,7 @@ public class AdminController {
 	@GetMapping("/usuario/nuevo")
 	public String usuario(Model model) {
 		model.addAttribute("usuario", new UsuarioModel());
-		model.addAttribute("listaPerfiles", perfilService.getAll());
+		model.addAttribute("listaPerfiles", perfilService.traerPerfilesHabilitados());
 		return ViewRouteHelper.VISTA_USUARIO_NUEVO;
 	}
 	
@@ -92,7 +92,7 @@ public class AdminController {
 	public ModelAndView get(@PathVariable("id") int id) {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.VISTA_USUARIO_ACTUALIZAR);
 		mAV.addObject("usuario", usuarioService.findById(id));
-		mAV.addObject("listaPerfiles", perfilService.getAll());
+		mAV.addObject("listaPerfiles", perfilService.traerPerfilesHabilitados());
 		return mAV;
 	}
 	
@@ -203,19 +203,29 @@ public class AdminController {
 			Boolean incluirId = perfil.getIdPerfil() != 0;
 			rView.setUrl(rutaErronea + (incluirId ? "/" + perfil.getIdPerfil() : "") + queryParams);
 		}
-		System.out.println(rView.getUrl());
 		return rView;
 	}
 	
-	@GetMapping("/perfil/eliminar/{id}")
-	public RedirectView perfilEliminar(@PathVariable("id") int id) {
+	@GetMapping("/perfil/deshabilitar/{id}")
+	public RedirectView perfilDeshabilitar(@PathVariable("id") int id) {
 		RedirectView rView = new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, true);
+		PerfilModel perfil = perfilService.findById(id);
 		if (usuarioService.findByIdPerfil(id).size() > 0) {
-			rView.addStaticAttribute("error", "El perfil que intentó eliminar está asociado a almenos un usuario.");
+			rView.addStaticAttribute("error", "El perfil que intentó deshablitar está asociado a al menos un usuario.");
+			System.out.println("Tiene usuarios asociados");
 		}else { 
-			perfilService.remove(id);
+			perfil.setHabilitado(false);
+			perfilService.insertOrUpdate(perfil);
 		}
-		
+		return rView;
+	}
+	
+	@GetMapping("/perfil/habilitar/{id}")
+	public RedirectView perfilHabilitar(@PathVariable("id") int id) {
+		RedirectView rView = new RedirectView(ViewRouteHelper.ADMINISTRADOR_ROOT_PERFILES, true);
+		PerfilModel perfil = perfilService.findById(id);
+		perfil.setHabilitado(true);
+		perfilService.insertOrUpdate(perfil);
 		return rView;
 	}
 	

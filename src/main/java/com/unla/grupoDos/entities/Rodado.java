@@ -7,8 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.ConstraintViolationException;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name="rodado")
@@ -53,7 +56,7 @@ public class Rodado {
 		return dominio;
 	}
 
-	public void setDominio(String dominio) {
+	public void setDominio(String dominio){
 		this.dominio = dominio;
 	}
 
@@ -85,6 +88,5 @@ public class Rodado {
 	public String toString() {
 		return dominio + " " + vehiculo;
 	}
-	
 	
 }

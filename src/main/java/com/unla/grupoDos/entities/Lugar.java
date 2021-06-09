@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,6 +32,7 @@ public class Lugar {
 	
 	@Column(name="codPostal", unique=true, nullable=false, length=10)
 	private String codPostal;
+	
 	@Column(name="createdat")
 	@CreationTimestamp
 	private LocalDateTime createdAt;

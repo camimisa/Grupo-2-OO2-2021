@@ -11,14 +11,11 @@ import com.unla.grupoDos.models.PermisoPeriodoModel;
 public interface IPermisoService {
 
 	public List<Permiso> getAll();
-	public PermisoDiarioModel insertOrUpdate(PermisoDiarioModel ermisoModel);
-	public PermisoPeriodoModel insertOrUpdate(PermisoPeriodoModel ermisoModel);
 	public boolean remove(int id);
-	PermisoDiarioModel permisoDiarioFindById(int id);
-	PermisoPeriodoModel permisoPeriodoFindById(int id);
 	public List<Permiso> getAllBetweenDates(LocalDate startDate, LocalDate endDate);
 	public List<Permiso> getAllByLugares(List<Integer> lugaresId);
 	public List<Permiso> getAllByPersona(long dni);
 	public Permiso findByIdPermiso(int id);
+	public PermisoModel insertOrUpdate(PermisoModel permisoModel);
 	
 }

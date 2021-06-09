@@ -13,7 +13,7 @@ public class PermisoDiarioModel extends PermisoModel{
 	private String motivo;
 
 	public PermisoDiarioModel() {}
-	public PermisoDiarioModel(int idPermiso, Persona pedido, LocalDate fecha, String motivo, Set<Lugar>desdeHasta) {
+	public PermisoDiarioModel(int idPermiso, PersonaModel pedido, LocalDate fecha, String motivo, Set<LugarModel>desdeHasta) {
 		super(idPermiso, pedido, fecha, desdeHasta);
 		this.motivo = motivo;
 	}
@@ -30,6 +30,10 @@ public class PermisoDiarioModel extends PermisoModel{
 	public String toString() {
 		return "PermisoDiarioModel [motivo=" + motivo + ", idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha="
 				+ fecha + ", desdeHasta=" + desdeHasta + "]";
+	}
+	@Override
+	public LocalDate getFechaVencimiento() {
+		return this.fecha;
 	}
 	
 	

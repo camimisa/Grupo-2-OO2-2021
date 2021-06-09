@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +39,7 @@ import com.unla.grupoDos.entities.PermisoPeriodo;
 import com.unla.grupoDos.entities.Persona;
 import com.unla.grupoDos.entities.Rodado;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
+import com.unla.grupoDos.models.LugarModel;
 import com.unla.grupoDos.models.PermisoDiarioModel;
 import com.unla.grupoDos.models.PermisoModel;
 import com.unla.grupoDos.models.PermisoPeriodoModel;
@@ -78,7 +82,7 @@ public class PermisoController {
 	@GetMapping("/{id}")
 	public ModelAndView verPermiso(@PathVariable("id") int id) {
 		ModelAndView mAV = new ModelAndView();
-		Permiso permiso = permisoService.findByIdPermiso(id);
+		PermisoModel permiso = permisoConverter.entidadAModelo(permisoService.findByIdPermiso(id));
 		mAV.addObject("permiso", permiso);
 		if(permiso == null) mAV.setViewName(ViewRouteHelper.PERMISO_NO_ENCONTRADO);
 		else
@@ -102,7 +106,8 @@ public class PermisoController {
 		String aviso = "";
 		if (documento != null && !documento.isBlank()) {
 			try {
-				permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+				Persona persona = personaService.findByDni(Long.valueOf(documento));
+				permiso.setPedido(personaConverter.entidadAModelo(persona));
 				if (permiso.getPedido() == null) {
 					aviso += "No se encontró información para el DNI ingresado.";
 				}
@@ -117,28 +122,37 @@ public class PermisoController {
 	}
 	
 	@PostMapping("/diario/crear")
-	public RedirectView crearPermisoDiario(@ModelAttribute("permiso") PermisoDiarioModel permiso,
+	public RedirectView crearPermisoDiario(@Valid @ModelAttribute("permiso") PermisoDiarioModel permiso,
+			BindingResult bindingResult,
 			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
 			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
 			RedirectAttributes atts) {
-		
-		permiso.setDesdeHasta(new HashSet<Lugar>());
-		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
-		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
-		String url = "";
-		if(!lugarDesde.equals(lugarHasta)) {
-			permiso.getDesdeHasta().add(lugarDesde);
-			permiso.getDesdeHasta().add(lugarHasta);
-			permiso = permisoService.insertOrUpdate(permiso);
-			url = "../"+permiso.getIdPermiso();
-			atts.addFlashAttribute("guardado", true);
-		}else {
-			url = "../diario/";
-			atts.addFlashAttribute("errorLugares", true);
+
+		permiso.setDesdeHasta(new HashSet<LugarModel>());
+		LugarModel lugarDesde = new LugarModel(desdeLugar, desdeCodPostal);
+		LugarModel lugarHasta = new LugarModel(hastaLugar, hastaCodPostal);
+		String url = "../diario/";
+		String errorAtributo = "";
+		if(bindingResult.hasErrors()) {
+			for(ObjectError e : bindingResult.getAllErrors())
+				errorAtributo += e.getDefaultMessage() + "\n";
+			atts.addFlashAttribute("errorAtributo",errorAtributo);
 		}
-		
+		else {
+			if(!lugarDesde.equals(lugarHasta)) {
+				permiso.getDesdeHasta().add(lugarDesde);
+				permiso.getDesdeHasta().add(lugarHasta);
+				permiso = (PermisoDiarioModel) permisoService.insertOrUpdate(permiso);
+				url = "../"+permiso.getIdPermiso();
+				atts.addFlashAttribute("guardado", true);
+			}
+			else 
+			{
+				atts.addFlashAttribute("errorLugares", true);
+			}
+		}
 		return new RedirectView(url);
 	}
 	
@@ -158,14 +172,16 @@ public class PermisoController {
 		PermisoPeriodoModel permiso = new PermisoPeriodoModel();
 		String aviso = "";
 		if(dominio != null && !dominio.isBlank()) {
-			permiso.setRodado(rodadoService.findByDominio(dominio));
+			Rodado rodado = rodadoService.findByDominio(dominio);
+			permiso.setRodado(rodadoConverter.entidadAModelo(rodado));
 			if (permiso.getRodado() == null) {
 				aviso +="No se encontró ningún rodado asociado al dominio ingresado.";
 			}
 		}
 		if (documento != null && !documento.isBlank()) {
 			try {
-				permiso.setPedido(personaService.findByDni(Long.valueOf(documento)));
+				Persona persona = personaService.findByDni(Long.valueOf(documento));
+				permiso.setPedido(personaConverter.entidadAModelo(persona));
 				if (permiso.getPedido() == null) {
 					aviso += " No se encontró información para el DNI ingresado.";
 				}
@@ -180,26 +196,36 @@ public class PermisoController {
 	}
 	
 	@PostMapping("/periodo/crear")
-	public RedirectView crearPermisoPeriodo(@ModelAttribute("permiso") PermisoPeriodoModel permiso,
+	public RedirectView crearPermisoPeriodo(@Valid @ModelAttribute("permiso") PermisoPeriodoModel permiso,
+			BindingResult bindingResult,
 			@RequestParam(name="desdeLugar", required = true) String desdeLugar,
 			@RequestParam(name="desdeCodPostal", required = true) String desdeCodPostal,
 			@RequestParam(name="hastaLugar", required = true) String hastaLugar,
 			@RequestParam(name="hastaCodPostal", required = true) String hastaCodPostal,
 			RedirectAttributes atts) {
 		
-		permiso.setDesdeHasta(new HashSet<Lugar>());
-		Lugar lugarDesde = new Lugar(desdeLugar, desdeCodPostal);
-		Lugar lugarHasta = new Lugar(hastaLugar, hastaCodPostal);
-		String url = "";
-		if(!lugarDesde.equals(lugarHasta)) {
-			permiso.getDesdeHasta().add(lugarDesde);
-			permiso.getDesdeHasta().add(lugarHasta);
-			permiso = permisoService.insertOrUpdate(permiso);
-			url = "../"+permiso.getIdPermiso();
-			atts.addFlashAttribute("guardado", true);
-		}else {
-			url = "../periodo/";
-			atts.addFlashAttribute("errorLugares", true);
+		permiso.setDesdeHasta(new HashSet<LugarModel>());
+		LugarModel lugarDesde = new LugarModel(desdeLugar, desdeCodPostal);
+		LugarModel lugarHasta = new LugarModel(hastaLugar, hastaCodPostal);
+		String url =  "../periodo/";
+		String errorAtributo = "";
+		if(bindingResult.hasErrors()) {
+			for(ObjectError e : bindingResult.getAllErrors())
+				errorAtributo += e.getDefaultMessage() + "\n";
+			atts.addFlashAttribute("errorAtributo",errorAtributo);
+		}
+		else {
+			if(!lugarDesde.equals(lugarHasta)) {
+				permiso.getDesdeHasta().add(lugarDesde);
+				permiso.getDesdeHasta().add(lugarHasta);
+				permiso = (PermisoPeriodoModel) permisoService.insertOrUpdate(permiso);
+				url = "../"+permiso.getIdPermiso();
+				atts.addFlashAttribute("guardado", true);
+			}
+			else 
+			{
+				atts.addFlashAttribute("errorLugares", true);
+			}
 		}
 		
 		return new RedirectView(url);
@@ -214,11 +240,17 @@ public class PermisoController {
 	}
 	
 	@GetMapping("/listarPermisoPorPersona")
-	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) long dni) {
+	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) String dni) {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS_POR_PERSONA); 
-		List<Permiso>permisosActivos = permisoService.getAllByPersona(dni);
-		mAV.addObject("permisosActivos",permisosActivos);
-		String titulo = "Permisos encontrados, dni: " + dni;
+		List<Permiso>permisosActivos = null;
+		Long documento = 0L;
+		try {
+			documento = Long.valueOf(dni);
+			permisosActivos = permisoService.getAllByPersona(Long.valueOf(dni));
+		}
+		catch(Exception e) {}
+		mAV.addObject("permisosActivos",permisoConverter.listaEntidadAModelo(permisosActivos));
+		String titulo = "Permisos encontrados, dni: " + documento;
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
@@ -231,10 +263,8 @@ public class PermisoController {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(generadorQR.getQRCodeImage(permiso));
 		} catch (WriterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

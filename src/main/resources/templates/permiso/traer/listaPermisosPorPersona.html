@@ -12,10 +12,10 @@
       <!-- Page Content -->
 		<div class="container">
 			<br>
-	        <div th:if="${permisosActivos.empty}" class="alert alert-danger" role="alert">
+	        <div th:if="${permisosActivos == null || permisosActivos.empty}" class="alert alert-danger" role="alert">
 	        	No se encontraron permisos para el DNI ingresado.
 	        </div>
-        	<div th:if="${!permisosActivos.empty}">
+        	<div th:if="${permisosActivos != null && !permisosActivos.empty}">
         		<p class="h3"><span th:text="${titulo}"/></p>
 				<hr />
             	<div class="table-responsive">

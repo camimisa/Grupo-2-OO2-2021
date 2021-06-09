@@ -242,14 +242,14 @@ public class PermisoController {
 	@GetMapping("/listarPermisoPorPersona")
 	public ModelAndView listarPermisoPorPersona(@RequestParam(name="dni", required = true) String dni) {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LISTADO_PERMISOS_POR_PERSONA); 
-		List<Permiso>permisosActivos = null;
+		List<Permiso> permisosActivos = null;
 		Long documento = 0L;
 		try {
 			documento = Long.valueOf(dni);
 			permisosActivos = permisoService.getAllByPersona(Long.valueOf(dni));
+			mAV.addObject("permisosActivos", permisoConverter.listaEntidadAModelo(permisosActivos));
 		}
 		catch(Exception e) {}
-		mAV.addObject("permisosActivos",permisoConverter.listaEntidadAModelo(permisosActivos));
 		String titulo = "Permisos encontrados, dni: " + documento;
 		mAV.addObject("titulo", titulo );
 		return mAV;

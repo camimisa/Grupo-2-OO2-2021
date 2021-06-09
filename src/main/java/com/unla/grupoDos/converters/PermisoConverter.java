@@ -81,8 +81,8 @@ public class PermisoConverter {
 		return permiso;
 	}
 	
-	public List<PermisoModel>listaEntidadAModelo(List<Permiso>listaPermisos){
-		List<PermisoModel>listaPermisosModel = new ArrayList<PermisoModel>();
+	public List<PermisoModel>listaEntidadAModelo(List<Permiso> listaPermisos){
+		List<PermisoModel> listaPermisosModel = new ArrayList<PermisoModel>();
 		
 		for(Permiso permiso : listaPermisos)
 			listaPermisosModel.add(this.entidadAModelo(permiso));

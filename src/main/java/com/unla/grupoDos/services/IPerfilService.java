@@ -12,4 +12,5 @@ public interface IPerfilService {
 	public boolean remove(int id);
 	PerfilModel findById(int id);
 	PerfilModel findByNombrePerfil(String nombrePerfil);
+	public abstract List<Perfil> traerPerfilesHabilitados();
 }

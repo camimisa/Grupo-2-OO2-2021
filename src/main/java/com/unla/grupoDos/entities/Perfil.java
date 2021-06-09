@@ -24,6 +24,9 @@ public class Perfil {
 	private String nombre;
 	@Column(name="descripcion", unique=false, nullable=true, length=255)
 	private String descripcion;
+	
+	@Column(name="habilitado", nullable=false)
+	private boolean habilitado;
 
 	@Column(name="createdat")
 	@CreationTimestamp
@@ -35,11 +38,12 @@ public class Perfil {
 	
 	public Perfil() {}
 
-	public Perfil(int idPerfil, String nombre, String descripcion) {
+	public Perfil(int idPerfil, String nombre, String descripcion, boolean habilitado) {
 		super();
 		this.nombre = nombre;
 		this.idPerfil = idPerfil;
 		this.descripcion = descripcion;
+		this.habilitado = habilitado;
 	}
 
 
@@ -70,6 +74,14 @@ public class Perfil {
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Perfil && ((Perfil) obj).getNombre().equalsIgnoreCase(this.nombre);
+	}
+
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
 	}
 	
 }

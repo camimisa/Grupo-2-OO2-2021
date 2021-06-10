@@ -32,6 +32,7 @@ public abstract class Permiso {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_permiso")
 	protected int idPermiso;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -115,7 +116,7 @@ public abstract class Permiso {
 	
 	public abstract boolean esValido(LocalDate desde, LocalDate hasta);
 
-	public abstract LocalDate getFechaVencimiento();
+
 	@Override
 	public String toString() {
 		return "Permiso [idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha=" + fecha + ", createdAt="

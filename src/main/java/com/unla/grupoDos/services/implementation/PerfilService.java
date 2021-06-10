@@ -53,4 +53,9 @@ public class PerfilService implements IPerfilService{
 			return false;
 		}
 	}
+
+	@Override
+	public List<Perfil> traerPerfilesHabilitados() {
+		return perfilRepository.traerPerfilesHabilitados();
+	}
 }

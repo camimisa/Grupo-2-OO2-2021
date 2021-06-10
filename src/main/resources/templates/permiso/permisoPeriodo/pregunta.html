@@ -11,8 +11,15 @@
    <div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
 	  <div class="container">
+	  <br>
   		  <div th:if="${errorLugares}" class="alert alert-danger alert-dismissible fade show">
 			    No se pudo crear el permiso porque el codigo postal de los lugares desde y hasta no pueden ser iguales.
+			   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    	<span aria-hidden="true">&times;</span>
+			  	</button>
+			</div>
+			<div th:if="${errorAtributo != null}" class="alert alert-danger alert-dismissible fade show">
+			    No se pudo crear el permiso por el siguiente error: <span th:text="${errorAtributo}"></span>
 			   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			    	<span aria-hidden="true">&times;</span>
 			  	</button>
@@ -20,7 +27,7 @@
 	    <br>
 	    <p class="h4">Si ya saco un permiso previamente puede ingresar su dominio y su documento, si no, presione omitir:</p>
 	    <br>
-	    <form class="form-signin form" action="#" th:action="@{buscarDatos/}" method="get" autocomplete="off">
+	    <form class="form-signin form" action="#" th:action="@{/permiso/periodo/nuevo}" method="get" autocomplete="off">
 	        <h1 class="h3 mb-3 font-weight-normal">Datos:</h1>
 	        <p>
 	            DOCUMENTO: <input type="number" class="form-control" placeholder="1111111" min="1111111" max="99999999" name="documento">
@@ -29,7 +36,7 @@
 	            Dominio: <input type="text" class="form-control" maxlength="10" minlength="6" placeholder="ABC123" name="dominio">
 	        </p>
 	        <button class="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
-	        <a class="btn btn-lg btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/periodo/nuevo/}">Omitir</a>
+	        <a class="btn btn-lg btn-outline-secondary btn-block" type="submit" th:href="@{/permiso/periodo/nuevo}">Omitir</a>
 	        <a class="btn btn-sm btn-outline-secondary btn-block" type="submit" th:href="@{/}">Volver</a>
 	    </form>
 	    <br>

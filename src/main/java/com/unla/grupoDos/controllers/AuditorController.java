@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.unla.grupoDos.converters.PermisoConverter;
 import com.unla.grupoDos.entities.Lugar;
 import com.unla.grupoDos.entities.Permiso;
 import com.unla.grupoDos.helpers.ViewRouteHelper;
@@ -35,7 +36,7 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("perfilService")
 	private IPerfilService perfilService;
-
+	
 	@Autowired
 	@Qualifier("permisoService")
 	private IPermisoService permisoService;
@@ -43,6 +44,10 @@ public class AuditorController {
 	@Autowired
 	@Qualifier("lugarService")
 	private ILugarService lugarService;
+	
+	@Autowired
+	@Qualifier("permisoConverter")
+	private PermisoConverter permisoConverter;
 
 	// ------------------------------ PERMISOS AUDITOR ---------------------------
 	@GetMapping("/")
@@ -131,7 +136,7 @@ public class AuditorController {
 			titulo = "Permisos activos entre fechas: " + desde + " hasta " + hasta + 
 					" y desde " + ((desdeLugarId != -55) ? lugares.get(0).getLugar() : "cualquier lugar") +
 					" hasta " + ((hastaLugarId != -55) ? lugares.get(1).getLugar() : "cualquier lugar");
-			mAV.addObject("permisosActivos", permisosActivos);
+			mAV.addObject("permisosActivos", permisoConverter.listaEntidadAModelo(permisosActivos));
 			mAV.addObject("lugares", lugares);
 		} catch(Exception e) {
 			titulo = "Datos erróneos.";
@@ -139,5 +144,4 @@ public class AuditorController {
 		mAV.addObject("titulo", titulo );
 		return mAV;
 	}
-
 }

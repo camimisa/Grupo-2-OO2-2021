@@ -1,8 +1,10 @@
 package com.unla.grupoDos.models;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,14 +13,17 @@ import com.unla.grupoDos.entities.Persona;
 
 public abstract class PermisoModel {
 	protected int idPermiso;
-	protected Persona pedido;
+	@Valid
+	protected PersonaModel pedido;
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	protected LocalDate fecha;
-	protected Set<Lugar> desdeHasta;
+	@Valid
+	protected Set<LugarModel> desdeHasta;
 	
 	public PermisoModel() {}
 	
-	public PermisoModel(int idPermiso, Persona pedido, LocalDate fecha, Set<Lugar>desdeHasta) {
+	public PermisoModel(int idPermiso, PersonaModel pedido, LocalDate fecha, Set<LugarModel>desdeHasta) {
 		super();
 		this.idPermiso = idPermiso;
 		this.pedido = pedido;
@@ -32,10 +37,10 @@ public abstract class PermisoModel {
 	public void setIdPermiso(int idPermiso) {
 		this.idPermiso = idPermiso;
 	}
-	public Persona getPedido() {
+	public PersonaModel getPedido() {
 		return pedido;
 	}
-	public void setPedido(Persona pedido) {
+	public void setPedido(PersonaModel pedido) {
 		this.pedido = pedido;
 	}
 	public LocalDate getFecha() {
@@ -44,16 +49,16 @@ public abstract class PermisoModel {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
-	public Set<Lugar> getDesdeHasta() {
+	public Set<LugarModel> getDesdeHasta() {
 		return desdeHasta;
 	}
-	public void setDesdeHasta(Set<Lugar> desdeHasta) {
+	public void setDesdeHasta(Set<LugarModel> desdeHasta) {
 		if(desdeHasta.size() == 2 || desdeHasta.isEmpty())
 			this.desdeHasta = desdeHasta;
 		else
 			this.desdeHasta = null;
 	}
 	
-	
+	public abstract LocalDate getFechaVencimiento();
 	
 }

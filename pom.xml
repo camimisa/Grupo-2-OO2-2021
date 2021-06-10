@@ -33,7 +33,7 @@
 		<dependency>
 		    <groupId>org.hibernate.validator</groupId>
 		    <artifactId>hibernate-validator</artifactId>
-		    <version>6.0.14.Final</version>
+		    <version>6.2.0.Final</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -81,6 +81,19 @@
 		    <artifactId>spring-security-taglibs</artifactId>
 		    <version>5.2.2.RELEASE</version>
 		</dependency>	    
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>3.4.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

@@ -127,9 +127,14 @@
     <script>
     window.onload = () => {
 		inputFecha = document.getElementById("inputFecha");
-		console.log(Date.now())
-		inputFecha.min = Date.now();
-		console.log(inputFecha.min )
+		const dt = new Date();
+		let day = dt.getDate();
+		if(day < 10) day = '0' + day;
+		let year = dt.getFullYear();
+		let month = dt.getMonth() + 1;
+		if(month< 10) month = '0' + month;
+		inputFecha.min = `${year}-${month}-${day}`;
+		console.log(inputFecha.min)
 	};
     </script>
     

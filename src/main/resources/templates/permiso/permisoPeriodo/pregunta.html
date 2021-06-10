@@ -11,6 +11,7 @@
    <div th:replace="~{/parcial/Header :: header}"></div>
       <!-- Page Content -->
 	  <div class="container">
+	  <br>
   		  <div th:if="${errorLugares}" class="alert alert-danger alert-dismissible fade show">
 			    No se pudo crear el permiso porque el codigo postal de los lugares desde y hasta no pueden ser iguales.
 			   	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
